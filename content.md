@@ -66,8 +66,15 @@ In the classical closed-loop IFOG, the modulator driver reduces to two core comp
 ## Modulator electronics — thin design
 In the thin architecture, the variable-gain amplifier is eliminated entirely. The DAC drives IOC through a fixed output stage — or even directly if its voltage range is sufficient and IOC input impedance can be handled by the DAC. The Vπ compensation is moved into the digital domain - scale factor is applied numerically before the DAC, adjusting the digital representation of the modulation steps and phase ramp to account for Vπ drift. This removes the analog gain element from the signal path, eliminating the noise and drift it would otherwise contribute. The trade-off is that the DAC must now cover a wider voltage range — since it can no longer rely on an adjustable analog gain to absorb Vπ variations, its full-scale output must span the expected range of Vπ across temperature and lifetime. In practice, the full DAC range will never be fully utilized: design margins require headroom above and below the operating range. However, with careful range selection, this overhead can be kept to less than one effective bit of resolution — a negligible cost given the noise reduction achieved by eliminating the analog gain stage. The simplification in hardware comes at the cost of increased demands on the software: all scaling, compensation, and waveform generation must be handled numerically, and care must be taken to avoid accumulation of rounding and quantization errors in the fixed-point or floating-point arithmetic — particularly in the phase ramp accumulator, where small per-step errors can integrate into a significant bias over time.
 
+# Modulation 
 
+# Single modulator (grounded)
 
+# Single modulator (floating)
+
+# Dual modulator (grounded)
+
+# Dual modulator (floating)
 
 ---
 
