@@ -1,7 +1,9 @@
 \documentclass{article}
 
+\usepackage[margin=1in]{geometry}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage{subcaption}
 
 \title{Enhancement of scale factor control accuracy of modulation algorithm for a closed-loop fiber-optic gyroscope.}
 \author{Sławomir Niespodziany, slawomir.niespodziany@pw.edu.pl \\
@@ -58,7 +60,7 @@ The formula in Equation~\ref{eq:response} is the optical circuit response. It de
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{img/response.png}
+    \includegraphics[width=0.75\textwidth]{img/response.png}
     \caption{Optical circuit response function is a shifted cosine. The two exemplary operating points refer to the circuit being at rest - in $(0, P_0)$ - and subjected to rotation, which results in non--zero phase shift - in $(\Delta\phi, P(\Delta\phi))$.}
     \label{fig:response}
 \end{figure}
@@ -66,14 +68,45 @@ The formula in Equation~\ref{eq:response} is the optical circuit response. It de
 When the circuit is at rest ($\omega = 0 \rightarrow \Delta\phi = 0$), the operating point resides at peak intensity $P_0$. A non--zero rotation results in a phase shift which moves the operating point according to the rate and direction, most likely decreasing the measured intensity. Two problems are linked with such open--loop operation. Firstly, the intensity drop does not allow to tell the direction of rotation. Secondly, in the resting region, the slope is flat, thus the sensitivity is zero. With greater rotation rate, the slope becomes steep, reaching maximum sensitivity in $\frac{\pi}{2}$, but then decreases again. For these reasons a closed--loop configuration will be superior in performance.
 
 \section{Modulation scheme - closed--loop configuration}
-In closed--loop configuration of an iFOG, the control system biases optical circuit sequentially in four points - i.e. $\Delta\phi = {+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi}$ - utilizing the \textit{four step modulation}. This allows for linearizing the response, keeping it at maximum sensitivity and detecting the rotation direction. Additionally, compared to \textit{two step modulation} this scheme is supreme, as it allows for controlling the scale factor. This is crucial due to several reasons. The applied phase shift is controlled by an electronic circuit. It performs the calculations digitally and applies a corresponding voltage using digital--to--ananlog converter and an electronic front--end. The voltage then gets translated to a phase shift value in an electro--optic modulator device. All of these are subjects temperature drift and aging, which affect the combined gain. For this reason constant calibration is desired for maintaining measurement accuracy. Diagrams in Figure~\ref{fig:bias} depict how the biased circuit responds to various conditions - perfectly biased, scale factor error and rotation present.
+In closed--loop configuration of an iFOG, the control system biases optical circuit sequentially in four points - i.e. $\Delta\phi = {+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi}$ - utilizing the \textit{four--step modulation}. This allows for linearizing the response, keeping it at maximum sensitivity and detecting the rotation direction. Additionally, compared to \textit{two--step modulation} this scheme is supreme, as it allows for controlling the scale factor. This is crucial due to several reasons. The applied phase shift is controlled by an electronic circuit. It performs the calculations digitally and applies a corresponding voltage using digital--to--ananlog converter and an electronic front--end. The voltage then gets translated to a phase shift value in an electro--optic modulator device. All of these are subjects temperature drift and aging, which affect the combined gain. For this reason constant calibration is desired for maintaining measurement accuracy. Diagrams in Figure~\ref{fig:bias} depict how the biased circuit responds to various conditions - perfectly biased, scale factor error and rotation present.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\linewidth]{img/response.png}
-    \caption{.}
+    \begin{subfigure}[b]{0.75\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/bias.png}
+        \caption{Ideal case where the scale factor is perfectly adjusted and rotation induced phase shift is either zero or actively counteracted by the device.}
+        \label{fig:bias}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/bias_factor_high.png}
+        \caption{Scale factor too high - bias points are shifted away from zero, resulting in intensity imbalance.}
+        \label{fig:bias_factor_high}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/bias_factor_low.png}
+        \caption{Scale factor too low - bias points shifted towards zero, resulting in opposite imbalance.}
+        \label{fig:bias_factor_low}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/bias_shift_pos.png}
+        \caption{Phase shift induced by positive rotation - bias points shifted right. Odd bias points correspond to lower intensity than even bias points.}
+        \label{fig:bias_shift_pos}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.49\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{img/bias_shift_neg.png}
+        \caption{Phase shift induced by negative rotation - bias points shifted right. Odd bias points correspond to higher intensity than even bias points.}
+        \label{fig:bias_shift_neg}
+    \end{subfigure}
+    \caption{Four--step modulation allows for detection of scale factor error and Sagnac--induced phase shift.}
     \label{fig:bias}
 \end{figure}
+
+Control system of the device biases the circuit continously in the following step order \\ $\{\Delta\phi_{n}^{+\frac{3}{2}\pi}, \Delta\phi_{n+1}^{-\frac{1}{2}\pi}, \Delta\phi_{n+2}^{-\frac{3}{2}\pi}, \Delta\phi_{n+3}^{+\frac{1}{2}\pi}\}$. The modulation frequency corresponds to twice the loop transit time. In every cycle, the software monitors the scale factor error and adjusts its value accordingly. Secondly, it monitors the rotation induced phase shift, for which it counteracts, by applying additional phase shift of the same amplitude and opposite sign. This way it nulls the effective shift. by knowing the amount of nulled shift, it can compute the observed rotation rate.
 
 \section{Hardware architecture}
 

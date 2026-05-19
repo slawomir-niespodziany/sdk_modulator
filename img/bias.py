@@ -14,8 +14,8 @@ ax.plot(x, y, zorder=3)
 
 
 # scale factor
-factor = 1.03
-shift = 5 # in number of samples
+factor = 1.0
+shift = 0 # in number of samples
 
 # point 0 - selection (+3/2\pi)
 n_nom = +(N // 8) * 3
@@ -86,6 +86,7 @@ ax.arrow(x=x[(N // 2) + n_nom] - (0.1 if n_nom < n else -0.1), y=0.25, dx=(x[(N 
 
 
 # other
+ax.set_xlim(-1.6 * math.pi, 1.6 * math.pi)
 ax.set_ylim(-0.02, 1.1)
 
 ax.spines['left'].set_position(('data', 0))
@@ -93,8 +94,8 @@ ax.spines['bottom'].set_position(('data', 0))
 ax.spines['top'].set_visible(False)
 ax.spines['right'].set_visible(False)
 
-ax.set_xticks([-2 * math.pi, -1.5 * math.pi, -math.pi, -0.5 * math.pi, 0, 0.5 * math.pi, math.pi, 1.5 * math.pi, 2 * math.pi])
-ax.set_xticklabels([r"$-2\pi$", r"$-\frac{3}{2}\pi$", r"$-\pi$", r"$-\frac{1}{2}\pi$", "0", r"$\frac{1}{2}\pi$", r"$\pi$", r"$\frac{3}{2}\pi$", r"$2\pi$"])
+ax.set_xticks([-1.5 * math.pi, -math.pi, -0.5 * math.pi, 0, 0.5 * math.pi, math.pi, 1.5 * math.pi])
+ax.set_xticklabels([r"$-\frac{3}{2}\pi$", r"$-\pi$", r"$-\frac{1}{2}\pi$", "0", r"$\frac{1}{2}\pi$", r"$\pi$", r"$\frac{3}{2}\pi$"])
 
 ax.set_yticks([0.5, 1])
 ax.set_yticklabels([r"$\frac{P_{0}}{2}$", r"$P_{0}$"])
