@@ -1,6 +1,7 @@
 \documentclass{article}
 
 \usepackage{amsmath}
+\usepackage{graphicx}
 
 \title{Enhancement of scale factor control accuracy of modulation algorithm for a closed-loop fiber-optic gyroscope.}
 \author{Sławomir Niespodziany, slawomir.niespodziany@pw.edu.pl \\
@@ -16,10 +17,67 @@
     TODO abstract
 \end{abstract}
 
+% TODO check indenteation
+% TODO check formulas
+
 \section{Motivation}
-iFOG principle of operation is based around the Sagnac effect. Its design is known for many years already, but as technology evolves the limits holding the development are pushed forward, enabling for better precision, miniaturized size or lower power consumption. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such progress makes the already excercised designs being tested and optimized in every possible aspect. This applies equally to the optical and electro--optic componenents, the electronics and the driving software. Crucial part of the control system is the modulator part. In a closed-loop design it is a vital element of the whole feedback loop. It drives the optical circuit into a predefined state, in which the circuits response can be demodulated and error signals can be determined. Modulator accuracy has critical impact on the resulting device performance, since the overall parameters are as good as those of the worst performing element. This paper takes a closer look at the all--digital implementation of the modulator subsystem and particularily on the algorithm controlling it. Mathematical analysis is conducted to allow for pure software enhancements in the algorithm. Considering the algorithm in the context of various hardware designs the accuracy is determined.
+iFOG principle of operation is based around the Sagnac effect. Its design is known for many years already, but as technology evolves the limits holding development are pushed forward, enabling for better precision, miniaturized size or lower power consumption. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such context makes the already excercised designs being tested and optimized in every possible aspect. This applies equally to all the optical and electro--optic componenents, the electronics and the driving software. Crucial part of the control system of such gyroscope is the modulator. In a closed-loop design it is a vital element of the whole feedback loop, which directly affects the overall performance. It drives the optical circuit into a predefined state, in which the circuit response can be demodulated and error signals be determined. Modulator accuracy has critical impact on the resulting performance. This paper takes a closer look at the all--digital implementation of the modulator subsystem and particularily on the algorithm controlling it. Mathematical analysis is conducted to allow for pure software enhancements in the algorithm accuracy. Then, by placing the algorithm in the context of various hardware configurations, its accuracy is also determined for each.
+
+\section{Principle of operation - open--loop configuration}
+A fibre--optic gyroscope utilizes Sagnac effect. It generates a light beam, which is ideally split in 50/50 ratio. Each half then enters a loop of relatively long fiber through each of its ends. The fiber length $L$ determines light transit time $\tau$ through it, in both directions (Equation~\ref{eq:transit_time}, where $n$ is the refraction coefficient, affecting the speed of light in the fiber medium).
+
+\begin{equation}
+    \tau = \frac{L}{n \cdot c}
+    \label{eq:transit_time}
+\end{equation}
+
+\noindent
+The halves go past each other and exit on the opposite ends. The optical circuit is arranged, so that the two exitting beams interfere with each other and the resulting light intensity is measured at a detector. When the circuit stays at rest, the beams interfere with zero phase shift ($\Delta\phi$), resulting in the maximum intensity $P_0$ measured at the detector. However, when the circuit rotates, the two halves travel paths of slightly different lengths, resulting in a non--zero phase shift. The intensity measured at the detector is phase--shift dependent:
+
+\begin{equation}
+    \Delta\phi = \frac{L \cdot D \cdot \omega}{n \cdot c \cdot \lambda}
+    \label{eq:phase_shift}
+\end{equation}
+\noindent
+where $D$ - fiber loop diameter, $\omega$ - angular velocity, $\lambda$ - wavelength. This effect has been depicted in Figure~\ref{fig:fog}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=204px]{img/fog.png}
+    \caption{Two counterpropagating light beams enter the fiber loop at the \textit{Entry point}. Their phase is initially in sync. After the transit time $\tau$ they exit and interfere. However, during that time, the \textit{Entry/Exit point} has moved according to rotation rate $\omega$ (by the angle $\alpha = \omega \cdot \tau$) and the CW and CCW beams covered non--equal path lengths ($L\pm\Delta{}l$). In result they differ in phase. }
+    \label{fig:fog}
+\end{figure}
+
+\noindent
+The formula in Equation~\ref{eq:response} is the optical circuit response. It describes how the measured light intensity depends on the phase shift, while phase shift itsself results from Equation~\ref{eq:phase_shift}.
+
+\begin{equation}
+    P(\Delta\phi) = \frac{P_0}{2} \cdot (1 + cos(\Delta\phi))
+    \label{eq:response}
+\end{equation}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{img/response.png}
+    \caption{Optical circuit response function is a shifted cosine. The two exemplary operating points refer to the circuit being at rest - in $(0, P_0)$ - and subjected to rotation, which results in non--zero phase shift - in $(\Delta\phi, P(\Delta\phi))$.}
+    \label{fig:response}
+\end{figure}
+
+When the circuit is at rest ($\omega = 0 \rightarrow \Delta\phi = 0$), the operating point resides at peak intensity $P_0$. A non--zero rotation results in a phase shift which moves the operating point according to the rate and direction, most likely decreasing the measured intensity. Two problems are linked with such open--loop operation. Firstly, the intensity drop does not allow to tell the direction of rotation. Secondly, in the resting region, the slope is flat, thus the sensitivity is zero. With greater rotation rate, the slope becomes steep, reaching maximum sensitivity in $\frac{\pi}{2}$, but then decreases again. For these reasons a closed--loop configuration will be superior in performance.
+
+\section{Modulation scheme - closed--loop configuration}
+In closed--loop configuration of an iFOG, the control system biases optical circuit sequentially in four points - i.e. $\Delta\phi = {+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi}$ - utilizing the \textit{four step modulation}. This allows for linearizing the response, keeping it at maximum sensitivity and detecting the rotation direction. Additionally, compared to \textit{two step modulation} this scheme is supreme, as it allows for controlling the scale factor. This is crucial due to several reasons. The applied phase shift is controlled by an electronic circuit. It performs the calculations digitally and applies a corresponding voltage using digital--to--ananlog converter and an electronic front--end. The voltage then gets translated to a phase shift value in an electro--optic modulator device. All of these are subjects temperature drift and aging, which affect the combined gain. For this reason constant calibration is desired for maintaining measurement accuracy. Diagrams in Figure~\ref{fig:bias} depict how the biased circuit responds to various conditions - perfectly biased, scale factor error and rotation present.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\linewidth]{img/response.png}
+    \caption{.}
+    \label{fig:bias}
+\end{figure}
 
 \section{Hardware architecture}
+
+
 \subsection{Classic architecture - Dedicated gain stage}
 \subsection{Thin architecture - All-digital approach}
 
