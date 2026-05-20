@@ -60,25 +60,16 @@ The formula in Equation~\ref{eq:response} and Figure~\ref{fig:response} is the o
 
 \begin{figure}[h]
     \centering
-<<<<<<< HEAD
     \includegraphics[width=\linewidth]{img/response.png}
     \caption{Optical circuit response function is a shifted cosine. The two exemplary operating points refer to the circuit being at rest, yielding the maximum possible intensity - in $(0, P_0)$ - and subjected to rotation, at non--zero phase shift and decreased intensity - in $(\Delta\phi, P(\Delta\phi))$.}
-=======
-    \includegraphics[width=0.75\textwidth]{img/response.png}
-    \caption{Optical circuit response function is a shifted cosine. The two exemplary operating points refer to the circuit being at rest - in $(0, P_0)$ - and subjected to rotation, which results in non--zero phase shift - in $(\Delta\phi, P(\Delta\phi))$.}
->>>>>>> 197095f91f563e1acaed1f703bf4499fa350321d
     \label{fig:response}
 \end{figure}
-
+s
 \noindent
 When the circuit is at rest ($\omega = 0 \rightarrow \Delta\phi = 0$), the operating point resides at peak intensity $P_0$. A non--zero rotation results in a phase shift which moves the operating point according to rotation rate and direction, decreasing the measured intensity. Two problems are linked with such open--loop operation. Firstly, the intensity drop does not allow to tell the direction of rotation, as the response function is symmetrical. Secondly, in the resting region, the slope is flat, thus the sensitivity is zero. With greater rotation rate, the slope becomes steep, reaching its maximum sensitivity in $\pm\frac{\pi}{2}$, but then decreases again. For these reasons a closed--loop configuration will be superior in performance.
 
 \section{Modulation scheme - closed--loop configuration}
-<<<<<<< HEAD
 In closed--loop configuration of an iFOG, the control system biases optical circuit sequentially in four points - i.e. $\Delta\phi \in \{+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi\}$ - utilizing the \textit{four step modulation}. This allows for linearizing the response, keeping it at maximum sensitivity and detecting the rotation direction. Additionally, compared to \textit{two step modulation} this scheme is supreme, as it allows for controlling the scale factor. This is crucial due to several reasons. The applied phase shift is controlled by an electronic circuit. It performs the calculations digitally and applies a corresponding voltage using digital--to--ananlog converter and an electronic front--end. The voltage then gets translated to a phase shift value in an electro--optic modulator device. All of these are subjects temperature drift and aging, which affect the combined gain. For this reason constant calibration is desired for maintaining measurement accuracy. Diagrams in Figure~\ref{fig:bias} depict how the biased circuit responds to various conditions - perfectly biased, scale factor error and rotation present.
-=======
-In closed--loop configuration of an iFOG, the control system biases optical circuit sequentially in four points - i.e. $\Delta\phi = {+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi}$ - utilizing the \textit{four--step modulation}. This allows for linearizing the response, keeping it at maximum sensitivity and detecting the rotation direction. Additionally, compared to \textit{two--step modulation} this scheme is supreme, as it allows for controlling the scale factor. This is crucial due to several reasons. The applied phase shift is controlled by an electronic circuit. It performs the calculations digitally and applies a corresponding voltage using digital--to--ananlog converter and an electronic front--end. The voltage then gets translated to a phase shift value in an electro--optic modulator device. All of these are subjects temperature drift and aging, which affect the combined gain. For this reason constant calibration is desired for maintaining measurement accuracy. Diagrams in Figure~\ref{fig:bias} depict how the biased circuit responds to various conditions - perfectly biased, scale factor error and rotation present.
->>>>>>> 197095f91f563e1acaed1f703bf4499fa350321d
 
 \begin{figure}[h]
     \centering
