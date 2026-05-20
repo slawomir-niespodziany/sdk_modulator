@@ -38,7 +38,7 @@ A fibre--optic gyroscope utilizes Sagnac effect. It generates a light beam, whic
 The halves go past each other and exit on the opposite ends of the fiber. The optical circuit is arranged, so that the two exitting beams interfere with each other and the resulting light intensity is measured at a detector. When the circuit stays at rest, the beams interfere with zero phase shift ($\Delta\phi$), resulting in the maximum intensity $P_0$ measured at the detector. However, when the circuit rotates, the two halves travel paths of slightly different lengths, resulting in a non--zero phase shift. The halves relative phase shift at the interference point is rotation dependent and in this paper it is reffered to as the Sagnac--induced phase shift:
 
 \begin{equation}
-    \Delta\phi_s = \frac{L \cdot D \cdot \omega}{n \cdot c \cdot \lambda}
+    \Delta\phi_s = \frac{2\pi \cdot L \cdot D \cdot \omega}{\lambda \cdot n \cdot c}
     \label{eq:phase_shift}
 \end{equation}
 
@@ -140,12 +140,14 @@ The modulator runs with the period of half the transit time $\tau$. This allows 
 \noindent
 where $\delta_n$ denotes a close to zero scale factor error for the corresponding sample.
 
-Additionally, to null the effect of the rotation--induced phase shift, the modulator adds an ever--updating ramp signal with the delta of $\Delta\phi_r = -\Delta\phi_s$ - equal in amplitude and opposite in sign. This way the algorithm cancells the Sagnac effect, while knowing how much of it has been cancelled and thus it knows the exact rotation rate. In every cycle, the software monitors error inputs and adjusts control signals accordingly. A detailed operation of the control loop is described in TODO-lefevre.
+Additionally, to null the effect of the rotation--induced phase shift, the modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation, with the update rate of $\Delta\phi_r = -\Delta\phi_s$ - equal in amplitude and opposite in sign. This way the algorithm cancells out the Sagnac effect, while knowing how much of it has been cancelled and thus it knows the exact rotation rate. In every cycle, the software monitors error inputs and adjusts control signals accordingly. A detailed operation of the control loop is described in TODO-lefevre.
 
 \section{Hardware architecture}
-
+This paper opts in for the usage of all--digital modulator implementation for an iFOG. The architecture of this subsystem can be designed in several ways. Firstly, a fully analog implementation, while feasible, does not comply with todays standards, where every bit of information is processed in a digital form. A analog--to--digital interface needs to be present anyway, to integrate the device within external systems. In such case, incorporating a digital part in the processing loop brings the advantage of performing certain operations on pure data, rather than on signals carrying these data, while being subjected to interferences. In such context, a classic architecture where several operations are performed digitally, while other still remain in the analog world, seems to be a reasonable tradeoff. Finally, an architecture with the minimal amount of electronic components offloads all the implementation challenges to the software side, while reducing the induced noise. All--analog architecture is not discussed.
 
 \subsection{Classic architecture - Dedicated gain stage}
+The intermediate hardware architecture consists of a two main elements - a digital--to--analog converter (DAC) which drives the biasing voltage and ramp waveform combined and a gain stage, which adjusts the generated waveform to a desired range. The main advantage of such arrangement is modulation algorithm decomposition. To control such circuit, the software implements two distinct algorithms - one feeding the DAC with modulation waveforms and second, maintaining signal gain in the desired range.
+
 \subsection{Thin architecture - All-digital approach}
 
 \section{Algorithm requirements and design}
@@ -238,3 +240,7 @@ where $\phi_B \in \{+\frac{3}{2}\pi, +\frac{1}{2}\pi, -\frac{1}{2}\pi, -\frac{3}
 \end{thebibliography}
 
 \end{document}
+
+
+% analog control https://www.mdpi.com/1424-8220/16/5/604
+% complex modulator with gain amplifier: https://ieeexplore.ieee.org/stamp/stamp.jsp?arnumber=11480685
