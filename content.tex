@@ -38,7 +38,7 @@ A fibre--optic gyroscope utilizes Sagnac effect. It generates a light beam, whic
 The halves go past each other and exit on the opposite ends of the fiber. The optical circuit is arranged, so that the two exitting beams interfere with each other and the resulting light intensity is measured at a detector. When the circuit stays at rest, the beams interfere with zero phase shift ($\Delta\phi$), resulting in the maximum intensity $P_0$ measured at the detector. However, when the circuit rotates, the two halves travel paths of slightly different lengths, resulting in a non--zero phase shift. The halves relative phase shift at the interference point is rotation dependent and in this paper it is reffered to as the Sagnac--induced phase shift:
 
 \begin{equation}
-    \Delta\phi_s = \frac{2\pi \cdot L \cdot D \cdot \omega}{\lambda \cdot n \cdot c}
+    \Delta\phi_s = \frac{2\pi \cdot L  \cdot D \cdot n}{\lambda \cdot c} \cdot \omega
     \label{eq:phase_shift}
 \end{equation}
 
@@ -199,7 +199,7 @@ DAC usage results in quantization error. Resolution of the converter and its ref
 From this an error relative to the actual half--wave voltage results from the distance between the controlled value and the actual one, being half of the $\Delta{}v$. It can be vary between bias points $n$, as the actual $V_{\pi}(n)$ may continously change over time:
 
 \begin{equation}
-    \delta_n = \frac{1}{2} \cdot \frac{\Delta{}v}{V_\pi(n)}
+    \delta_{min} = \frac{1}{2} \cdot \frac{\Delta{}v}{V_\pi}
     \label{eq:relative_scale_factor_error}
 \end{equation}
 
@@ -207,7 +207,7 @@ From this an error relative to the actual half--wave voltage results from the di
 The total error accumulated from various parameters will be:
 
 \begin{equation}
-    \delta(n) = \frac{1}{2} \cdot \frac{\lceil V_{\pi}^{max} \cdot S \cdot M \rceil \cdot 2^{-N}}{V_{\pi}(n)}
+    \delta_{min} = \frac{1}{2} \cdot \frac{\lceil V_{\pi}^{max} \cdot S \cdot M \rceil \cdot 2^{-N}}{V_{\pi}}
     \label{eq:total_error}
 \end{equation}
 
@@ -216,8 +216,8 @@ which in practice may be as in the following exemplary calculation:
 
 \begin{equation}
     \begin{split}
-        \delta_{ex} & = \frac{1}{2} \cdot \frac{\lceil \overbrace{4.5V}^{V_{\pi}^{max}} \cdot \overbrace{3.5}^{S} \cdot \overbrace{1.025}^{M} \rceil \cdot \overbrace{2^{-16}}^{2^{-N}} }{\underbrace{3.5V}_{V_{\pi}}} = \frac{\lceil 16.14V \rceil \cdot 2^{-16}}{ 7V} = \frac{\overbrace{16.384V}^{4 \cdot 4.096V} \cdot 2^{-16}}{7V} = \\
-                    & = 2^{-16} \cdot 2.34 = 2^{-16} \cdot 2^{1.23}
+        \delta_{min}^{example} & = \frac{1}{2} \cdot \frac{\lceil \overbrace{4.5V}^{V_{\pi}^{max}} \cdot \overbrace{3.5}^{S} \cdot \overbrace{1.025}^{M} \rceil \cdot \overbrace{2^{-16}}^{2^{-N}} }{\underbrace{3.5V}_{V_{\pi}}} = \frac{\lceil 16.14V \rceil \cdot 2^{-16}}{ 7V} = \frac{\overbrace{16.384V}^{4 \cdot 4.096V} \cdot 2^{-16}}{7V} = \\
+                               & = 2^{-16} \cdot 2.34 = 2^{-16} \cdot 2^{1.23}
     \end{split}
     \label{eq:error_example}
 \end{equation}
