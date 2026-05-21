@@ -1,0 +1,64 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Page-1" id="pAnJcuT8JsnBSyqZ3lAr">
+    <mxGraphModel dx="578" dy="525" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1080" pageHeight="1080" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="41ZQezSZxThngW2Fjbhz-30" parent="1" style="verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.abstract.dac;" value="" vertex="1">
+          <mxGeometry height="40" width="62" x="500" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-11" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="40" width="50" x="597.5" y="440" as="geometry" />
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-5" edge="1" parent="1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=open;endFill=0;exitPerimeter=0;" target="41ZQezSZxThngW2Fjbhz-11">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="562" y="459.76" as="sourcePoint" />
+            <mxPoint x="620" y="459.76" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-9" parent="1" style="pointerEvents=1;verticalLabelPosition=bottom;shadow=0;dashed=0;align=center;html=1;verticalAlign=top;shape=mxgraph.electrical.waveforms.slow_square_wave;" value="" vertex="1">
+          <mxGeometry height="20" width="31.25" x="606.88" y="450" as="geometry" />
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-16" edge="1" parent="1" source="41ZQezSZxThngW2Fjbhz-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=open;endFill=0;entryPerimeter=0;" target="41ZQezSZxThngW2Fjbhz-30">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="500" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-18" connectable="0" parent="41ZQezSZxThngW2Fjbhz-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=2;fontSize=10;fontColor=#525252;" value="&lt;div&gt;adjusted-scale&lt;/div&gt;&lt;div&gt;waveform&lt;br&gt;(digital)&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.0374" y="2" as="geometry">
+            <mxPoint x="1" y="-28" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-22" connectable="0" parent="41ZQezSZxThngW2Fjbhz-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontStyle=1" value="n+1&amp;nbsp;&lt;span style=&quot;font-weight: normal;&quot;&gt;bits&lt;/span&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.6898" as="geometry">
+            <mxPoint x="-10" y="10" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-24" connectable="0" parent="41ZQezSZxThngW2Fjbhz-16" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];labelBackgroundColor=none;" value="&lt;font style=&quot;font-size: 14px;&quot;&gt;/&lt;/font&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.4721" y="-1" as="geometry">
+            <mxPoint y="-2" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UWNIGU-5YG3pn3AtQrTP-1" edge="1" parent="1" source="41ZQezSZxThngW2Fjbhz-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;startArrow=open;startFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="290" y="460" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UWNIGU-5YG3pn3AtQrTP-2" connectable="0" parent="UWNIGU-5YG3pn3AtQrTP-1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#525252;" value="&lt;div&gt;error&amp;nbsp;&lt;/div&gt;&lt;div&gt;signals&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1896" as="geometry">
+            <mxPoint x="3" y="-19" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" value="MCU / DSP" vertex="1">
+          <mxGeometry height="80" width="80" x="340" y="420" as="geometry" />
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-28" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=1" value="&lt;div&gt;electro-optical&lt;/div&gt;&lt;div&gt;modulator&lt;/div&gt;" vertex="1">
+          <mxGeometry height="30" width="85.01" x="580" y="485" as="geometry" />
+        </mxCell>
+        <mxCell id="41ZQezSZxThngW2Fjbhz-29" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=1" value="DAC" vertex="1">
+          <mxGeometry height="30" width="50" x="500" y="445" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
