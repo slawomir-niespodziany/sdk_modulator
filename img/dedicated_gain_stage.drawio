@@ -85,6 +85,16 @@
             <mxPoint x="-15" as="offset" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="UWNIGU-5YG3pn3AtQrTP-1" edge="1" parent="1" source="41ZQezSZxThngW2Fjbhz-15" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;endArrow=none;endFill=0;startArrow=open;startFill=0;">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="310" y="480" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="UWNIGU-5YG3pn3AtQrTP-2" connectable="0" parent="UWNIGU-5YG3pn3AtQrTP-1" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontColor=#525252;" value="&lt;div&gt;error&amp;nbsp;&lt;/div&gt;&lt;div&gt;signals&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="0.1896" as="geometry">
+            <mxPoint x="3" y="-19" as="offset" />
+          </mxGeometry>
+        </mxCell>
         <mxCell id="41ZQezSZxThngW2Fjbhz-15" parent="1" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=1" value="MCU / DSP" vertex="1">
           <mxGeometry height="80" width="80" x="360" y="440" as="geometry" />
         </mxCell>
