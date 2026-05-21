@@ -140,18 +140,61 @@ The modulator runs with the period of half the transit time $\tau$. This allows 
 \noindent
 where $\delta_n$ denotes a close to zero scale factor error for the corresponding sample.
 
-Additionally, to null the effect of the rotation--induced phase shift, the modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation, with the update rate of $\Delta\phi_r = -\Delta\phi_s$ - equal in amplitude and opposite in sign. This way the algorithm cancells out the Sagnac effect, while knowing how much of it has been cancelled and thus it knows the exact rotation rate. In every cycle, the software monitors error inputs and adjusts control signals accordingly. A detailed operation of the control loop is described in TODO-lefevre.
+Additionally, to null the effect of the rotation--induced phase shift, the modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation, with the update rate of $\Delta\phi_r = -\Delta\phi_s$ - equal in amplitude and opposite in sign. This way the algorithm cancells out the Sagnac effect, while knowing how much of it has been cancelled and thus it knows the exact rotation rate. In every cycle, the software monitors error inputs and adjusts control signals accordingly. A detailed operation of the control loop is described in TODO-lefevre?.
 
-\section{Hardware architecture}
-This paper opts in for the usage of all--digital modulator implementation for an iFOG. The architecture of this subsystem can be designed in several ways. Firstly, a fully analog implementation, while feasible, does not comply with todays standards, where every bit of information is processed in a digital form. A analog--to--digital interface needs to be present anyway, to integrate the device within external systems. In such case, incorporating a digital part in the processing loop brings the advantage of performing certain operations on pure data, rather than on signals carrying these data, while being subjected to interferences. In such context, a classic architecture where several operations are performed digitally, while other still remain in the analog world, seems to be a reasonable tradeoff. Finally, an architecture with the minimal amount of electronic components offloads all the implementation challenges to the software side, while reducing the induced noise. All--analog architecture is not discussed.
+\section{Modulator hardware architecture}
+This paper opts in for the usage of an all--digital modulator implementation. The architecture of this subsystem can be designed in several ways. Firstly - a fully analog variant, while feasible, does not comply with todays standards, where information is usually processed in digital form. For integration with external systems, an analog--to--digital interface would need to be present anyway. In such case, incorporating an MCU or a DSP in the processing loop brings the advantage of performing certain operations on pure data, rather than on signals carrying these data. In such context, a typical solution shall consist of a digital part for performing mathematical operations and several electronic elements for interfacing with optical circuit - this is the mixed digital/analog setup with a dedicated gain stage. From there an architecture with the minimal amount of electronic components can also be derived. It allows for implementing a software--defined modulator. The two latter are described in this section. The all--analog architecture will not be discussed.
 
-\subsection{Classic architecture - Dedicated gain stage}
-The intermediate hardware architecture consists of a two main elements - a digital--to--analog converter (DAC) which drives the biasing voltage and ramp waveform combined and a gain stage, which adjusts the generated waveform to a desired range. The main advantage of such arrangement is modulation algorithm decomposition. To control such circuit, the software implements two distinct algorithms - one feeding the DAC with modulation waveforms and second, maintaining signal gain in the desired range.
+\subsection{Dedicated gain stage}
+A reasonable tradeoff between analog and digital approaches is the architecture proposed in TODO-lefevre?. It is composed of a digital part, a DAC and a dedicated gain stage. The configuration has been depicted in Figure~\ref{fig:dedicated_gain_stage}.
 
-\subsection{Thin architecture - All-digital approach}
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=90px]{img/dedicated_gain_stage.png}
+    \caption{Modulator with a dedicated hardware gain stage. MCU/DSP outputs a fixed--scale digital waveform, which directly drives a DAC. Then, before reaching the electro--optic actuator, the analog waveform is multiplied by the scale factor by a programmable gain amplifier, or a custom gain stage, yielding an adjusted--scale waveform. }
+    \label{fig:dedicated_gain_stage}
+\end{figure}
 
-\section{Algorithm requirements and design}
-\section{Scale factor error} % Precision estimation and impact
+In this configuration DAC and PGA are driven with an $n$--bit and $m$--bit words. The digital nature of controlling the gain stage introduces quantization noise into the scale factor control loop. One of the important advantages of this setup is the intrinsic separation of the modulation problem into two smaller parts - generating the waveform in fixed--scale and applying the scale factor. The two can be implemented by software without dependence on each other. On the contrary, the dedicated gain stage is a subject to interferences. It may have its own nonlinearities and introduce additional delay in the signal. Most importantly, its bandwidth may be gain dependent.
+
+Utilizing the observation, that the scale factor shall not vary by more than a few per cent during the device's lifetime, it can be concluded that if the DAC was $(n+1)$--bit, the performance would not be affected. Its voltage range would have to be set for the worst--case scenario plus some margin, to always be sufficient, but the full scale wouldn't be used at any time. Even if the scale factor dropped to 50\% of the maximum range, which is beyond any pessimistic scenario, the overall performance would remain no worse than when using a $n$--bit DAC. From this an all--digital architecture can be defined.
+
+\subsection{All-digital approach - software--defined solution}
+The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the availability and wide range of high precision digital--to--analog converters. It allows for dropping the physical gain stage, by applying scale factor digitally, prior to driving the DAC. This requires DAC reference voltage to be high enough to cover all possible ranges during the device lifetime. It also introduces quantization noise. However, both these disadvantages, are also problems of the mixed approach. The main advantage this idea brings is priparily the minimal amount of electronic components. This yields less sources of potential nonlinearities and electromagnetic interference. Since the electro--optic modulator has high input impedance, the output of a voltage--DAC can be directly connected to it, omitting any voltage buffers on the signal path, further reducing noise sources. While it may be safely assumed, that the profit resulting from less noisy electronics copensate DAC resolution loss, the following part of this paper discusses an algorithmic, which regains one bit of accuracy, when using the all--digital modulator architecture.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=75px]{img/all_digital.png}
+    \caption{. }
+    \label{fig:all_digital}
+\end{figure}
+
+Additional advantage of leaning towards the proposed architecture is the fact, that the whole design becomes a software--defined solution. As in other fields, it brings flexibility from the R\&D process perspective. While iterating hardware design is a time--consuming process, updating software is relatively quick. Offloating the whole problem to the software side, obviously makes its implementation more complex, but it limits the amount of interaction at the boundary of software and hardware developers. From this perspective the net workload remains at the same order of magnitude.
+
+\subsubsection{Voltage reference}
+For an all--digital modulator a reference voltage has to be set up, to account for the maximum possible scale factor. From Equation~\ref{eq:bias_values} it results, that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields the required modulator span to be $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall be adjusted to cover all the required span and account for some additional margin $M \in [1.0; 1.1]$.
+
+\begin{equation}
+    V_{ref}^{min} = V_{\pi}^{max} \cdot R \cdot M
+    \label{eq:minimum_reference_voltage}
+\end{equation}
+
+\noindent
+The $V\pi^{max}$ is the highest expected half--wave voltage. When determining the final reference it is advantageous to round it up to a voltage multiple of one of typically available chips (Equation~\ref{eq:reference_voltage_ceil}), e.g. $N \cdot 5V$ or $N \cdot 4.096V$. It makes implementing the elctronic circuit more straightfroward. In practice, a compromise is to utilize the resulting excess for the margin $M$, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
+
+\begin{equation} \label{eq:reference_voltage_ceil}
+    V_{ref} = \lceil V_{ref}^{min} \rceil
+\end{equation}
+
+\subsubsection{Quantization error}
+
+
+
+
+
+% error floor
+
+\section{Algorithmic resolution enhancement} % Precision estimation and impact
 TODO \\
 Scale factor error has two sources. Primarily the algorithm needs to adjust the nummerical value precisely to control the scale factor. Error in calculating this value will directly impact the accuracy. However, even with a perfect algorithm teh quantization noise resulting from the usage of a DAC leaves some error preset at all times. While the first factor is a subject for algorithmic optimization, the second one resuts from the physical circuit impleemntation and depends on several followign parameters.
 
@@ -165,16 +208,7 @@ Voltage resolution of the used DAC results directly from the number of bits of t
     \Delta{}v = V_{ref} \cdot 2^{-N}
 \end{equation}
 
-Minimal DAC reference voltage shall to be adjusted to cover all the required operating span (Equation~\ref{eq:minimal_dac_reference_voltage}).
-% TODO M is margin for temp drift and aging
-\begin{equation} \label{eq:minimal_dac_reference_voltage}
-    V_{ref}^{min} = V_{\pi}^{max} \cdot R \cdot M
-\end{equation}
-where range $R = 3.5$ results directly from the algorithm implementation (it shall be able to drive the values equivalent to $\pm1\frac{3}{4}\pi$, yielding the span of $R = 3.5$) and margin $M \in [1.0; 1.1]$. When determining the final reference voltage it is advantageous to align it with a voltage multiple of one of typically available chips. It makes implementing the elctronic circuit more straightfroward, thus eliminating possible noise sources. The resulting reference voltage will in most cases be slightly higher then the minimal value (Equation~\ref{eq:reference_voltage_ceil}). In practice, the best compromise is to utilize this excess for the margin M, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
 
-\begin{equation} \label{eq:reference_voltage_ceil}
-    V_{ref} = \lceil V_{ref}^{min} \rceil
-\end{equation}
 
 Substituting TODO yields the formula for relative scale factor error in a worst case scenario, when the real sclae factor remains exactly in between the two controllable, discrete phase shift values, but with the assumption, that the software has perfectly calculated the scale (no error introduced by the algorithm).
 
