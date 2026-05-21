@@ -6,7 +6,7 @@
 \usepackage{subcaption}
 \usepackage{float}
 
-\title{Enhancement of scale factor control accuracy of modulation algorithm for a closed-loop fiber-optic gyroscope.}
+\title{Enhancement of scale factor accuracy of modulation algorithm for a closed-loop fiber-optic gyroscope.}
 \author{Sławomir Niespodziany, slawomir.niespodziany@pw.edu.pl \\
     Institute of Computer Science, Warsaw University of Technology}
 
@@ -155,9 +155,9 @@ A reasonable tradeoff between analog and digital approaches is the architecture 
     \label{fig:dedicated_gain_stage}
 \end{figure}
 
-In this configuration DAC and PGA are driven with an $n$--bit and $m$--bit words. The digital nature of controlling the gain stage introduces quantization noise into the scale factor control loop. One of the important advantages of this setup is the intrinsic separation of the modulation problem into two smaller parts - generating the waveform in fixed--scale and applying the scale factor. The two can be implemented by software without dependence on each other. On the contrary, the dedicated gain stage is a subject to interferences. It may have its own nonlinearities and introduce additional delay in the signal. Most importantly, its bandwidth may be gain dependent.
+In this configuration DAC and PGA are driven with an $n$--bit and $m$--bit words. The digital nature of controlling the gain stage introduces quantization noise into the scale factor control loop. One of the important advantages of this setup is the intrinsic separation of the modulation problem into two smaller parts - generating the waveform in fixed--scale and applying the scale factor. The two can be implemented by software without dependence on each other. On the other side, the dedicated gain stage is a subject to interferences. It may have its own nonlinearities and introduce additional delay in the signal. Most importantly, its bandwidth may be gain dependent.
 
-Utilizing the observation, that the scale factor shall not vary by more than a few per cent during the device's lifetime, it can be concluded that if the DAC was $(n+1)$--bit, the performance would not be affected. Its voltage range would have to be set for the worst--case scenario plus some margin, to always be sufficient, but the full scale wouldn't be used at any time. Even if the scale factor dropped to 50\% of the maximum range, which is beyond any pessimistic scenario, the overall performance would remain no worse than when using a $n$--bit DAC. From this an all--digital architecture can be defined.
+Utilizing the observation, that the scale factor shall not vary by more than a few per cent during the device's lifetime, it can be concluded that if the PGA was driven by $n+1$ bits, the performance would not be affected. Voltage range would have to be set for the worst--case scenario plus some margin, to always be sufficient. Full scale wouldn't be used most of the time. Even if the scale factor was to drop to 50\% of the available range, which is beyond any pessimistic scenario, the overall performance would remain no worse than when using a $n$--bit control. From this an all--digital architecture can be defined.
 
 \subsection{All-digital approach - software--defined solution}
 The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the availability and wide range of high precision digital--to--analog converters. It allows for dropping the physical gain stage, by applying scale factor digitally, prior to driving the DAC. This requires DAC reference voltage to be high enough to cover all possible ranges during the device lifetime. It also introduces quantization noise. However, both these disadvantages, are also problems of the mixed approach. The main advantage this idea brings is priparily the minimal amount of electronic components. This yields less sources of potential nonlinearities and electromagnetic interference. Since the electro--optic modulator has high input impedance, the output of a voltage--DAC can be directly connected to it, omitting any voltage buffers on the signal path, further reducing noise sources. While it may be safely assumed, that the profit resulting from less noisy electronics copensate DAC resolution loss, the following part of this paper discusses an algorithmic, which regains one bit of accuracy, when using the all--digital modulator architecture.
@@ -175,54 +175,128 @@ Additional advantage of leaning towards the proposed architecture is the fact, t
 For an all--digital modulator a reference voltage has to be set up, to account for the maximum possible scale factor. From Equation~\ref{eq:bias_values} it results, that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields the required modulator span to be $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall be adjusted to cover all the required span and account for some additional margin $M \in [1.0; 1.1]$.
 
 \begin{equation}
-    V_{ref}^{min} = V_{\pi}^{max} \cdot R \cdot M
+    V_{ref}^{min} = V_{\pi}^{max} \cdot S \cdot M
     \label{eq:minimum_reference_voltage}
 \end{equation}
 
 \noindent
-The $V\pi^{max}$ is the highest expected half--wave voltage. When determining the final reference it is advantageous to round it up to a voltage multiple of one of typically available chips (Equation~\ref{eq:reference_voltage_ceil}), e.g. $N \cdot 5V$ or $N \cdot 4.096V$. It makes implementing the elctronic circuit more straightfroward. In practice, a compromise is to utilize the resulting excess for the margin $M$, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
+The $V\pi^{max}$ is the highest expected half--wave voltage. When determining the final reference it is advantageous to round it up to a voltage multiple of one of typically available chip references (Equation~\ref{eq:reference_voltage_ceil}), e.g. $N \cdot 5V$ or $N \cdot 4.096V$. It makes implementing the elctronic circuit more straightfroward. In practice, a compromise is to utilize the resulting excess for the margin $M$, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
 
-\begin{equation} \label{eq:reference_voltage_ceil}
+\begin{equation}
     V_{ref} = \lceil V_{ref}^{min} \rceil
+    \label{eq:reference_voltage_ceil}
 \end{equation}
 
 \subsubsection{Quantization error}
+DAC usage results in quantization error. Resolution of the converter and its reference voltage determine the minimal controllable voltage change:
 
+\begin{equation}
+    \Delta{}v = V_{ref} \cdot 2^{-N}
+    \label{eq:dac_voltage_resolution}
+\end{equation}
 
+\noindent
+From this an error relative to the actual half--wave voltage results from the distance between the controlled value and the actual one, being half of the $\Delta{}v$. It can be vary between bias points $n$, as the actual $V_{\pi}(n)$ may continously change over time:
 
+\begin{equation}
+    \delta_n = \frac{1}{2} \cdot \frac{\Delta{}v}{V_\pi(n)}
+    \label{eq:relative_scale_factor_error}
+\end{equation}
 
+\noindent
+The total error accumulated from various parameters will be:
+
+\begin{equation}
+    \delta(n) = \frac{1}{2} \cdot \frac{\lceil V_{\pi}^{max} \cdot S \cdot M \rceil \cdot 2^{-N}}{V_{\pi}(n)}
+    \label{eq:total_error}
+\end{equation}
+
+\noindent
+which in practice may be as in the following exemplary calculation:
+
+\begin{equation}
+    \begin{split}
+        \delta_{ex} & = \frac{1}{2} \cdot \frac{\lceil \overbrace{4.5V}^{V_{\pi}^{max}} \cdot \overbrace{3.5}^{S} \cdot \overbrace{1.025}^{M} \rceil \cdot \overbrace{2^{-16}}^{2^{-N}} }{\underbrace{3.5V}_{V_{\pi}}} = \frac{\lceil 16.14V \rceil \cdot 2^{-16}}{ 7V} = \frac{\overbrace{16.384V}^{4 \cdot 4.096V} \cdot 2^{-16}}{7V} = \\
+                    & = 2^{-16} \cdot 2.34 = 2^{-16} \cdot 2^{1.23}
+    \end{split}
+    \label{eq:error_example}
+\end{equation}
+
+\noindent
+The scale factor error can be compensated by the number of bits of the converter $N$, but the loss in resolution will always be at the level of over one bit. It must be noted, that most of this loss is due to the span $S$. It is required for proper operation of the algorithm and is not a consequence of the proposed all--digital architecture.
 
 % error floor
+% this paper does not focus on serrodyne precision, only on scale factor accuracy
 
-\section{Algorithmic resolution enhancement} % Precision estimation and impact
+\section{??} % Precision estimation and impact
+To close the feedback loop, scale factor error signal is required. It is calculated from the incident light intensity difference between two consecutive bias points in a pair. The phase shift difference, affecting intensity for the sample $n$, results from the current bias point drive $\phi_n$ and the drive value two samples prior.
+
+\begin{equation}
+    \Delta\phi_{n} = (\phi_{n} - \phi_{n - 2}) + \underbrace{\Delta\phi_{s}(n) + \Delta\phi_{r}(n)}_{=0}
+    \label{eq:phase_shift_difference}
+\end{equation}
+
+\noindent
+The values of $\Delta\phi_s(n)$ and $\Delta\phi_r(n)$ denote the Sagnac--induced phase shift and the cancelling ramp shift, which are assumed to be zero for the following analysis. By using equations \ref{eq:response} and \ref{eq:bias_values} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), we get:
+
+\begin{equation}
+    \begin{split}
+        P_{n}^{+\frac{3}{2}\pi}     & = \frac{P_0}{2} \cdot (1 + cos(\Delta\phi_{n}^{+\frac{3}{2}\pi})) = \frac{P_0}{2} \cdot (1 + cos(\phi_{n}^{+\frac{3}{2}\pi} - \phi_{n - 2}^{-\frac{3}{2}\pi})) = \\
+                                    & = \frac{P_0}{2} \cdot (1 + cos(\frac{3}{2}\pi + \frac{3}{2}\pi \cdot \frac{\delta_{n} + \delta_{n - 2}}{2})) =                                                   \\
+                                    & = \frac{P_0}{2} \cdot (1 + \frac{3}{2}\pi \cdot \frac{\delta_{n} + \delta_{n - 2}}{2})                                                                           \\
+        P_{n + 1}^{-\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 - \frac{1}{2}\pi \cdot \frac{\delta_{n + 1} + \delta_{n - 1}}{2})                                                                       \\
+        P_{n + 2}^{-\frac{3}{2}\pi} & = \frac{P_0}{2} \cdot (1 - \frac{3}{2}\pi \cdot \frac{\delta_{n + 2} + \delta_{n}}{2})                                                                           \\
+        P_{n + 3}^{+\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 + \frac{1}{2}\pi \cdot \frac{\delta_{n + 3} + \delta_{n + 1}}{2})
+    \end{split}
+    \label{eq:power}
+\end{equation}
+
+\begin{equation}
+    cos(\phi_{B} + \Delta) = \underbrace{cos(\phi_{B})}_{=0} + cos'(\phi_{B}) \cdot \Delta = -sin(\phi_{B}) \cdot \Delta \qquad \text{for } \phi_{B} \in \{+\frac{3}{2}\pi, +\frac{1}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi\}
+    \label{eq:cosine_linearization}
+\end{equation}
+
+\noindent
+From there, the intensity difference for the samples $n + 1$ and $n + 3$ is:
+
+\begin{equation}
+    \begin{split}
+        e_{n+1}^{-\frac{1}{2}\pi} & = P_{n}^{+\frac{3}{2}\pi} - P_{n + 1}^{-\frac{1}{2}\pi} =                                                                                                                      \\
+                                  & = \frac{P_0}{2} \cdot (\frac{\delta_{n} + \delta_{n - 2}}{2} - \frac{\delta_{n + 1} + \delta_{n - 1}}{2}) =                                                                    \\
+                                  & = \frac{P_0 \cdot \pi}{4} \cdot (\underbrace{\delta_{n - 2} - \delta_{n - 1}}_{\text{last two inputs}} + \underbrace{\delta_{n} - \delta_{n + 1}}_{\text{current two inputs}}) \\
+        e_{n+3}^{+\frac{1}{2}\pi} & = P_{n + 2}^{-\frac{3}{2}\pi} - P_{n + 3}^{+\frac{1}{2}\pi} =                                                                                                                  \\
+                                  & = \frac{P_0}{2} \cdot (\frac{\delta_{n + 2} + \delta_{n}}{2} - \frac{\delta_{n + 3} + \delta_{n + 1}}{2})                                                                      \\
+                                  & = \frac{P_0}{4} \cdot (\underbrace{\delta_{n} - \delta_{n + 1}}_{\text{last two   inputs}} + \underbrace{\delta_{n + 2} - \delta_{n + 3}}_{\text{current two inputs}})         \\
+    \end{split}
+    \label{eq:difference}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
 TODO \\
 Scale factor error has two sources. Primarily the algorithm needs to adjust the nummerical value precisely to control the scale factor. Error in calculating this value will directly impact the accuracy. However, even with a perfect algorithm teh quantization noise resulting from the usage of a DAC leaves some error preset at all times. While the first factor is a subject for algorithmic optimization, the second one resuts from the physical circuit impleemntation and depends on several followign parameters.
 
 Firstly, the relative scale factor error can be denoted as in Equation~\ref{eq:relative_scale_factor_error}.
-\begin{equation} \label{eq:relative_scale_factor_error}
-    \delta(n) = \frac{1}{2} \cdot \frac{\Delta{}v}{V_\pi(n)}
-\end{equation}
+
 
 Voltage resolution of the used DAC results directly from the number of bits of the converter (Equation~\ref{eq:dac_voltage_resolution}).
-\begin{equation} \label{eq:dac_voltage_resolution}
-    \Delta{}v = V_{ref} \cdot 2^{-N}
-\end{equation}
+
 
 
 
 Substituting TODO yields the formula for relative scale factor error in a worst case scenario, when the real sclae factor remains exactly in between the two controllable, discrete phase shift values, but with the assumption, that the software has perfectly calculated the scale (no error introduced by the algorithm).
 
-\begin{equation} \label{eq:qwe}
-    \delta(n) = \frac{1}{2} \cdot \frac{\lceil V_{\pi}^{max} \cdot R \cdot M \rceil \cdot 2^{-N}}{V_{\pi}(n)}
-\end{equation}
+
 
 An exemplary calculation assuming some real--world values:
-\begin{equation}
-    \begin{split}
-        \delta_{ex} & = \frac{1}{2} \cdot \frac{\lceil 4.5V \cdot 3.5 \cdot 1.04 \rceil \cdot 2^{-16}}{3.5V} = \frac{\lceil 16.38V \rceil \cdot 2^{-16}}{ 7V} \\
-                    & = \frac{\overbrace{16.384V}^{4 \cdot 4.096V} \cdot 2^{-16}}{7V} = 2^{-16} \cdot 2.34 = 2^{-16} \cdot 2^{1.23}
-    \end{split}
-\end{equation}
+
 
 
 
@@ -231,9 +305,6 @@ An exemplary calculation assuming some real--world values:
 \subsection{Scale factor error feedback}
 
 
-\begin{equation}
-    \Delta\phi_{n} = (\phi_{n} - \phi_{n - 2}) + \Delta\phi_{n}^{sagnac}
-\end{equation}
 
 Assuming no Sagnac effect:
 \begin{equation}
@@ -257,16 +328,7 @@ Assuming no Sagnac effect:
 
 where $\phi_B \in \{+\frac{3}{2}\pi, +\frac{1}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi\}$.
 
-\begin{equation}
-    \begin{split}
-        e_{V_{\pi}}^{-\frac{1}{2}\pi}(n + 1) & = P(n) - P(n + 1) =                                                                                                                                                    \\
-                                             & = \frac{P_0}{2} \cdot (\frac{\delta_{n} + \delta_{n - 2}}{2} - \frac{\delta_{n + 1} + \delta_{n - 1}}{2}) =                                                            \\
-                                             & = \frac{P_0}{4} \cdot (\underbrace{\delta_{n - 2} - \delta_{n - 1}}_{\text{last two inputs}} + \underbrace{\delta_{n} - \delta_{n + 1}}_{\text{current two inputs}})   \\
-        e_{V_{\pi}}^{+\frac{1}{2}\pi}(n + 3) & = P(n + 2) - P(n + 3) =                                                                                                                                                \\
-                                             & = \frac{P_0}{2} \cdot (\frac{\delta_{n + 2} + \delta_{n}}{2} - \frac{\delta_{n + 3} + \delta_{n + 1}}{2})                                                              \\
-                                             & = \frac{P_0}{4} \cdot (\underbrace{\delta_{n} - \delta_{n + 1}}_{\text{last two   inputs}} + \underbrace{\delta_{n + 2} - \delta_{n + 3}}_{\text{current two inputs}}) \\
-    \end{split}
-\end{equation}
+
 
 \begin{thebibliography}{9}
     \bibitem[Doe]{doe} \emph{First and last \LaTeX{} example.},
