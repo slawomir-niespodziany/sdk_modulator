@@ -28,7 +28,7 @@
 % TODO check formulas
 
 \section{Motivation}
-iFOG principle of operation is based on the Sagnac effect. Its design has already been excercised for many years. However, as technology evolves, the limits holding the development back are pushed forward, enabling for better precision, miniaturized size or lower power consumption. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such context makes the already existing designs being tested and optimized in every possible aspect. This applies equally to all the optical and electro--optic componenents, the electronics and the driving software. Crucial part of the control system of such gyroscope is the modulator. In a closed-loop design it is a vital element of the whole feedback loop, which directly affects the overall performance. It drives the optical circuit into a predefined state, in which the circuit response can be demodulated and error signals determined. Modulator accuracy has critical impact on the resulting performance. This paper takes a closer look at the all--digital implementation of the modulator subsystem and particularily on the algorithm controlling it. Mathematical analysis is conducted to allow for pure software enhancements in the algorithm accuracy. Then, by placing the algorithm in the context of various hardware configurations, its accuracy is also determined for each of them.
+iFOG (an Interferometric Fibre Optic Gyroscope) concept revolves around the Sagnac effect. Its design has already been excercised for many years. However, as technology evolves, the limits holding the development back are pushed forward, enabling for better precision, miniaturized size or lower power consumption. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such context makes the already existing designs being tested and optimized in every possible aspect. This applies equally to all the optical and electro--optic componenents, the electronics and the driving software. Crucial part of the control system of such gyroscope is the modulator. In a closed-loop design it is a vital element of the whole feedback loop, which directly affects the overall performance. It drives the optical circuit into a predefined state, in which the circuit response can be demodulated and error signals determined. Modulator accuracy has critical impact on the resulting performance. This paper takes a closer look at the all--digital implementation of the modulator subsystem and particularily on the algorithm controlling it. Mathematical analysis is conducted to allow for pure software enhancements in the algorithm accuracy. Then, by placing the algorithm in the context of various hardware configurations, its accuracy is also determined for each of them.
 
 \section{Principle of operation - open--loop configuration}
 A fibre--optic gyroscope utilizes Sagnac effect. It generates a light beam, which is ideally split in 50/50 ratio. Each half then enters a loop of relatively long fiber through each of its ends and propagates towards the other end. The fiber length $L$ determines light transit time $\tau$ through it (Equation~\ref{eq:transit_time}, where $n$ is the refraction coefficient, affecting light speed in the medium).
@@ -122,7 +122,12 @@ From the point of view of the control algorithm, the scale factor can be reffere
 Device control system biases the circuit continously with the following bias point order:
 
 \begin{equation}
-    \{\Delta\phi_{4n}^{+\frac{3}{2}\pi}, \Delta\phi_{4n+1}^{-\frac{1}{2}\pi}, \Delta\phi_{4n+2}^{-\frac{3}{2}\pi}, \Delta\phi_{4n+3}^{+\frac{1}{2}\pi}\}
+    \begin{split}
+        \{ & \Delta\phi_{4n+0}^{+\frac{3}{2}\pi} \rightarrow (+\frac{3}{4}\pi),   \\
+           & \Delta\phi_{4n+1}^{-\frac{1}{2}\pi} \rightarrow (-\frac{1}{4}\pi),   \\
+           & \Delta\phi_{4n+2}^{-\frac{3}{2}\pi} \rightarrow (-\frac{3}{4}\pi),   \\
+           & \Delta\phi_{4n+3}^{+\frac{1}{2}\pi} \rightarrow (+\frac{1}{4}\pi) \}
+    \end{split}
     \label{eq:bias_order}
 \end{equation}
 
@@ -130,21 +135,12 @@ Device control system biases the circuit continously with the following bias poi
 where the superscripted phase is the intended effective phase shift for the given sample.
 
 The modulator runs with the period of half the transit time $\tau$. This allows for the effective phase shift to be a result of a relative shift between every $k$'th and $(k-2)$'th samples. For this reason the phase shift applied by the modulator for each sample can be half of the desired amplitude:
-
-\begin{equation}
-    \begin{split}
-        \phi_{4n+0}^{+\frac{3}{2}\pi} & = +\frac{3}{4}\pi \cdot (1 + \delta_{4n+0}) \\
-        \phi_{4n+1}^{-\frac{1}{2}\pi} & = -\frac{1}{4}\pi \cdot (1 + \delta_{4n+1}) \\
-        \phi_{4n+2}^{-\frac{3}{2}\pi} & = -\frac{3}{4}\pi \cdot (1 + \delta_{4n+2}) \\
-        \phi_{4n+3}^{+\frac{1}{2}\pi} & = +\frac{1}{4}\pi \cdot (1 + \delta_{4n+3})
-    \end{split}
-    \label{eq:bias_values}
-\end{equation}
+TODO
 
 \noindent
-where $\delta_n$ denotes a close to zero scale factor error for the corresponding sample.
+where $\delta_n$ denotes a close to zero error for the corresponding sample.
 
-Additionally, to null the effect of the rotation--induced phase shift, the modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation, with the update rate of $\Delta\phi_r = -\Delta\phi_s$ - equal in amplitude and opposite in sign. This way the algorithm cancells out the Sagnac effect, while knowing how much of it has been cancelled and thus it knows the exact rotation rate. In every cycle, the software monitors error inputs and adjusts control signals accordingly. A detailed operation of the control loop is described in TODO-lefevre?.
+Additionally, to null the effect of the rotation--induced phase shift, the modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation, with the increment value of $\Delta\phi_r = -\Delta\phi_s$ - equal in amplitude and opposite in sign. This way the algorithm cancells out the Sagnac effect, while knowing how much of it has been cancelled and thus it knows the exact rotation rate. In every cycle, the software monitors error inputs and adjusts control signals accordingly. A detailed operation of the control loop is described in TODO-lefevre?.
 
 \section{Modulator hardware architecture}
 This paper opts in for the usage of an all--digital modulator implementation. The architecture of this subsystem can be designed in several ways. Firstly - a fully analog variant, while feasible, does not comply with todays standards, where information is usually processed in digital form. For integration with external systems, an analog--to--digital interface would need to be present anyway. In such case, incorporating an MCU or a DSP in the processing loop brings the advantage of performing certain operations on pure data, rather than on signals carrying these data. In such context, a typical solution shall consist of a digital part for performing mathematical operations and several electronic elements for interfacing with optical circuit - this is the mixed digital/analog setup with a dedicated gain stage. From there an architecture with the minimal amount of electronic components can also be derived. It allows for implementing a software--defined modulator. The two latter are described in this section. The all--analog architecture will not be discussed.
@@ -176,10 +172,10 @@ The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the 
 Additional advantage of leaning towards the proposed architecture is the fact, that the whole design becomes a software--defined solution. As in other fields, it brings flexibility from the R\&D process perspective. While iterating hardware design is a time--consuming process, updating software is relatively quick. Offloating the whole problem to the software side, obviously makes its implementation more complex, but it limits the amount of interaction at the boundary of software and hardware developers. From this perspective the net workload remains at the same order of magnitude.
 
 \subsubsection{Voltage reference}
-For an all--digital modulator an adequate reference voltage has to be set up to account for the maximum possible scale factor. From Equation~\ref{eq:bias_values} it results, that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields the required span to be $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall account for that with some margin $M \in [1.0; 1.1]$.
+For an all--digital modulator an adequate reference voltage has to be set up to account for the maximum possible scale factor. From Equation~\ref{eq:bias_intended} it results, that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields the required span to be $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall account for that with some margin $M \in [1.0; 1.1]$.
 
 \begin{equation}
-    V_{ref}^{min} = V_{\pi}^{max} \cdot S \cdot M
+    V_{\text{ref}}^{\text{min}} = V_{\pi}^{\text{max}} \cdot S \cdot M
     \label{eq:minimum_reference_voltage}
 \end{equation}
 
@@ -187,7 +183,7 @@ For an all--digital modulator an adequate reference voltage has to be set up to 
 The $V\pi^{max}$ denotes the highest expected half--wave voltage value. When determining final reference voltage it is advantageous to round it up to a multiple of one of typically available chip references (Equation~\ref{eq:reference_voltage_ceil}), e.g. $N \cdot 5V$ or $N \cdot 4.096V$. It makes implementing the elctronic circuit more straightfroward. In practice, a fair compromise is to utilize the resulting voltage excess for the margin $M$, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
 
 \begin{equation}
-    V_{ref} = \lceil V_{ref}^{min} \rceil
+    V_{\text{ref}} = \lceil V_{\text{ref}}^{\text{min}} \rceil
     \label{eq:reference_voltage_ceil}
 \end{equation}
 
@@ -195,7 +191,7 @@ The $V\pi^{max}$ denotes the highest expected half--wave voltage value. When det
 Usage of a DAC results in quantization error. Converter resolution and its reference voltage determine the minimal controllable voltage change:
 
 \begin{equation}
-    \Delta{}v = V_{ref} \cdot 2^{-N}
+    \Delta{}v = V_{\text{ref}} \cdot 2^{-N}
     \label{eq:dac_voltage_resolution}
 \end{equation}
 
@@ -203,16 +199,21 @@ Usage of a DAC results in quantization error. Converter resolution and its refer
 Relative error of the scale factor results from the distance between the controlled value and the actual. It corresponds to half of $\Delta{}v$. It can vary in time, as the actual $V_{\pi}$ may continously change over time, but rather slowly (compared to the possible modulation frequencies).
 
 \begin{equation}
-    \delta_{q} = \frac{1}{2} \cdot \frac{\Delta{}v}{V_\pi}
-    \label{eq:relative_scale_factor_error}
+    \Delta\phi_{v} = \frac{\Delta{}v}{V_\pi}
+    \label{eq:relative_scale_factor_error2}
 \end{equation}
 
 \noindent
 Finally, the scale factor error due to quantization depends on a few parameters according to the following formula:
 
 \begin{equation}
-    \delta_{q} = \frac{1}{2} \cdot \frac{\lceil V_{\pi}^{max} \cdot S \cdot M \rceil \cdot 2^{-N}}{V_{\pi}}
+    \Delta\phi_{v} = \frac{\lceil V_{\pi}^{\text{max}} \cdot S \cdot M \rceil \cdot 2^{-N}}{V_{\pi}}
     \label{eq:total_error}
+\end{equation}
+
+\begin{equation}
+    \Delta\phi_{q} = \frac{1}{2} \cdot \Delta\phi_{v}
+    \label{eq:relative_scale_factor_error}
 \end{equation}
 
 \noindent
@@ -220,14 +221,29 @@ Exemplary calculation, based on real--world values may yield:
 
 \begin{equation}
     \begin{split}
-        \delta_{q}^{ex} & = \frac{1}{2} \cdot \frac{\lceil \overbrace{4.5V}^{V_{\pi}^{max}} \cdot \overbrace{3.5}^{S} \cdot \overbrace{1.025}^{M} \rceil \cdot \overbrace{2^{-16}}^{2^{-N}} }{\underbrace{3.5V}_{V_{\pi}}} = \frac{\lceil 16.14V \rceil \cdot 2^{-16}}{ 7V} = \frac{\overbrace{16.384V}^{4 \cdot 4.096V} \cdot 2^{-16}}{7V} = \\
-                        & = 2^{-16} \cdot 2.34 = 2^{-16} \cdot 2^{1.23}
+        \Delta\phi_{v}^{\text{ex}} & = \frac{\lceil \overbrace{4.5V}^{V_{\pi}^{\text{max}}} \cdot \overbrace{3.5}^{S} \cdot \overbrace{1.025}^{M} \rceil \cdot \overbrace{2^{-16}}^{2^{-N}} }{\underbrace{3.5V}_{V_{\pi}}} = \frac{\lceil 16.14V \rceil \cdot 2^{-16}}{3.5V} = \frac{\overbrace{16.384V}^{4 \cdot 4.096V} \cdot 2^{-16}}{3.5V} = \\
+                                   & = 2^{-16} \cdot 4.68 = 2^{-16} \cdot 2^{2.23}                                                                                                                                                                                                                                                               \\
+        \Delta\phi_{q}^{\text{ex}} & = \frac{1}{2} \cdot \Delta\phi_{v}^{\text{ex}} = 2^{-16} \cdot 2^{1.23}
     \end{split}
     \label{eq:error_example}
 \end{equation}
 
 \noindent
 The scale factor error can be compensated by the number of bits of the converter $N$, but the resolution loss will always stay at the level of over one bit. It must be noted, that most of this loss is due to the span $S$. It is required for proper operation of the algorithm and is not a consequence of the proposed all--digital architecture.
+
+\begin{equation}
+    \begin{split}
+        \phi_{4n+0}^{+\frac{3}{2}\pi} & = k_{4n+0} \cdot \Delta\phi_{v} = +\frac{3}{4}\pi + \delta_{4n+0} \\
+        \phi_{4n+0}^{-\frac{1}{2}\pi} & = k_{4n+1} \cdot \Delta\phi_{v} = -\frac{1}{4}\pi - \delta_{4n+1} \\
+        \phi_{4n+0}^{-\frac{3}{2}\pi} & = k_{4n+2} \cdot \Delta\phi_{v} = -\frac{3}{4}\pi - \delta_{4n+2} \\
+        \phi_{4n+0}^{+\frac{1}{2}\pi} & = k_{4n+3} \cdot \Delta\phi_{v} = +\frac{1}{4}\pi + \delta_{4n+3}
+    \end{split}
+    \label{eq:22213}
+\end{equation}
+
+Where $k \in [-2^{N-1}, 2^{N-1}-1)$ is an integer, in range of the used DAC (of $N$ resolution).
+By incrementing/decrementing $k_{n}$ the error $\delta_{n}$ can be controlled with the resolution of $\Delta\phi_{v}$.
+$\delta_{n}$ can always be of a magnitude up to $\Delta\phi_{q}$ because of the quantization error.
 
 % number of bits n change to uppercase N (& M)
 % error floor
@@ -237,38 +253,38 @@ The scale factor error can be compensated by the number of bits of the converter
 To close the feedback loop, scale factor error signal is required. It is calculated from the incident light intensity difference between two consecutive bias points in each pair. The phase shift difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current point drive $\phi_k$ and the drive two points prior.
 
 \begin{equation}
-    \Delta\phi_{k} = (\phi_{k} - \phi_{k - 2}) + \underbrace{\Delta\phi_{s}(k) + \Delta\phi_{r}(k)}_{=0}
+    \Delta\phi_{n} = (\phi_{n} - \phi_{n-2}) + \underbrace{\Delta\phi_{s, n} + \Delta\phi_{r, n}}_{=0}
     \label{eq:phase_shift_difference}
 \end{equation}
 
 \noindent
-The values of $\Delta\phi_s(n)$ and $\Delta\phi_r(n)$ denote the Sagnac--induced phase shift and the cancelling ramp shift, which are assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_values} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), we get intensity values at each bias point:
+The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote the Sagnac--induced phase shift and the cancelling ramp shift, which are assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_intended} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), we get intensity values at each bias point:
 
 \begin{equation}
     \begin{split}
         P_{4n+0}^{+\frac{3}{2}\pi} & = \frac{P_0}{2} \cdot (1 + cos(\Delta\phi_{4n+0}^{+\frac{3}{2}\pi})) = \frac{P_0}{2} \cdot (1 + cos(\phi_{4n+0}^{+\frac{3}{2}\pi} - \phi_{4n-2}^{-\frac{3}{2}\pi})) = \\
-                                   & = \frac{P_0}{2} \cdot (1 + cos((\frac{3}{4}\pi \cdot (1 + \delta_{4n+0})) - (-\frac{3}{4}\pi \cdot (1 + \delta_{4n-2})))) =                                           \\
-                                   & = \frac{P_0}{2} \cdot (1 + cos(\frac{3}{2}\pi \cdot (1 + \frac{\delta_{4n+0} + \delta_{4n-2}}{2}))) =                                                                 \\
-                                   & = \frac{P_0}{2} \cdot (1 + \frac{3}{2}\pi \cdot \frac{\delta_{4n+0} + \delta_{4n-2}}{2})                                                                              \\
-        P_{4n+1}^{-\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 - \frac{1}{2}\pi \cdot \frac{\delta_{4n+1} + \delta_{4n-1}}{2})                                                                              \\
-        P_{4n+2}^{-\frac{3}{2}\pi} & = \frac{P_0}{2} \cdot (1 + \frac{3}{2}\pi \cdot \frac{\delta_{4n+2} + \delta_{4n+0}}{2})                                                                              \\
-        P_{4n+3}^{+\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 - \frac{1}{2}\pi \cdot \frac{\delta_{4n+3} + \delta_{4n+1}}{2})
+                                   & = \frac{P_0}{2} \cdot (1 + cos((\frac{3}{4}\pi + \delta_{4n+0}) - (-(\frac{3}{4}\pi + \delta_{4n-2})))) =                                                             \\
+                                   & = \frac{P_0}{2} \cdot (1 + cos(\frac{3}{2}\pi + \delta_{4n+0} + \delta_{4n-2})) =                                                                                     \\
+                                   & = \frac{P_0}{2} \cdot (1 + (\delta_{4n+0} + \delta_{4n-2}))                                                                                                           \\
+        P_{4n+1}^{-\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 - (\delta_{4n+1} + \delta_{4n-1}))                                                                                                           \\
+        P_{4n+2}^{-\frac{3}{2}\pi} & = \frac{P_0}{2} \cdot (1 + (\delta_{4n+2} + \delta_{4n+0}))                                                                                                           \\
+        P_{4n+3}^{+\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 - (\delta_{4n+3} + \delta_{4n+1}))
     \end{split}
     \label{eq:incident_power}
 \end{equation}
 
 \begin{equation}
-    cos(\phi_{B} + \Delta) = \underbrace{cos(\phi_{B})}_{=0} + cos'(\phi_{B}) \cdot \Delta = -sin(\phi_{B}) \cdot \Delta \qquad \text{for } \phi_{B} \in \{+\frac{3}{2}\pi, +\frac{1}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi\}
+    cos(\phi_{b} + \Delta\phi) = \underbrace{cos(\phi_{b})}_{=0} + cos'(\phi_{b}) \cdot \Delta\phi = -sin(\phi_{b}) \cdot \Delta\phi \qquad \text{for } \phi_{b} \in \{+\frac{3}{2}\pi, +\frac{1}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi\}
     \label{eq:cosine_linearization}
 \end{equation}
 
 \noindent
-Intensity difference for the samples $4n+1$ and $4n+3$ is:
+Feedback signal at the samples $4n+1$ and $4n+3$ is:
 
 \begin{equation}
     \begin{split}
-        e_{4n+1}^{-\frac{1}{2}\pi} & = P_{4n+1}^{-\frac{1}{2}\pi} - P_{4n+0}^{+\frac{3}{2}\pi} = -\frac{P_0 \cdot \pi}{8} \cdot (\delta_{4n+1} + 3 \cdot \delta_{4n+0} + \delta_{4n-1} + 3 \cdot \delta_{4n-2}) \\
-        e_{4n+3}^{+\frac{1}{2}\pi} & = P_{4n+3}^{+\frac{1}{2}\pi} - P_{4n+2}^{-\frac{3}{2}\pi} = -\frac{P_0 \cdot \pi}{8} \cdot (\delta_{4n+3} - 3 \cdot \delta_{4n+2} + \delta_{4n+1} + 3 \cdot \delta_{4n+0}) \\
+        e_{4n+1}^{-\frac{1}{2}\pi} & = P_{4n+1}^{-\frac{1}{2}\pi} - P_{4n+0}^{+\frac{3}{2}\pi} = -\frac{P_0}{2} \cdot (\delta_{4n+1} + \delta_{4n+0} + \delta_{4n-1} + \delta_{4n-2}) \\
+        e_{4n+3}^{+\frac{1}{2}\pi} & = P_{4n+3}^{+\frac{1}{2}\pi} - P_{4n+2}^{-\frac{3}{2}\pi} = -\frac{P_0}{2} \cdot (\delta_{4n+3} + \delta_{4n+2} + \delta_{4n+1} + \delta_{4n+0}) \\
     \end{split}
     \label{eq:difference}
 \end{equation}
@@ -277,7 +293,7 @@ Intensity difference for the samples $4n+1$ and $4n+3$ is:
 which can be generalized for every odd bias point (scale factor error shall only be calculated at odd points - this results from the demodulation algorithm assumptions):
 
 \begin{equation}
-    e_{2n+1} = -\frac{P_0 \cdot \pi}{8} \cdot (\underbrace{\delta_{2n+1}}_{\text{current error}} + \underbrace{3 \cdot \delta_{2n+0} + \delta_{2n-1} + 3 \cdot \delta_{2n-2}}_{\text{last three errors}})
+    e_{2n+1} = -\frac{P_0}{2} \cdot (\underbrace{\delta_{2n+1}}_{\text{current}} + \underbrace{\delta_{2n+0} + \delta_{2n-1} + \delta_{2n-2}}_{\text{three prevoius errors}})
     \label{eq:difference_generic}
 \end{equation}
 
@@ -321,7 +337,7 @@ An improved algorithm variant takes into account the last drive value. It adjust
         \bottomrule
     \end{tabular}
     \caption{Without alternating inputs only two feedback values are possible (the first and the last row). If the input alternates the feedback signal averages to a value in between. It does not matter which sample takes greater value.}
-    \label{tab:my_table}
+    \label{tab:my_table2}
 \end{table}
 
 \subsection{Novel algorithm}
@@ -422,6 +438,10 @@ e[2n+1] <= -\frac{P_0 \cdot \pi}{8} \cdot (delta[2n+1] + 3*delta[2n+0] + delta[2
 
 % An exemplary calculation assuming some real--world values:
 
+
+
+
+% !! The closed feedback loop may regulate the controlled values - in this case the scale factor - down to a resolution which it can apply.  value that is controllable 
 
 
 \begin{thebibliography}{9}
