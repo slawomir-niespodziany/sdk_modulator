@@ -329,152 +329,67 @@ TODO check example for all three!!! TODO
 
 \noindent
 If the algorithm rounds fractional values symmetrically, it will lead to a simillar effect as in the previous section. While the effect is the same, the reason may be different, because the symmetry may also result from other factors. This case is simply worth of emphasizing, as it is expected for multiple implementations to use floating point arithmetics. This is an important nummerical issue, wspecially when performing calculations in floating point and only mapping the result to the integer, or fixed--point type required by a DAC. The below snippet shows an example.
-\begin{verbatim}
-    
-\end{verbatim}
+
+\begin{figure}[h]
+    \centering
+    \begin{verbatim}
+// corresponds to half-wave voltage (PI shift), in DAC units (lsb)
+uint8_t scaleFactorIntended = 14u; 
+
+int8_t dacDrive[4n+0] = round(scaleFactorDriven * 0.75) = round(10.5) = 11;
+int8_t dacDrive[4n+1] = round(scaleFactorDriven * -0.25) = round(-3.5) = -4;
+int8_t dacDrive[4n+2] = round(scaleFactorDriven * -0.75) = round(-10.5) = -11;
+int8_t dacDrive[4n+3] = round(scaleFactorDriven * 0.75) = round(3.5) = 4;
+    \end{verbatim}
+    \caption{. }
+    \label{fig:asdasd}
+\end{figure}
+
+\noindent
+The effective drive results in an error corresponding to $((4) - (-4)) - ((-11) - (11)) = 30 \quad [\Delta\phi_{v}]$ (according to Equation~\ref{eq:difference}), while the driven scale factor indicates it shall be $28$. The
+
+Additional problem is that this only happens at the level of least significant bits, so the only reasonable way to track this error is through nummerical analysis or simulation of the actual algorithm. It will not be visible in operation, due to the magnitude relative to the rest of the waveform.
+
+TODO screen z SDK? TODO
 
 \subsection{Optimal implementation}
+Correct implementation accomodates for the mentioned mistakes. It controls four recent samples at all times and it selects a rounding method, which has two advantages. Firstly, it is correct in terms of modulating with the accuracy of a single lsb. Secondly, it is implementation efficient. It utilizes the property of U2 number representation, which always rounds values towards $-\inf$, resembling mathematical $floor$ operation.
+
+TODO fixed point arithmetics TODO easily implemented in C/C++ or programmable l;ogic (ie FPGAs)
+
+\begin{figure}[h]
+    \centering
+    \begin{verbatim}
+// previous two bias points (4n-2, 4n-1)
+// uint8_t scaleFactor[4n-2] = 13;
+
+// int8_t dacDrive[4n-2] = (scaleFactor[4n-2] *  0x3) >> 2 = 9;
+// int8_t dacDrive[4n-1] = (scaleFactor[4n-2] * -0x1) >> 2 = -4;
+
+// current two bias points (4n+0, 4n+1)
+uint8_t scaleFactorIntended[4n+0] = 14u;
+uint8_t scaleFactor[4n+0] = (2 * scaleFactorIntended[4n+0]) - scaleFactor[4n-2];
+
+int8_t dacDrive[4n+0] = (scaleFactor[4n+0] * -0x3) >> 2 = -12;
+int8_t dacDrive[4n+1] = (scaleFactor[4n+0] *  0x1) >> 2 = 3;
+    \end{verbatim}
+    \caption{example for two of four bias points, the other two are drive in analogous way. }
+    \label{fig:asdasd}
+\end{figure}
+
+In this case the effective drive corresponds to what was intended - $((3) - (-4)) - ((-12) - (9)) = 28 \quad [\Delta\phi_{v}]$
+
+- oscilations due to wiggling regulator output, equalization required, not aviodable, as the dependence on previous points is at the physical phenomenon level
+- can be controlled for each 4 steps separately, but then every second feedback signal sample is not usable
+
+\section{Conclusions and further work}
+This proposal points out some easy to make mistakes in implementing a modulator algorithm and gives a solution for solving them to reach maximum accuracy in controlling scale factor for an iFOG. Several other aspects remain undiscussed in the given analysis. In particulat, the effect of generating a ramp signal with Serrodyne modulation is a material for another paper. Further work will focus on analyzing the impact of ramp generation, the Serrodyne $2\pi$ resets and their impact on the feddback signals with non--ideal scale factor, which as discussed already, can not be determined with absolute accuracy.
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% \subsection{Basic algorithm variant}
-% As the scale factor error is calculated for every two samples, it is tempting to fix it at the same value for each of those two points - $\delta_{2n+1} = \delta_{2n+0}$. This simplifies the error signal to:
-
-% \begin{equation}
-%     e_{2n+1} = -\frac{P_0 \cdot \pi}{2} \cdot (\delta_{2n+1} + \delta_{2n-1})
-%     \label{eq:difference_simplified}
-% \end{equation}
-
-% \noindent
-% The most straightforward approach to control the scale factor is to calculate it independently for every point pair. Implementation--wise, this is the simplest scenario. It gives a naive solution, allowing to drive it with a resolution of $2\Delta\phi^{min}$. This is due to the sample driven just before the current ($\delta_{2n-2}$). In this paper, this is considered a reference solution, because without a detailed nummerical analysis modulation algorithm implementation would fall back to it. The problem becomes even more obscured, when the solution is implemented using floating point arithmetics.
-
-% An improved algorithm variant takes into account the last drive value. It adjusts the current drive, so that the sum of both affects the error signal. The least significant bit of the driven signal alternates between point pairs corresponding to $\{\delta_{2n+1}, \delta_{2n+0}\}$ and $\{\delta_{2n-1}, \delta_{2n-2}\}$. This modification gains one bit of resolution, making it $\Delta\phi^{min}$. It resembles a sigme--delta modulation - while the scale factor nummericaly stays at fixed level, the underlying waveforms modulate and are averaged before feeding back to the loop in form of an error signal.
-
-
-% \begin{table}[h]
-%     \centering
-%     \begin{tabular}{ccccc}
-%         \toprule
-%         $\phi_{2n+1}$      & $\phi_{2n-1}$      & $e_{2n+1} [-\frac{P_0 \cdot \pi}{2} \cdot \Delta\phi_{min}]$ \\
-%         \midrule
-%         0                  & 0                  & 0                                                            \\
-%         \midrule
-
-%         \rowcolor{gray!15}
-%         $\Delta\phi_{min}$ & 0                  &                                                              \\
-%         \rowcolor{gray!15}
-%         0                  & $\Delta\phi_{min}$ & \multirow{-2}{*}{1}                                          \\
-
-%         \midrule
-%         $\Delta\phi_{min}$ & $\Delta\phi_{min}$ & 2                                                            \\
-%         \bottomrule
-%     \end{tabular}
-%     \caption{Without alternating inputs only two feedback values are possible (the first and the last row). If the input alternates the feedback signal averages to a value in between. It does not matter which sample takes greater value.}
-%     \label{tab:my_table2}
-% \end{table}
-
-% \subsection{Novel algorithm}
-% The algorithm proposed in this paper does not assume scale factor equality between two adjacent points in a pair. It takes the sigma--delta modulation scheme further and extends it over more samples. An advantage is taken of the fact that the inputs are weighted. If
-
-% \begin{table}[h]
-%     \centering
-%     \begin{tabular}{ccccc}
-%         \toprule
-%         $\phi_{2n+1}$ ($\times1$) & $\phi_{2n+0}$ ($\times3$) & $\phi_{2n-1}$ ($\times1$) & $\phi_{2n-2}$ ($\times3$) & $e_{2n+1} [-\frac{P_0 \cdot \pi}{8} \cdot \Delta\phi_{min}]$ \\
-%         \midrule
-%         0                         & 0                         & 0                         & 0                         & 0                                                            \\
-%         \midrule
-%         \rowcolor{gray!15}
-%         $\Delta\phi_{min}$        & 0                         & 0                         & 0                         &                                                              \\
-%         \rowcolor{gray!15}
-%         0                         & 0                         & $\Delta\phi_{min}$        & 0                         & \multirow{-2}{*}{1}                                          \\
-
-%         $\Delta\phi_{min}$        & 0                         & $\Delta\phi_{min}$        & 0                         & 2                                                            \\
-
-%         \rowcolor{gray!15}
-%         0                         & $\Delta\phi_{min}$        & 0                         & 0                         &                                                              \\
-%         \rowcolor{gray!15}
-%         0                         & 0                         & 0                         & $\Delta\phi_{min}$        & \multirow{-2}{*}{3}                                          \\
-
-%         $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & 0                         & 0                         &                                                              \\
-%         0                         & $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & 0                         &                                                              \\
-%         0                         & 0                         & $\Delta\phi_{min}$        & $\Delta\phi_{min}$        &                                                              \\
-%         $\Delta\phi_{min}$        & 0                         & 0                         & $\Delta\phi_{min}$        & \multirow{-4}{*}{4}                                          \\
-
-%         \rowcolor{gray!15}
-%         $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & 0                         &                                                              \\
-%         \rowcolor{gray!15}
-%         $\Delta\phi_{min}$        & 0                         & $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & \multirow{-2}{*}{5}                                          \\
-
-%         0                         & $\Delta\phi_{min}$        & 0                         & $\Delta\phi_{min}$        & 6                                                            \\
-
-%         \rowcolor{gray!15}
-%         $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & 0                         & $\Delta\phi_{min}$        &                                                              \\
-%         \rowcolor{gray!15}
-%         0                         & $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & \multirow{-2}{*}{7}                                          \\
-%         \midrule
-%         $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & $\Delta\phi_{min}$        & 8                                                            \\
-%         \bottomrule
-%     \end{tabular}
-%     \caption{First and last row correspond to theit counterparts in Table~XXX. However, more feedback signal values are possible in between, thanks alternating the least significant bit of each driving sample. Table header consists of weights of each sample in the sequence.}
-%     \label{tab:my_table}
-% \end{table}
-
-% \begin{verbatim}
-% for simplicity: 5b DAC, bipolar reference voltage
-
-% // exemplary scale factor of 12.75 in Q5.3 fixed point format
-% uint8_t scaleFactorEx = // 5 integer & 3 fractional bits
-%      ((12) << 3)   	// 
-%     | (6); 	      	// 6/8 = 0.75
-
-% dac[2n-2] = (scaleFactorEx >> 3) * +0.75 // -> +9 for +3/4pi
-% dac[2n-1] = (scaleFactorEx >> 3) * -0.25 // -> -3 for -1/4pi
-% dac[2n+0] = (scaleFactorEx >> 3) * -0.75 // -> -9 for -3/4pi
-% dac[2n+1] = (scaleFactorEx >> 3) * +0.25 // -> +3 for +1/4pi
-
-% // create alternating pattern
-% if (6 == (0x7u & scaleFactor)) { // add lsb according to the table
-%     dac[2n-2] += 1;
-%     dac[2n-1] -= 0; // subtract for negative drive
-%     dac[2n+0] -= 1; // subtract for negative drive
-%     dac[2n+1] += 0;
-% }
-
-% // drive signals
-% dac[2n-2] -> +10 for +3/4pi
-% dac[2n-1] -> -3 for -1/4pi
-% dac[2n+0] -> -10 for -3/4pi
-% dac[2n+1] -> +3 for +1/4pi
-
-% // errors calculated for the actual scale factor of 12.00
-% uint8_t scaleFactorAct = 12 << 3;
-% delta[2n-2] = (scaleFactorAct * +0.75) - dac[2n-2] // -> 1 
-% delta[2n-1] = (scaleFactorAct * -0.25) - dac[2n-1] // -> 0
-% delta[2n+0] = (scaleFactorAct * -0.75) - dac[2n+0] // -> 1
-% delta[2n+1] = (scaleFactorAct * +0.25) - dac[2n+1] // -> 0
-
-% e[2n+1] <= -\frac{P_0 \cdot \pi}{8} \cdot (delta[2n+1] + 3*delta[2n+0] + delta[2n-1] + 3*delta[2n-2]) = -\frac{P_0 \cdot \pi}{8} \cdot (0 + 3 + 0 + 3) = -\frac{6 P_0 \cdot \pi}{8}
-% \end{verbatim}
 
 
 
