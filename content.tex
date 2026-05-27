@@ -276,7 +276,7 @@ Value $k \in [-2^{N-1}, 2^{N-1}-1)$ is an integer, in range of the used DAC (of 
 % TODO this paper does not focus on serrodyne precision, only on scale factor accuracy
 
 \section{Precision estimation and impact}
-To close the control loop, scale factor error feedback is required. It is calculated from the incident light intensity difference between two consecutive bias points in each pair. The total phase shift difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current drive $\phi_k$ and the drive two points prior.
+To close the scale factor control loop, a feedback is required. It is calculated from the difference of incident light intensity between two consecutive bias points. The total phase difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current drive $\phi_k$ and the drive two points prior.
 
 \begin{equation}
     \Delta\phi_{n} = (\phi_{n} - \phi_{n-2}) + \underbrace{\Delta\phi_{s, n} + \Delta\phi_{r, n}}_{=0}
@@ -284,7 +284,9 @@ To close the control loop, scale factor error feedback is required. It is calcul
 \end{equation}
 
 \noindent
-The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote the Sagnac--induced phase shift and the nulling ramp shift, which are assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_order} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), intensity values at each bias point are
+The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote Sagnac--induced and nulling ramp shifts - assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_order} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), intensity values at each point are
+
+% TODO emphasize at the beginning thast this focuses of scale factor control, not rotation calculation, thus it is assumed that rotation is zero for the analysis
 
 \begin{equation}
     \begin{split}
@@ -305,7 +307,7 @@ The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote the Sagnac--ind
 \end{equation}
 
 \noindent
-Feedback signal can be calculated at samples $4n+1$ and $4n+3$ and yields
+Feedback signal can calculated at samples $4n+1$ and $4n+3$ is
 
 \begin{equation}
     \begin{split}
@@ -317,6 +319,7 @@ Feedback signal can be calculated at samples $4n+1$ and $4n+3$ and yields
 
 \noindent
 It can be generalized for every odd bias point, where it shall be calculated - this results from the demodulation algorithm assumptions.
+% TODO CITE? DEMODULATION ALGORITHM?
 
 \begin{equation}
     e_{2n+1} = -\frac{P_0}{2} \cdot (\underbrace{\delta_{2n+1}}_{\text{current}} + \underbrace{\delta_{2n+0} + \delta_{2n-1} + \delta_{2n-2}}_{\text{three prevoius errors}})
@@ -324,37 +327,39 @@ It can be generalized for every odd bias point, where it shall be calculated - t
 \end{equation}
 
 \noindent
-The error signal, used for control loop closure, is dependent on four recent drive values. Different weights are assigned to even and odd samples. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with some minimal phase difference $\Delta\phi^{min}$ corresponding to $\Delta{}v$.
-
-\begin{equation}
-    \Delta\phi^{min} \equiv \Delta{}v
-\end{equation}
-
-
+The feedback signal, used for loop closure, is dependent on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with a fixed delta $\Delta\phi^{v}$ corresponding to $\Delta{}v$.
 
 \section{Algorithm design}
+From the derived error equation a few important results can be determined. Firstly, the most likely mistakes are emphasized in the following subsection. Secondly, a correct modulator implementation is presented in pseudocode.
 
 \subsection{Naive implementation}
-
+% TODO intro?
 
 \subsubsection{Number of samples considered}
-Modulation algorithm serves role of a subsystem for the contol loop implemented in the device. By the fact thet the feedback signal for the scale factor control is obtained for every two bias points, as a natural consequence the feedback loop operates with such rate. This requirements falls down to the modulator. In such scenario it is tempting to implement the modulator to drive the two next bias points to obtain next feedback value. This solution is however not full (niepełny), as the feedback signal depends on the four last samples. The previous samples may act as digital noise source, disrupting the feedback signal and affecting scale factor control loop stability. A corrected solution is to account for the recent two samples drive, while calculating the next two. The total shift applied across these samples controls the feedback signal.
+% Modulation algorithm serves as subsystem for the contol loop. 
+Feedback sample is obtained for every bias point pair (at every sample $2n + 1$). The control loop can thus operate at that same rate. If this is the case, it may be tempting to simplify the implementation and only drive two consecutive samples to generate next feedback value. This solution is however incomplete, as feedback signal depends on the four last samples. If not accounted for, the previous samples act as digital noise source, disrupting the measured error and affecting control loop stability. A corrected solution is to consider the recent drive values, while calculating the next two. The total shift applied across the four samples has an effect in feedback signal.
 
 \subsubsection{Drive symmetry}
-The intended drive values between samples $n$ and $n+2$ are symmetrical, i.e. they differ in sign, but have identical amplitude. However, for an actual signal driven with a DAC, this assumption falls short. This is due to the discrete nature of a DAC. In ideal scenario a symmetric drive would be desired, but this assumes an ideally controlled amplitude. When the amplitude is discreticized, the most bneficial solution is to utilize as much of the resolution, while keeping the drive signals relatively symmetrical as a second priority. This allows for having a $1 [lsb]$ difference in their amplitudes and thus controlling the relative difference up to a single lsb. Otherwise, the effective resolution would be lowered by one bit - the difference betweeen two effective drive values would correspond to $(k_{n} \cdot \Delta\phi_{v}) - (-k_{n} \cdot \Delta\phi_{v}) = 2\Delta\phi_{v}$ for adjacent $k_{n}$, while the DAC offers control with $\Delta\phi_{v}$ resolution.
+The \textbf{intended} drive values between samples $n$ and $n+2$ are symmetrical, i.e. they only differ in sign, but have identical amplitude. However, for an actual signal driven with a DAC, this assumption falls short. This is due to the discrete nature of a DAC. The intended symmetric values have ideally controlled amplitude. When in a real--world scenario the amplitude is discreticized, the most bneficial solution is to utilize as much of the resolution, while keeping the drive signals relatively symmetrical as a second priority. This allows for controlling the aggregated phase shift $\Delta\phi_{n}$ with $1 [lsb]$. Otherwise, the effective resolution is lowered by one bit - the difference betweeen two effective phase shifts would correspond to $(k_{n} \cdot \Delta\phi_{v}) - (-k_{n} \cdot \Delta\phi_{v}) \rightarrow 2\Delta\phi_{v}$ for adjacent $k_{n}$.
+% , while the DAC offers control with $\Delta\phi_{v}$ resolution.
 
 \subsubsection{Rounding factor}
-Another designing corner cut is the rounding method selection for driving discrete DAC values, while performing calculations with fractional resolution. Especially prone designs are the ones using floating point arithmetics (e.g. IEEE-754 float/double, typically used in C/C++ of programmable logic). The problem lays in the rounding direction when working with both positive and negative values (which is the case for drifing bias points both ways from zero). Mathematically this operation shall be symmetrical, however this leads to resolution loss. This is regardless whether the rounding algorithm selected is:
+Another corner cut is the rounding method selection for driving discrete DAC values, when performing calculations with fractional resolution. Especially prone are the designs using floating point arithmetics (e.g. IEEE-754 float/double, typically used in C/C++ of programmable logic). The problem lays in the rounding direction when working with positive and negative values. Mathematically--wise such operation shall be symmetrical. However, as the previous section indicates already, drive symmetry leads to loss of effective resolution. This is regardless of which of the following methods is selected:
 \begin{itemize}
     \item truncation, or rounding towards zero ($-2.4 \rightarrow -2$, $2.5 \rightarrow 2$),
     \item mathematical rounding ($2.4 \rightarrow 2$, $2.5 \rightarrow 3$),
     \item rounding away from zero ($-2.4 \rightarrow -3$, $2.4 \rightarrow 3$),
 \end{itemize}
 
-TODO check example for all three!!! TODO
+% TODO check example for all three!!! TODO
 
 \noindent
-If the algorithm rounds fractional values symmetrically, it will lead to a simillar effect as in the previous section. While the effect is the same, the reason may be different, because the symmetry may also result from other factors. This case is simply worth of emphasizing, as it is expected for multiple implementations to use floating point arithmetics. This is an important nummerical issue, wspecially when performing calculations in floating point and only mapping the result to the integer, or fixed--point type required by a DAC. The below snippet shows an example.
+% If the algorithm rounds fractional values symmetrically, it will lead to a simillar effect as in the previous section. While the effect is the same, the reason may be different, because the symmetry may also result from other factors. 
+Rounding problem is worth of emphasizing, as it is expected for multiple implementations to use floating point arithmetics.
+
+It falls into a analysis part which focuses on nummerical aspects of algorithm implementation. While this is often covered by using floating point arithmetics with double precision, it may not always be the right solution.
+
+This is an important nummerical issue, wspecially when performing calculations in floating point and only mapping the result to the integer, or fixed--point type required by a DAC. The below snippet shows an example.
 
 \begin{figure}[h]
     \centering
@@ -368,7 +373,7 @@ int8_t dacDrive[4n+2] = round(scaleFactorDriven * -0.75) = round(-10.5) = -11;
 int8_t dacDrive[4n+3] = round(scaleFactorDriven * 0.75) = round(3.5) = 4;
     \end{verbatim}
     \caption{. }
-    \label{fig:asdasd}
+    \label{fig:asdwasd}
 \end{figure}
 
 \noindent
