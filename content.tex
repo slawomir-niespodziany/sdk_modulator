@@ -283,7 +283,7 @@ Value $k \in [-2^{N-1}, 2^{N-1}-1)$ is an integer, in range of the used DAC (of 
 % TODO this paper does not focus on serrodyne precision, only on scale factor accuracy
 
 \section{Precision estimation and impact}
-To close the control loop, scale factor error feedback is required. It is calculated from the incident light intensity difference between two consecutive bias points in each pair. The total phase shift difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current drive $\phi_k$ and the drive two points prior.
+To close the scale factor control loop, a feedback is required. It is calculated from the difference of incident light intensity between two consecutive bias points. The total phase difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current drive $\phi_k$ and the drive two points prior.
 
 \begin{equation}
     \Delta\phi_{n} = (\phi_{n} - \phi_{n-2}) + \underbrace{\Delta\phi_{s, n} + \Delta\phi_{r, n}}_{=0}
@@ -291,7 +291,9 @@ To close the control loop, scale factor error feedback is required. It is calcul
 \end{equation}
 
 \noindent
-The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote the Sagnac--induced phase shift and the nulling ramp shift, which are assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_order} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), intensity values at each bias point are
+The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote Sagnac--induced and nulling ramp shifts - assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_order} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), intensity values at each point are
+
+% TODO emphasize at the beginning thast this focuses of scale factor control, not rotation calculation, thus it is assumed that rotation is zero for the analysis
 
 \begin{equation}
     \begin{split}
@@ -312,7 +314,7 @@ The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote the Sagnac--ind
 \end{equation}
 
 \noindent
-Feedback signal can be calculated at samples $4n+1$ and $4n+3$ and yields
+Feedback signal can calculated at samples $4n+1$ and $4n+3$ is
 
 \begin{equation}
     \begin{split}
@@ -324,6 +326,7 @@ Feedback signal can be calculated at samples $4n+1$ and $4n+3$ and yields
 
 \noindent
 It can be generalized for every odd bias point, where it shall be calculated - this results from the demodulation algorithm assumptions.
+% TODO CITE? DEMODULATION ALGORITHM?
 
 \begin{equation}
     e_{2n+1} = -\frac{P_0}{2} \cdot (\underbrace{\delta_{2n+1}}_{\text{current}} + \underbrace{\delta_{2n+0} + \delta_{2n-1} + \delta_{2n-2}}_{\text{three prevoius errors}})
@@ -331,15 +334,10 @@ It can be generalized for every odd bias point, where it shall be calculated - t
 \end{equation}
 
 \noindent
-The error signal, used for control loop closure, is dependent on four recent drive values. Different weights are assigned to even and odd samples. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with some minimal phase difference $\Delta\phi^{min}$ corresponding to $\Delta{}v$.
-
-\begin{equation}
-    \Delta\phi^{min} \equiv \Delta{}v
-\end{equation}
-
-
+The feedback signal, used for loop closure, is dependent on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with a fixed delta $\Delta\phi^{v}$ corresponding to $\Delta{}v$.
 
 \section{Algorithm design}
+From the derived error equation a few important results can be determined. Firstly, the most likely mistakes are emphasized in the following subsection. Secondly, a correct modulator implementation is presented in pseudocode.
 
 % \subsection{Naive implementation}
 
