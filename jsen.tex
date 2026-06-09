@@ -230,15 +230,16 @@ The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the 
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=75px]{img/all_digital.png}
-    \caption{. }
+    \includegraphics[width=0.48\textwidth]{img/all_digital.png}
+    \caption{All--digital modulator consists of minimal number of electronic components. In some cases this can simply be a DAC alone.}
     \label{fig:all_digital}
 \end{figure}
 
-Additional advantage of leaning towards the proposed architecture is, that the whole design becomes a software--defined solution. As in other fields, it brings flexibility from the R\&D process perspective. While iterating hardware design is a time--consuming process, updating software is relatively quick and cos effective. Offloating the whole problem to the software side, obviously makes teh implementation more complex, but it limits the amount of interaction at the boundary of software and hardware development. From this perspective the net workload remains at the same order of magnitude, offering slightly different, modern, approach.
+\noindent
+Additional advantage of leaning towards the proposed architecture is, that the whole design becomes a software--defined solution. As in other fields, it brings flexibility from the R\&D process perspective. This is mainly because, while iterating hardware design is a time--consuming process, updating software is relatively quick and cost effective. Moving the problem completely to the software side obviously makes the implementation more complex, but at the same time it limits the amount of interaction at the boundary of software and hardware development, significantly reducing overhead. From this perspective the net workload remains relatively stable, offering slightly different - more modern - approach.
 
 \subsubsection{Voltage reference}
-For an all--digital modulator an adequate reference voltage has to be set up to account for the maximum possible scale factor. From Equation~\ref{eq:bias_order} it results, that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields the required span of $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall account for it with some margin $M \in [1.0; 1.1]$.
+For the all--digital modulator an adequate reference voltage has to be set up to account for the maximum possible scale factor in the devices lifetime. From Equation~\ref{eq:bias_order} it results, that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields a required span of $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall account for it with some margin $M \in [1.0; 1.1]$:
 
 \begin{equation}
     V_{\text{ref}}^{\text{min}} = V_{\pi}^{\text{max}} \cdot S \cdot M
@@ -246,15 +247,15 @@ For an all--digital modulator an adequate reference voltage has to be set up to 
 \end{equation}
 
 \noindent
-The $V\pi^{max}$ denotes the highest expected half--wave voltage. When determining final reference voltage it is advantageous to round it up to a multiple of one of typically available chip references (Equation~\ref{eq:reference_voltage_ceil}), e.g. $K \cdot 5V$ or $K \cdot 4.096V$. It makes implementing the elctronic circuit more straightfroward. In practice, a fair compromise is to utilize the resulting voltage excess for the margin $M$, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
+The $V_{\pi}^{\text{max}}$ denotes the highest expected half--wave voltage. When determining final reference voltage it is advantageous to round it up to a multiple of one of typically available chip references (Equation~\ref{eq:reference_voltage_ceil}), e.g. $K \times 5V$ or $K \times 4.096V$. It makes implementing the elctronic circuit more straightfroward. In practice, a fair compromise is to utilize the resulting voltage excess for the margin $M$, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
 
 \begin{equation}
     V_{\text{ref}} = \lceil V_{\text{ref}}^{\text{min}} \rceil
     \label{eq:reference_voltage_ceil}
 \end{equation}
 
-\subsubsection{Effect of the quantization error}
-Usage of a DAC results in quantization error. Converter resolution and its reference voltage determine the minimal controllable voltage change as
+\subsubsection{Control accuracy and quantization error}
+Usage of a DAC results in quantization error. Converter resolution $N$ and its reference voltage determine the minimal controllable voltage change as
 
 \begin{equation}
     \Delta{}v = V_{\text{ref}} \cdot 2^{-N}
@@ -262,35 +263,34 @@ Usage of a DAC results in quantization error. Converter resolution and its refer
 \end{equation}
 
 \noindent
-In phase domain the scale factor can be controlled with the accuracy corresponding to $\Delta{}v$ relative to scale factor
+In phase domain the scale factor can be thus controlled with the accuracy corresponding to $\Delta{}v$ relative to the actual scale factor:
 % FIX FIX FIX
 % Scale factor error results from the distance between its controlled and actual values. It corresponds to half of $\Delta{}v$. It can vary in time, as the actual $V_{\pi}$ may continously change over time, but rather slowly (compared to the possible modulation frequencies).
 
 \begin{equation}
     \Delta\phi_{v} = \frac{\Delta{}v}{V_\pi}
-    \label{eq:relative_scale_factor_error2}
-\end{equation}
-
-\noindent
-It can vary over time, but rather slowly in the context of modulation frequency. The resulting equation depends of a few parameters, while quantization error is half of its value.
-
-\begin{equation}
-    \Delta\phi_{v} = \frac{\lceil V_{\pi}^{\text{max}} \cdot S \cdot M \rceil \cdot 2^{-N}}{V_{\pi}}
-    \label{eq:total_error}
-\end{equation}
-
-\begin{equation}
-    \Delta\phi_{q} = \frac{1}{2} \cdot \Delta\phi_{v}
     \label{eq:relative_scale_factor_error}
 \end{equation}
 
 \noindent
-Exemplary calculation, based on real--world values yields
+Due to the linear scale--factor dependence it will slowly vary over time, but its magnitude shall remain stable, as the drift is expected to only be at the level of percents. By substituting previous formulas, the final control accuracy and quantization error are:
 
 \begin{equation}
     \begin{split}
-        \Delta\phi_{v}^{\text{ex}} & = \frac{\lceil \overbrace{4.5V}^{V_{\pi}^{\text{max}}} \cdot \overbrace{3.5}^{S} \cdot \overbrace{1.025}^{M} \rceil \cdot \overbrace{2^{-16}}^{2^{-N}} }{\underbrace{3.5V}_{V_{\pi}}} = \frac{\lceil 16.14V \rceil \cdot 2^{-16}}{3.5V} = \frac{\overbrace{16.384V}^{4 \cdot 4.096V} \cdot 2^{-16}}{3.5V} = \\
-                                   & = 2^{-16} \cdot 4.68 = 2^{-16} \cdot 2^{2.23}                                                                                                                                                                                                                                                               \\
+        \Delta\phi_{v} & = \frac{\lceil V_{\pi}^{\text{max}} \cdot S \cdot M \rceil \cdot 2^{-N}}{V_{\pi}} \\
+        \Delta\phi_{q} & = \frac{1}{2} \cdot \Delta\phi_{v}
+    \end{split}
+    \label{eq:error}
+\end{equation}
+
+\noindent
+Exemplary calculation, based on real--world values yields:
+
+\begin{equation}
+    \begin{split}
+        \Delta\phi_{v}^{\text{ex}} & = \frac{\lceil \overbrace{4.5V}^{V_{\pi}^{\text{max}}} \cdot \overbrace{3.5}^{S} \cdot \overbrace{1.025}^{M} \rceil \cdot \overbrace{2^{-16}}^{2^{-N}} }{\underbrace{3.5V}_{V_{\pi}}} = \\
+                                   & = \frac{\lceil 16.14V \rceil \cdot 2^{-16}}{3.5V} = \frac{\overbrace{16.384V}^{4 \cdot 4.096V} \cdot 2^{-16}}{3.5V} =                                                                   \\[10pt]
+                                   & = 2^{-16} \cdot 4.68 = 2^{-16} \cdot 2^{2.23}                                                                                                                                           \\[10pt]
         \Delta\phi_{q}^{\text{ex}} & = \frac{1}{2} \cdot \Delta\phi_{v}^{\text{ex}} = 2^{-16} \cdot 2^{1.23}
     \end{split}
     \label{eq:error_example}
@@ -298,10 +298,7 @@ Exemplary calculation, based on real--world values yields
 
 \noindent
 From this it is clear, that the quantization error, bound to controllable resolution can be improved by selecting a converter with greater number of bits.
-However, the resolution loss will always stay at the level of over two bits. It must be noted, that most of this loss is due to the span $S$, required for proper operation of the algorithm. It is not a consequence of using the proposed all--digital architecture.
-
-\noindent
-In each of the bias points, the following drive levels are possible.
+However, any selected resolution will always be a subject to losing just over two bits. It must be noted, that most of this loss is due to the span $S$, required for proper operation of the algorithm. It is not a consequence of using the proposed all--digital architecture. The quantization error follows the achieved accuracy. In each of the bias points, the following drive levels are possible:
 
 \begin{equation}
     \begin{split}
@@ -321,7 +318,7 @@ Value $k \in [-2^{N-1}, 2^{N-1}-1)$ is an integer, in range of the used DAC (of 
 % TODO this paper does not focus on serrodyne precision, only on scale factor accuracy
 
 \section{Precision estimation and impact}
-To close the scale factor control loop, a feedback is required. It is calculated from the difference of incident light intensity between two consecutive bias points. The total phase difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current drive $\phi_k$ and the drive two points prior.
+To close the scale factor control loop, a feedback is required. It is calculated from the difference of incident light intensity between two consecutive bias points. The total phase difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current drive $\phi_k$ and the drive two points prior:
 
 \begin{equation}
     \Delta\phi_{n} = (\phi_{n} - \phi_{n-2}) + \underbrace{\Delta\phi_{s, n} + \Delta\phi_{r, n}}_{=0}
@@ -329,42 +326,48 @@ To close the scale factor control loop, a feedback is required. It is calculated
 \end{equation}
 
 \noindent
-The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote Sagnac--induced and nulling ramp shifts - assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_order} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), intensity values at each point are
+The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote Sagnac--induced and nulling ramp shifts - assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_order} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), intensity values at each point are:
 
 % TODO emphasize at the beginning thast this focuses of scale factor control, not rotation calculation, thus it is assumed that rotation is zero for the analysis
 
 \begin{equation}
     \begin{split}
-        P_{4n+0}^{+\frac{3}{2}\pi} & = \frac{P_0}{2} \cdot (1 + cos(\Delta\phi_{4n+0}^{+\frac{3}{2}\pi})) = \frac{P_0}{2} \cdot (1 + cos(\phi_{4n+0}^{+\frac{3}{2}\pi} - \phi_{4n-2}^{-\frac{3}{2}\pi})) = \\
-                                   & = \frac{P_0}{2} \cdot (1 + cos((\frac{3}{4}\pi + \delta_{4n+0}) - (-(\frac{3}{4}\pi + \delta_{4n-2})))) =                                                             \\
-                                   & = \frac{P_0}{2} \cdot (1 + cos(\frac{3}{2}\pi + \delta_{4n+0} + \delta_{4n-2})) =                                                                                     \\
-                                   & = \frac{P_0}{2} \cdot (1 + (\delta_{4n+0} + \delta_{4n-2}))                                                                                                           \\
-        P_{4n+1}^{-\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 - (\delta_{4n+1} + \delta_{4n-1}))                                                                                                           \\
-        P_{4n+2}^{-\frac{3}{2}\pi} & = \frac{P_0}{2} \cdot (1 + (\delta_{4n+2} + \delta_{4n+0}))                                                                                                           \\
+        P_{4n+0}^{+\frac{3}{2}\pi} & = \frac{P_0}{2} \cdot (1 + cos(\Delta\phi_{4n+0}^{+\frac{3}{2}\pi})) =                                                                                                                          \\
+                                   & = \frac{P_0}{2} \cdot (1 + cos(\underbrace{\phi_{4n+0}^{+\frac{3}{2}\pi}}_{\frac{3}{4}\pi + \delta_{4n+0}} - \underbrace{\phi_{4n-2}^{-\frac{3}{2}\pi}}_{-(\frac{3}{4}\pi + \delta_{4n-2})})) = \\
+        %  & \enspace = \frac{P_0}{2} \cdot (1 + cos(() - ())) = \\
+                                   & = \frac{P_0}{2} \cdot (1 + cos(\frac{3}{2}\pi + \delta_{4n+0} + \delta_{4n-2})) =                                                                                                               \\
+                                   & = \frac{P_0}{2} \cdot (1 + (\delta_{4n+0} + \delta_{4n-2}))                                                                                                                                     \\[10pt]
+        P_{4n+1}^{-\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 - (\delta_{4n+1} + \delta_{4n-1}))                                                                                                                                     \\
+        P_{4n+2}^{-\frac{3}{2}\pi} & = \frac{P_0}{2} \cdot (1 + (\delta_{4n+2} + \delta_{4n+0}))                                                                                                                                     \\
         P_{4n+3}^{+\frac{1}{2}\pi} & = \frac{P_0}{2} \cdot (1 - (\delta_{4n+3} + \delta_{4n+1}))
     \end{split}
     \label{eq:incident_power}
 \end{equation}
 
 \begin{equation}
-    cos(\phi_{b} + \Delta\phi) = \underbrace{cos(\phi_{b})}_{=0} + cos'(\phi_{b}) \cdot \Delta\phi = -sin(\phi_{b}) \cdot \Delta\phi \qquad \text{for } \phi_{b} \in \{+\frac{3}{2}\pi, +\frac{1}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi\}
+    \begin{split}
+        cos(\phi_{b} + \Delta\phi) & = \underbrace{cos(\phi_{b})}_{=0} + cos'(\phi_{b}) \cdot \Delta\phi =   \\
+                                   & = -sin(\phi_{b}) \cdot \Delta\phi                                       \\
+        \text{for } \phi_{b} \in   & \{+\frac{3}{2}\pi, +\frac{1}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi\}
+    \end{split}
     \label{eq:cosine_linearization}
 \end{equation}
 
 \noindent
-Feedback signal can calculated at samples $4n+1$ and $4n+3$ is
+Feedback signal calculated at samples $4n+1$ and $4n+3$ is:
 
 \begin{equation}
     \begin{split}
-        e_{4n+1}^{-\frac{1}{2}\pi} & = P_{4n+1}^{-\frac{1}{2}\pi} - P_{4n+0}^{+\frac{3}{2}\pi} = -\frac{P_0}{2} \cdot (\delta_{4n+1} + \delta_{4n+0} + \delta_{4n-1} + \delta_{4n-2}) \\
-        e_{4n+3}^{+\frac{1}{2}\pi} & = P_{4n+3}^{+\frac{1}{2}\pi} - P_{4n+2}^{-\frac{3}{2}\pi} = -\frac{P_0}{2} \cdot (\delta_{4n+3} + \delta_{4n+2} + \delta_{4n+1} + \delta_{4n+0}) \\
+        e_{4n+1}^{-\frac{1}{2}\pi} & = P_{4n+1}^{-\frac{1}{2}\pi} - P_{4n+0}^{+\frac{3}{2}\pi} =                            \\ 
+                                   & = -\frac{P_0}{2} \cdot (\delta_{4n+1} + \delta_{4n+0} + \delta_{4n-1} + \delta_{4n-2}) \\
+        e_{4n+3}^{+\frac{1}{2}\pi} & = P_{4n+3}^{+\frac{1}{2}\pi} - P_{4n+2}^{-\frac{3}{2}\pi}  =                           \\
+                                   & = -\frac{P_0}{2} \cdot (\delta_{4n+3} + \delta_{4n+2} + \delta_{4n+1} + \delta_{4n+0}) \\
     \end{split}
     \label{eq:difference}
 \end{equation}
 
 \noindent
-It can be generalized for every odd bias point, where it shall be calculated - this results from the demodulation algorithm assumptions.
-% TODO CITE? DEMODULATION ALGORITHM?
+It can be generalized for every odd bias sample, where it shall be calculated - this results from the demodulation algorithm assumptions \cite{lefevre1993fiber}:
 
 \begin{equation}
     e_{2n+1} = -\frac{P_0}{2} \cdot (\underbrace{\delta_{2n+1}}_{\text{current}} + \underbrace{\delta_{2n+0} + \delta_{2n-1} + \delta_{2n-2}}_{\text{three prevoius errors}})
@@ -372,7 +375,7 @@ It can be generalized for every odd bias point, where it shall be calculated - t
 \end{equation}
 
 \noindent
-The feedback signal, used for loop closure, is dependent on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with a fixed delta $\Delta\phi^{v}$ corresponding to $\Delta{}v$.
+The feedback signal, used for loop closure, is dependent on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with a fixed delta $\Delta\phi_{v}$ corresponding to $\Delta{}v$. In particulat the presented error sum for the last four samples can be controlles with $\Delta\phi_{v}$ accuracy, but this may only happen when the current sample accounts for the three previous ones.
 
 \section{Algorithm design}
 From the derived error equation a few important results can be determined. Firstly, the most likely mistakes are emphasized in the following subsection. Secondly, a correct modulator implementation is presented in pseudocode.
