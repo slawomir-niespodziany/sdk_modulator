@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.6.9)  9 JUN 2026 16:09
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.13)  9 JUN 2026 19:46
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -367,21 +367,21 @@ File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 <img/fog.png, id=1, 819.06pt x 576.1525pt>
 File: img/fog.png Graphic file (type png)
 <use img/fog.png>
-Package pdftex.def Info: img/fog.png  used on input line 116.
+Package pdftex.def Info: img/fog.png  used on input line 113.
 (pdftex.def)             Requested size: 204.76575pt x 144.03777pt.
 Package epstopdf Info: Source file: <LOGO-jsen-web.eps>
-(epstopdf)                    date: 2024-05-07 15:40:46
+(epstopdf)                    date: 2026-06-09 16:39:38
 (epstopdf)                    size: 49307 bytes
 (epstopdf)             Output file: <LOGO-jsen-web-eps-converted-to.pdf>
-(epstopdf)                    date: 2026-06-09 15:36:50
+(epstopdf)                    date: 2026-06-09 16:39:38
 (epstopdf)                    size: 7936 bytes
 (epstopdf)             Command: <repstopdf --outfile=LOGO-jsen-web-eps-converted-to.pdf LOGO-jsen-web.eps>
-(epstopdf)             \includegraphics on input line 129.
+(epstopdf)             \includegraphics on input line 121.
 Package epstopdf Info: Output file is already uptodate.
 <LOGO-jsen-web-eps-converted-to.pdf, id=3, 138.5175pt x 33.12375pt>
 File: LOGO-jsen-web-eps-converted-to.pdf Graphic file (type pdf)
 <use LOGO-jsen-web-eps-converted-to.pdf>
-Package pdftex.def Info: LOGO-jsen-web-eps-converted-to.pdf  used on input line 129.
+Package pdftex.def Info: LOGO-jsen-web-eps-converted-to.pdf  used on input line 121.
 (pdftex.def)             Requested size: 85.79993pt x 20.51729pt.
 
 Overfull \hbox (221.20007pt too wide) has occurred while \output is active
@@ -405,134 +405,118 @@ Overfull \vbox (14.8968pt too high) has occurred while \output is active []
 
 
  <./LOGO-jsen-web-eps-converted-to.pdf>]
-<img/response.png, id=20, 574.5465pt x 240.4182pt>
+<img/response.png, id=21, 574.5465pt x 240.4182pt>
 File: img/response.png Graphic file (type png)
 <use img/response.png>
-Package pdftex.def Info: img/response.png  used on input line 133.
-(pdftex.def)             Requested size: 189.0pt x 79.08511pt.
-<img/bias.png, id=21, 574.5465pt x 240.4182pt>
+Package pdftex.def Info: img/response.png  used on input line 128.
+(pdftex.def)             Requested size: 252.0pt x 105.45049pt.
+<img/bias.png, id=22, 574.5465pt x 240.4182pt>
 File: img/bias.png Graphic file (type png)
 <use img/bias.png>
-Package pdftex.def Info: img/bias.png  used on input line 150.
-(pdftex.def)             Requested size: 189.0pt x 79.08511pt.
-<img/bias_factor_high.png, id=22, 574.5465pt x 240.4182pt>
+Package pdftex.def Info: img/bias.png  used on input line 141.
+(pdftex.def)             Requested size: 252.0pt x 105.45049pt.
+<img/bias_factor_high.png, id=23, 574.5465pt x 240.4182pt>
 File: img/bias_factor_high.png Graphic file (type png)
 <use img/bias_factor_high.png>
-Package pdftex.def Info: img/bias_factor_high.png  used on input line 167.
-(pdftex.def)             Requested size: 252.84283pt x 105.80267pt.
-<img/bias_factor_low.png, id=23, 574.5465pt x 240.4182pt>
+Package pdftex.def Info: img/bias_factor_high.png  used on input line 154.
+(pdftex.def)             Requested size: 247.6778pt x 103.64194pt.
+<img/bias_factor_low.png, id=24, 574.5465pt x 240.4182pt>
 File: img/bias_factor_low.png Graphic file (type png)
 <use img/bias_factor_low.png>
-Package pdftex.def Info: img/bias_factor_low.png  used on input line 173.
-(pdftex.def)             Requested size: 252.84283pt x 105.80267pt.
-<img/bias_shift_pos.png, id=24, 574.5465pt x 240.4182pt>
+Package pdftex.def Info: img/bias_factor_low.png  used on input line 160.
+(pdftex.def)             Requested size: 247.6778pt x 103.64194pt.
+<img/bias_shift_pos.png, id=25, 574.5465pt x 240.4182pt>
 File: img/bias_shift_pos.png Graphic file (type png)
 <use img/bias_shift_pos.png>
-Package pdftex.def Info: img/bias_shift_pos.png  used on input line 179.
-(pdftex.def)             Requested size: 252.84283pt x 105.80267pt.
-<img/bias_shift_neg.png, id=25, 574.5465pt x 240.4182pt>
+Package pdftex.def Info: img/bias_shift_pos.png  used on input line 166.
+(pdftex.def)             Requested size: 247.6778pt x 103.64194pt.
+<img/bias_shift_neg.png, id=26, 574.5465pt x 240.4182pt>
 File: img/bias_shift_neg.png Graphic file (type png)
 <use img/bias_shift_neg.png>
-Package pdftex.def Info: img/bias_shift_neg.png  used on input line 185.
-(pdftex.def)             Requested size: 252.84283pt x 105.80267pt.
+Package pdftex.def Info: img/bias_shift_neg.png  used on input line 172.
+(pdftex.def)             Requested size: 247.6778pt x 103.64194pt.
 
-Overfull \hbox (0.84283pt too wide) in paragraph at lines 165--189
- [][] 
- []
-
-
-Overfull \hbox (0.84283pt too wide) in paragraph at lines 165--189
- [] 
- []
-
-
-Overfull \hbox (0.84283pt too wide) in paragraph at lines 165--189
- [] 
- []
-
-
-Overfull \hbox (0.84283pt too wide) in paragraph at lines 165--189
- [] 
- []
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
  [2 <./img/fog.png> <./img/response.png> <./img/bias.png>]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 229.
-<img/dedicated_gain_stage.png, id=35, 1001.7425pt x 262.9825pt>
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 211.
+<img/dedicated_gain_stage.png, id=33, 1001.7425pt x 262.9825pt>
 File: img/dedicated_gain_stage.png Graphic file (type png)
 <use img/dedicated_gain_stage.png>
-Package pdftex.def Info: img/dedicated_gain_stage.png  used on input line 236.
-(pdftex.def)             Requested size: 344.10358pt x 90.33783pt.
+Package pdftex.def Info: img/dedicated_gain_stage.png  used on input line 216.
+(pdftex.def)             Requested size: 247.6778pt x 65.01913pt.
 
-Overfull \hbox (92.10358pt too wide) in paragraph at lines 236--237
- [][] 
+Underfull \hbox (badness 1509) in paragraph at lines 217--217
+[][]\OT1/phv/m/n/10 Fig. 5[]\OT1/ptm/m/n/10 : |Mod-u-la-tor with a ded-i-cated ana-log gain stage.
  []
 
-<img/all_digital.png, id=36, 780.9175pt x 218.8175pt>
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <7> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 223.
+
+Overfull \vbox (5.0pt too high) has occurred while \output is active []
+
+ [3 <./img/bias_factor_high.png> <./img/bias_factor_low.png> <./img/bias_shift_pos.png> <./img/bias_shift_neg.png>]
+<img/all_digital.png, id=48, 780.9175pt x 218.8175pt>
 File: img/all_digital.png Graphic file (type png)
 <use img/all_digital.png>
-Package pdftex.def Info: img/all_digital.png  used on input line 252.
+Package pdftex.def Info: img/all_digital.png  used on input line 233.
 (pdftex.def)             Requested size: 268.66612pt x 75.28152pt.
 
-Overfull \hbox (16.66612pt too wide) in paragraph at lines 252--253
+Overfull \hbox (16.66612pt too wide) in paragraph at lines 233--234
  [][] 
  []
 
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 260.
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <7> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 295.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 241.
+
+Overfull \hbox (63.38348pt too wide) detected at line 297
+[]
+ []
+
 
 Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
- [3]
-Overfull \hbox (63.38348pt too wide) detected at line 316
+ [4 <./img/dedicated_gain_stage.png> <./img/all_digital.png>]
+Overfull \hbox (42.73859pt too wide) detected at line 347
 []
  []
 
 
-Overfull \hbox (42.73859pt too wide) detected at line 366
-[]
- []
-
-
-Overfull \hbox (143.27359pt too wide) detected at line 371
+Overfull \hbox (143.27359pt too wide) detected at line 352
 []\OML/cmm/m/it/10 cos\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^[] \OT1/cmr/m/n/10 + ^^A\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ) = [] +\OML/cmm/m/it/10 cos[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^A \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 ^^^ \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 ^^@\OML/cmm/m/it/10 sin\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^A \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 ^^^ []^^^[] \OMS/cmsy/m/n/10 2 f\OT1/cmr/m/n/10 +[]\OML/cmm/m/it/10 ^^Y; \OT1/cmr/m/n/10 +[]\OML/cmm/m/it/10 ^^Y; \OMS/cmsy/m/n/10 ^^@[]\OML/cmm/m/it/10 ^^Y; \OMS/cmsy/m/n/10 ^^@[]\OML/cmm/m/it/10 ^^Y\OMS/cmsy/m/n/10 g
  []
 
 
-Overfull \hbox (32.01701pt too wide) detected at line 382
+Overfull \hbox (32.01701pt too wide) detected at line 363
 []
  []
 
 
 Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
- [4]
-Overfull \vbox (5.0pt too high) has occurred while \output is active []
-
- [5 <./img/bias_factor_high.png> <./img/bias_factor_low.png> <./img/bias_shift_pos.png> <./img/bias_shift_neg.png> <./img/dedicated_gain_stage.png> <./img/all_digital.png>] (./jsen.aux)
+ [5] (./jsen.aux)
  ***********
 LaTeX2e <2023-11-01> patch level 1
 L3 programming layer <2024-01-22>
  ***********
  ) 
 Here is how much of TeX's memory you used:
- 5615 strings out of 474222
- 92206 string characters out of 5748734
- 1960975 words of memory out of 5000000
- 27792 multiletter control sequences out of 15000+600000
- 615803 words of font info for 129 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
- 67i,23n,77p,1303b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on jsen.pdf (5 pages, 765159 bytes).
+ 5634 strings out of 476106
+ 92526 string characters out of 5793933
+ 1955975 words of memory out of 5000000
+ 27565 multiletter control sequences out of 15000+600000
+ 617988 words of font info for 131 fonts, out of 8000000 for 9000
+ 59 hyphenation exceptions out of 8191
+ 67i,23n,77p,1537b,493s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on jsen.pdf (5 pages, 778341 bytes).
 PDF statistics:
- 138 PDF objects out of 1000 (max. 8388607)
- 72 compressed objects within 1 object stream
+ 143 PDF objects out of 1000 (max. 8388607)
+ 75 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  51 words of extra memory for PDF output out of 10000 (max. 10000000)
 

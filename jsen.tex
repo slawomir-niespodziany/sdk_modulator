@@ -84,13 +84,10 @@
 
 \section{Introduction}
 \label{sec:introduction}
-An iFOG - Interferometric Fibre Optic Gyroscope - concept is based on the Sagnac effect
-    [] % http://www.orgonelab.org/EtherDrift/Post1967.pdf, http://www.orgonelab.org/EtherDrift/Post1967.pdf
-Over the years, its design has already been excercised myultiple times. However, the limits which hold the development back are pushed forward as technology evolves, enabling for better precision, miniaturized size or lower power consumption. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such context makes the already existing designs being tested and optimized in every possible aspect. This applies equally to all the optical and electro--optic componenents, the electronics and the driving software. A crucial part of the control system of an iFOG is the modulator. In a closed-loop design it is a vital element of the feedback loop. It directly affects the overall performance. It drives the optical circuit into a predefined state, in which the circuit's response can be demodulated and error signals determined. Modulator accuracy has critical impact on the resulting performance. This paper takes a closer look at the all--digital implementation of the modulator subsystem and particularily on the algorithm controlling it. Mathematical analysis is conducted to allow for pure--software optimizations in the algorithm's accuracy.
-
+iFOG (Interferometric Fibre Optic Gyroscope) concept is based on the Sagnac effect \cite{post1967sagnac}, discovered in 1913 \cite{sagnac1913ether}. Over the years, the design has has been excercised multiple times. However, the limits which hold the development back are constantly pushed forward as technology evolves. This allows for better precision, miniaturized size, lower power consumption, etc. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such a context makes the already existing designs being tested and optimized in every possible aspect. This applies equally to all the optical and electro--optic componenents, the electronics and the driving software. A crucial part of the control system of an iFOG is the modulator. In a closed--loop design \cite{pavlath1996closed} it is a vital element of the feedback loop. It directly affects the overall performance. It drives the optical circuit into a predefined state, in which the circuit's response can be demodulated and error signals determined. Modulator accuracy has critical impact on the resulting performance. This paper takes a closer look at the all--digital implementation of the modulator subsystem - in particular on its electronic architecture and the algorithm controlling it. Mathematical analysis is conducted to allow for pure--software optimization of algorithm's accuracy.
 
 \section{Principle of operation - open--loop configuration}
-A fibre--optic gyroscope utilizes Sagnac effect. A light source generates a light beam, which is ideally split in 50/50 ratio. Each half then enters a loop of relatively long fiber through each of its ends. The fiber length $L$ determines light transit time $\tau$ through it - Equation~\ref{eq:transit_time}, where $n$ is the refraction coefficient, affecting light speed in the medium.
+Light source of an iFOG generates a light beam, which is ideally split in 50/50 ratio. Each half enters a loop of relatively long fiber through each of its ends. The fiber length $L$ determines light transit time $\tau$ through it - Equation~\ref{eq:transit_time}, where $n$ is the refraction coefficient, affecting light speed in the medium.
 
 \begin{equation}
     \tau = \frac{L}{n \cdot c}
@@ -98,7 +95,7 @@ A fibre--optic gyroscope utilizes Sagnac effect. A light source generates a ligh
 \end{equation}
 
 \noindent
-The halves go past each other and exit on the opposite ends of the fiber. The optical circuit is arranged, so that the two exitting beams interfere with each other and the resulting light intensity is measured at a detector. When the circuit stays at rest, the beams interfere with zero phase shift ($\Delta\phi = 0$), resulting in maximum intensity $P_0$ measured at the detector. However, when the loop rotates, the two halves travel paths of a slightly different length, resulting in non--zero phase shift. The relative phase shift at the interference point is rotation dependent and in this paper it is reffered to as the Sagnac--induced phase shift
+The halves go past each other and exit on the opposite ends of the fiber. The optical circuit is arranged, so that the two exitting beams interfere with each other and the resulting light intensity is measured by a detector. When the circuit stays at rest, the beams interfere with zero phase shift ($\Delta\phi = 0$), resulting in maximum intensity $P_0$ measured at the detector. However, when the loop rotates, the two halves travel paths of a slightly different length, resulting in non--zero phase shift. The relative phase shift at the interference point is rotation dependent and in this paper it is reffered to as the Sagnac--induced phase shift
 
 \begin{equation}
     \Delta\phi_s = \frac{2\pi \cdot L  \cdot D \cdot n}{\lambda \cdot c} \cdot \omega
@@ -109,19 +106,17 @@ The halves go past each other and exit on the opposite ends of the fiber. The op
 where $D$ - fiber loop diameter, $\omega$ - angular velocity, $\lambda$ - wavelength.
 
 \noindent
-The whole phenomenon has been explained in Figure~\ref{fig:fog}. Both halves enter the loop at the entry point. After the transit time they exit through the same point. However, because of the non--zero rotation, this Entry/Exit point moves, effectively shrinking one path and extending the other. The path difference is relatively small, thus it is expressed as a phase difference in wavelength domain.
+This has been depicted in Figure~\ref{fig:fog}. Both halves enter the loop at the \textit{entry point}. After the transit time they exit through the same point - now an \textit{exit point}. Because of the non--zero rotation, this point moves along the loop, effectively shrinking one path and extending the other. Path difference is relatively small, thus it is expressed as a phase difference in wavelength domain.
 
 \begin{figure}[ht]
     \centering
     \includegraphics[width=204px]{img/fog.png}
-    \caption{Two counterpropagating light beams enter the fiber loop at the \textit{Entry point}. Their phase is initially in sync. After transit time $\tau$ they exit and interfere. During that time the \textit{Entry/Exit point} moves according to the rotation rate $\omega$ (by the angle $\alpha = \omega \cdot \tau$). As a result the CW and CCW beams cover non--equal path lengths ($L\pm\Delta{}l$), which leads to a non--zero phase difference.}
+    \caption{Two counterpropagating light beam halves enter the fiber loop at the \textit{Entry point}. Their phase is initially in sync. After transit time $\tau$ they exit and interfere. During that time the \textit{Entry/Exit point} moves according to the rotation rate $\omega$ (by the angle $\alpha = \omega \cdot \tau$). As a result the CW and CCW halves cover non--equal path lengths ($L\pm\Delta{}l$), which leads to a non--zero phase difference.}
     \label{fig:fog}
 \end{figure}
 
 \noindent
-The formula in Equation~\ref{eq:response}, also presented in Figure~\ref{fig:response}, is the optical circuit response function.
-% CITE - RESPONSE FUNCTION
-It describes how the measured light intensity depends on the total phase shift of interfering light.
+The formula in Equation~\ref{eq:response}, also presented in Figure~\ref{fig:response}, is the optical circuit response function \cite{babu2016digital}. It describes how the measured light intensity depends on the total phase shift of the interfering light.
 
 \begin{equation}
     P(\Delta\phi) = \frac{P_0}{2} \cdot (1 + cos(\Delta\phi))
@@ -130,68 +125,62 @@ It describes how the measured light intensity depends on the total phase shift o
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.75\linewidth]{img/response.png}
-    \caption{Optical circuit response is a shifted cosine. The two exemplary operating points refer to the circuit being at rest, yielding the maximum possible intensity - $(0, P_0)$ - and subjected to rotation, at non--zero phase shift and decreased intensity - $(\Delta\phi, P(\Delta\phi))$.}
+    \includegraphics[width=1.0\linewidth]{img/response.png}
+    \caption{Optical circuit response is an upshifted cosine. The two exemplary operating points refer to the circuit being at rest, yielding the maximum possible intensity in $(0, P_0)$ and a circuit subjected to rotation, at non--zero phase shift and decreased intensity in $(\Delta\phi, P(\Delta\phi))$.}
     \label{fig:response}
 \end{figure}
 
 \noindent
-When the circuit is at rest ($\omega = 0 \rightarrow \Delta\phi = 0$), the operating point resides at peak intensity $P_0$. A non--zero rotation results in phase shift moving the operating point according to rotation rate and direction, decreasing measured intensity. Two problems are linked with this \textit{open--loop} operation.
-% CITE - OPEN LOOP OPERATION
-Firstly, intensity drop alone does not allow for determining rotation direction - response function is symmetrical. Secondly, in the resting region, the slope is flat, thus the sensitivity is zero. With greater rotation rate, the slope becomes more steep, reaching its maximum sensitivity in $\Delta\phi = \pm\frac{\pi}{2}$, but then decreases again. For these reasons a \textit{closed--loop} configuration is superior in performance.
+When the circuit is at rest ($\omega = 0 \rightarrow \Delta\phi = 0$), the operating point resides at peak intensity $P_0$. A non--zero rotation results in phase shift moving the operating point according to rotation rate and its direction, decreasing the measured intensity. Two problems are linked with this \textit{open--loop} operation \cite{lefevre1993fiber}. Firstly, intensity drop alone does not allow for determining rotation direction - response function is symmetrical. Secondly, in the resting region, the slope is flat, thus the sensitivity is zero. With greater rotation rate, the slope becomes more steep, reaching its maximum sensitivity in $\Delta\phi = \pm\frac{\pi}{2}$, but then decreases again. For these reasons a \textit{closed--loop} configuration is superior in performance.
 
 \section{Modulation scheme - closed--loop configuration}
-In a closed--loop configuration control system biases the optical circuit sequentially in four predefined points $\Delta\phi \in \{+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi\}$, utilizing the \textit{four--step} modulation
-% CITE FOUR_STEP_MODULATION
-(Figure~\ref{fig:bias}). This allows for linearizing the response, keeping the circuit at maximum sensitivity and detecting rotation direction.
+In a closed--loop configuration \cite{lefevre1993fiber} the control system biases optical circuit sequentially in four predefined points $\Delta\phi \in \{+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi\}$, utilizing the \textit{four--step} modulation \cite{wang2012method} (Figure~\ref{fig:bias}). This allows for linearizing the response, keeping the circuit at maximum sensitivity and detecting rotation direction.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.75\linewidth]{img/bias.png}
+    \includegraphics[width=1.0\linewidth]{img/bias.png}
     \caption{Circuit biased in four points of highest sensitivity.}
     \label{fig:bias}
 \end{figure}
 
-Compared to \textit{two--step} modulation
-% CITE TWO_STEP_MODULATION
-this scheme is supreme, as it allows for controlling the \textit{scale factor} - an essential parameter for maintaining device performance. Modulator injects the mentiobned phase shifts by using an electro--optic actuator placed on the fiber path. The amount of applied shift is controlled by an electronic circuit. It performs digital calculations and generates corresponding voltages via a digital--to--ananlog converter and an electronic front--end. The voltage is translated to a phase shift according to the half--wave voltage $V_\pi$ - a parameter of the actuator. Each element in this pipeline is a subject to temperature drift and aging
-% CITE LNB GAIN VS TEMP AND AGE
-, effects which influence the total combined gain. For this reason, continous calibration is required for maintaining measurement accuracy and it is realized by tracking the scale factor. This allows the control algorithm to know where the desired bias points are in the digital domain, while they constantly drift.
+Compared to \textit{two--step} modulation \cite{wang2012method} this scheme is supreme, as it allows for controlling the \textit{scale factor} - an essential parameter for maintaining device performance. Modulator injects the mentiobned phase shifts by using an electro--optic actuator placed on the fiber path. The amount of applied shift is controlled by an electronic circuit. It performs digital calculations and generates corresponding voltages via a digital--to--ananlog converter and an electronic front--end. The voltage is translated to a phase shift according to the half--wave voltage $V_\pi$ - a parameter of the actuator. Each element in this pipeline is a subject to temperature drift and aging \cite{salvestrini2011analysis} effects, which influence the total combined gain. For this reason, continous calibration is required for maintaining measurement accuracy and it is realized by tracking the scale factor. This allows the control algorithm to know where the desired bias points are in the digital domain, while they constantly drift.
 
-Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds to various conditions - misaligned scale factor and uncompensated rotation present. While this paper does not discuss in details how the rotation is measured, it is crucial to emphasize, that different feedback signals can be derived for scale factor adjustment and rotation measurement. These errors allow the digital control loop for adjusting runtime parameters and placing the operating points exactly where they are intended to be.
+Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds to various conditions - i.e. misaligned scale factor and uncompensated rotation present. While this paper does not discuss in details how the rotation is measured, it is crucial to emphasize, that different feedback signals can be derived for scale factor adjustment and rotation measurement. These feedback signals allow the digital control loop for adjusting runtime parameters and placing the operating points exactly where they are intended to be.
 
-\begin{figure}[ht]
+\begin{figure}[H]
     \centering
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/bias_factor_high.png}
         \caption{Scale factor too high - bias points are shifted away from zero, resulting in intensity imbalance.}
         \label{fig:bias_factor_high}
     \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/bias_factor_low.png}
         \caption{Scale factor too low - bias points shifted towards zero, resulting in opposite imbalance.}
         \label{fig:bias_factor_low}
     \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/bias_shift_pos.png}
-        \caption{Phase shift induced by positive rotation - bias points shifted right. Points $\{4n, 4n+1\}$ correspond to higher intensity than points $\{4n+2, 4n+3\}$.}
+        \caption{Phase shift induced by positive rotation - bias points shifted right. Points $\{4n, 4n+1\}$ result in higher intensity than points $\{4n+2, 4n+3\}$.}
         \label{fig:bias_shift_pos}
     \end{subfigure}
-    \begin{subfigure}[b]{0.49\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{img/bias_shift_neg.png}
-        \caption{Phase shift induced by negative rotation - bias points shifted left. Points $\{4n, 4n+1\}$ correspond to lower intensity than points $\{4n+2, 4n+3\}$.}
+        \caption{Phase shift induced by negative rotation - bias points shifted left. Points $\{4n, 4n+1\}$ result in lower intensity than points $\{4n+2, 4n+3\}$.}
         \label{fig:bias_shift_neg}
     \end{subfigure}
-    \caption{Four--step modulation allows for detection of scale factor error and Sagnac--induced phase shift.}
+    \caption{
+        Four--step modulation allows for detection of scale factor error and uncompensated Sagnac--induced phase shift.}
     \label{fig:bias_errors}
 \end{figure}
 
-From control point of view and for simplicity, the combined scale factor can be reffered to as the half--wave voltage $V_{\pi}$. Even though the actuator gain drift is only one of the scale factor components, the assumed linearity of others, makes it convenient to aggregate all into a single parameter. Other, non--linear errors, such as DAC INL are out of scope of this analysis.
-Control system biases the circuit continously with the following bias point order
+\textbf{TODO FIX IN THE FIGURE n+1 => 4n+1 etc.}
+
+From control point of view and for simplicity, the combined scale factor can be reffered to as the half--wave voltage $V_{\pi}$. Even though the actuator gain drift is only one of the scale factor components, the assumed linearity of others, makes it convenient to aggregate all into a single parameter. Other, non--linear errors, such as DAC INL are out of scope of this analysis. The control system uses the combined scale factor to bias the optical circuit continously with the following bias point order:
 
 \begin{equation}
     \begin{split}
@@ -206,39 +195,31 @@ Control system biases the circuit continously with the following bias point orde
 \noindent
 where the superscripted phase is the intended effective phase shift for the given sample.
 
-Modulator must run with the period of half the transit time $\frac{\tau}{2}$. This allows for the effective phase shift to be a result of a relative difference between every $k$'th and $(k-2)$'th samples. For this reason the phase shift applied by the modulator for each sample can be half of the desired amplitude.
-% CITE? MODULATION ALGORITHM:
-Additionally, to null the effect of the rotation--induced (Sagnac--induced) phase shift, modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation
-% CIRE SERRODYNE MODULATION
-with the increment value of $\Delta\phi_r = -\Delta\phi_s$ (equal amplitude, but opposite sign). This way the algorithm nulls out the Sagnac--induced shift, while knowing how much of it it has cancelled, thus knowing the exact rotation rate. In every cycle, the software monitors feedback signals and adjusts control accordingly.
-% CITE MORE ALGORITHM CONTROL LOOP_CLOSED_LOOP
+Modulator runs with the period of half the transit time $\frac{\tau}{2}$. This allows for the effective phase shift to be a result of a relative difference between every $k$'th and $(k-2)$'th samples. In such case the phase shift applied by the modulator for each sample can be half of the desired amplitude, reducing the overall required voltage range \cite{lefevre1993fiber}. Additionally, to null the effect of Sagnac--induced phase shift, modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation \cite{pavlath1996closed} with the increment value of $\Delta\phi_r = -\Delta\phi_s$ - a phase shift of equal amplitude, but opposite sign. This way the algorithm nulls out the Sagnac--induced shift, while knowing how much of it it has cancelled, thus knowing the exact rotation rate. In every cycle, the software monitors both feedback signals and adjusts control accordingly.
 
 \section{Modulator hardware architecture}
-This paper opts in for an all--digital modulator architecture, while three distinct approaches can be distinguished:
-\begin{itemize}
-    \item fully-analog,
-    \item digital with complex analog front end,
-    \item all--digital.
-\end{itemize}
+This paper opts in for an all--digital modulator architecture. Three distinct approaches can be distinguished:
+\begin{enumerate}
+    \item fully-analog, \label{arch:analog}
+    \item mixed - digital with analog front end, \label{arch:mixed}
+    \item all--digital. \label{arch:digital}
+\end{enumerate}
 
 \noindent
-Firstly - a fully analog variant, while feasible, does not comply with todays standards, where information is usually processed in digital form. For integration with external systems, an analog--to--digital interface needs to be there anyway. In such case, incorporating an MCU or DSP in the processing loop brings the advantage of performing certain operations on pure data, rather than on signals carrying these data. In such context, a modern solution shall consist of a digital part for performing mathematical operations and several electronic elements for interfacing with the optical circuit - this resembles a typically implemented solution, with DAC converter and a dedicated gain stage. Moreover, in a wolrd of \textit{software--defined}
-% CITE SOFTWARE DEFINED SOLUTIONS
-solutions, an architecture with the minimal amount of electronic components can also be derived. The two latter concepts are described in this section. The all--analog architecture will not be discussed.
+Firstly - a fully analog variant (\ref{arch:analog}), while feasible, does not comply with todays standards, where information is processed in a digital form. For integration with external systems, an analog--to--digital interface needs to be present anyway. In such case, incorporating an MCU or DSP in the processing loop brings the advantage of performing certain operations on pure data, rather than on signals carrying these data. A modern solution shall consist of a digital part for performing mathematical operations and electronic part for interfacing with the optical circuit - this resembles a classical - mixed - implementation (\ref{arch:mixed}). It consists of a DAC converter and a dedicated gain stage. Lastly, in a world of \textit{software--defined} solutions \cite{ulversoy2010software}, \cite{liu2022impact}, an architecture with the minimum possible amount of electronic components can be tempting. The two latter concepts are described in this section. The all--analog architecture will not be discussed.
 
 \subsection{Dedicated gain stage}
-A reasonable tradeoff between analog and digital approaches is the architecture proposed in
-%CITE LEFEVRE
-. It is composed of a digital part, DAC and dedicated gain stage. The configuration has been depicted in Figure~\ref{fig:dedicated_gain_stage}.
+A reasonable tradeoff between analog and digital approaches is the architecture proposed in \cite{lefevre1993fiber}. It is composed of a digital part - a DAC - and a dedicated analog gain stage. It has been depicted in Figure~\ref{fig:dedicated_gain_stage}.
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=90px]{img/dedicated_gain_stage.png}
-    \caption{Modulator with a dedicated hardware gain stage. MCU/DSP outputs a fixed--scale digital waveform, which directly drives a DAC. Then, before reaching the electro--optic actuator, scale factor of the analog waveform is adjusted with a programmable gain amplifier (PGA), or a custom gain stage, resulting in adjusted--scale waveform. }
+    \includegraphics[width=0.48\textwidth]{img/dedicated_gain_stage.png}
+    \caption{Modulator with a dedicated analog gain stage. MCU/DSP outputs a fixed--scale digital waveform, which directly drives a DAC. Then, before reaching the electro--optic actuator, the scale factor is adjusted with a programmable gain amplifier (PGA), or a custom analog gain stage, resulting in adjusted--scale waveform. }
     \label{fig:dedicated_gain_stage}
 \end{figure}
 
-In this configuration DAC and PGA are driven with $n-$ and $m$--bit words. The digital nature of controlling gain stage introduces quantization noise into the control loop. However, one of the important advantages of this setup is the intrinsic separation of the modulation problem into two smaller parts - generating the waveform in fixed--scale and applying the scale factor. The two can be implemented by software without dependence on each other. On the contrary, the dedicated gain stage is a subject to interferences. It may have its own nonlinearities and introduce delay in the signal path. Most importantly, its bandwidth may be gain dependent, distorting the waveform.
+\noindent
+In this configuration DAC and PGA are driven with $n-$ and $m$--bit words. The digital nature of controlling gain stage introduces unavoidable quantization noise into the control loop. However, one of the important advantages of this setup is the intrinsic separation of the modulation problem into two smaller parts - generating the waveform in fixed--scale and applying the scale factor afterwards. The two can be implemented by software without dependence on each other, resulting in two distinct control loops. On the contrary, the dedicated gain stage is a subject to interferences. It may have its own nonlinearities and introduce delay in the signal path. Most importantly, its bandwidth may be gain dependent, distorting the waveform.
 
 % FIX FIX FIX
 % Utilizing the observation, that the scale factor shall not vary by more than a few per cent during the device's lifetime, it can be assumed that if the PGA was driven by $n+1$ bits, the performance would not be affected.
@@ -492,16 +473,17 @@ From the derived error equation a few important results can be determined. First
 % % !! The closed feedback loop may regulate the controlled values - in this case the scale factor - down to a resolution which it can apply.  value that is controllable 
 
 
-% @article{post1967sagnac,
-%   title={Sagnac effect},
-%   author={Post, Evert Jan},
-%   journal={Reviews of Modern Physics},
-%   volume={39},
-%   number={2},
-%   pages={475},
-%   year={1967},
-%   publisher={APS}
-% }
-
+\begin{thebibliography}{00}
+    \bibitem{post1967sagnac} Post, Evert Jan. "Sagnac effect." Reviews of Modern Physics 39.2 (1967): 475.
+    \bibitem{sagnac1913ether} Sagnac, Georges. "L'éther lumineux démontré par l'effet du vent relatif d'éther dans un interféromètre en rotation uniforme." CR Acad. Sci. 157 (1913): 708-710.
+    \bibitem{pavlath1996closed} Pavlath, George A. "Closed-loop fiber optic gyros." Fiber Optic Gyros: 20th Anniversary Conference. Vol. 2837. SPIE, 1996.
+    \bibitem{babu2016digital} Babu, G. Harish, A. Venkata Anuhya, and N. Venkatram. "Digital signal processing scheme for open loop and closed loop IFOG using MATLAB/SIMULINK." Indian Journal of Science and Technology 9.11 (2016): 1-10.
+    \bibitem{lefevre1993fiber} Lefevre, Herve C. "Fiber optic gyroscopes." Optical Fiber Sensors. Dordrecht: Springer Netherlands, 1993.
+    \bibitem{wang2012method} Wang, Wei, Junlong Wang, and Zhengxin Zhao. "Method to control the gain in modulation chain of closed-loop fiber optic gyroscope with periodical biasing modulation." Optical Engineering 51.6 (2012): 064401-064401.
+    \bibitem{salvestrini2011analysis} Salvestrini, Jean Paul, et al. "Analysis and control of the dc drift in linbo3-based mach–zehnder modulators." Journal of lightwave technology 29.10 (2011): 1522-1534.
+    \bibitem{ulversoy2010software} Ulversoy, Tore. "Software defined radio: Challenges and opportunities." IEEE Communications Surveys \& Tutorials 12.4 (2010): 531-550.
+    \bibitem{liu2022impact} Liu, Zongwei, Wang Zhang, and Fuquan Zhao. "Impact, challenges and prospect of software-defined vehicles." Automotive Innovation 5.2 (2022): 180-194.
+    
+\end{thebibliography}
 
 \end{document}
