@@ -1,0 +1,51 @@
+\relax 
+\@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
+\newlabel{sec:introduction}{{I}{1}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {II}Principle of operation - open--loop configuration}{1}{}\protected@file@percent }
+\newlabel{eq:transit_time}{{1}{1}{}{}{}}
+\newlabel{eq:phase_shift}{{2}{1}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Two counterpropagating light beams enter the fiber loop at the \textit  {Entry point}. Their phase is initially in sync. After transit time $\tau $ they exit and interfere. During that time the \textit  {Entry/Exit point} moves according to the rotation rate $\omega $ (by the angle $\alpha = \omega \cdot \tau $). As a result the CW and CCW beams cover non--equal path lengths ($L\pm \Delta {}l$), which leads to a non--zero phase difference.}}{2}{}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{fig:fog}{{1}{2}{}{}{}}
+\newlabel{eq:response}{{3}{2}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Optical circuit response is a shifted cosine. The two exemplary operating points refer to the circuit being at rest, yielding the maximum possible intensity - $(0, P_0)$ - and subjected to rotation, at non--zero phase shift and decreased intensity - $(\Delta \phi , P(\Delta \phi ))$.}}{2}{}\protected@file@percent }
+\newlabel{fig:response}{{2}{2}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {III}Modulation scheme - closed--loop configuration}{2}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Circuit biased in four points of highest sensitivity.}}{2}{}\protected@file@percent }
+\newlabel{fig:bias}{{3}{2}{}{}{}}
+\newlabel{eq:bias_order}{{4}{2}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Modulator hardware architecture}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {IV-A}Dedicated gain stage}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {IV-B}All-digital approach - software--defined solution}{3}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.1}Voltage reference}{3}{}\protected@file@percent }
+\newlabel{eq:minimum_reference_voltage}{{5}{3}{}{}{}}
+\newlabel{eq:reference_voltage_ceil}{{6}{3}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.2}Effect of the quantization error}{3}{}\protected@file@percent }
+\newlabel{eq:dac_voltage_resolution}{{7}{3}{}{}{}}
+\newlabel{eq:relative_scale_factor_error2}{{8}{3}{}{}{}}
+\newlabel{eq:total_error}{{9}{4}{}{}{}}
+\newlabel{eq:relative_scale_factor_error}{{10}{4}{}{}{}}
+\newlabel{eq:error_example}{{11}{4}{}{}{}}
+\newlabel{eq:22213}{{12}{4}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {V}Precision estimation and impact}{4}{}\protected@file@percent }
+\newlabel{eq:phase_shift_difference}{{13}{4}{}{}{}}
+\newlabel{eq:incident_power}{{14}{4}{}{}{}}
+\newlabel{eq:cosine_linearization}{{15}{4}{}{}{}}
+\newlabel{eq:difference}{{16}{4}{}{}{}}
+\newlabel{eq:difference_generic}{{17}{4}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VI}Algorithm design}{4}{}\protected@file@percent }
+\newlabel{fig:bias_factor_high}{{4a}{5}{}{}{}}
+\newlabel{sub@fig:bias_factor_high}{{a}{5}{}{}{}}
+\newlabel{fig:bias_factor_low}{{4b}{5}{}{}{}}
+\newlabel{sub@fig:bias_factor_low}{{b}{5}{}{}{}}
+\newlabel{fig:bias_shift_pos}{{4c}{5}{}{}{}}
+\newlabel{sub@fig:bias_shift_pos}{{c}{5}{}{}{}}
+\newlabel{fig:bias_shift_neg}{{4d}{5}{}{}{}}
+\newlabel{sub@fig:bias_shift_neg}{{d}{5}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Four--step modulation allows for detection of scale factor error and Sagnac--induced phase shift.}}{5}{}\protected@file@percent }
+\newlabel{fig:bias_errors}{{4}{5}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Modulator with a dedicated hardware gain stage. MCU/DSP outputs a fixed--scale digital waveform, which directly drives a DAC. Then, before reaching the electro--optic actuator, scale factor of the analog waveform is adjusted with a programmable gain amplifier (PGA), or a custom gain stage, resulting in adjusted--scale waveform. }}{5}{}\protected@file@percent }
+\newlabel{fig:dedicated_gain_stage}{{5}{5}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces . }}{5}{}\protected@file@percent }
+\newlabel{fig:all_digital}{{6}{5}{}{}{}}
+\gdef \@abspage@last{5}

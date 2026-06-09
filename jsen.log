@@ -1,0 +1,538 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.6.9)  9 JUN 2026 16:09
+entering extended mode
+ restricted \write18 enabled.
+ file:line:error style messages enabled.
+ %&-line parsing enabled.
+**/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex
+(/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+(./ieeecolor.cls
+
+LaTeX Warning: You have requested document class `ieeecolor',
+               but the document class provides `IEEEtran'.
+
+Document Class: IEEEtran 2002/11/18 revision V1.6b by Michael Shell
+-- See the "IEEEtran_HOWTO" manual for usage information.
+-- The source comments contain changelog notes.
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/color.sty
+Package: color 2022/01/06 v1.3d Standard LaTeX Color (DPC)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: pdftex.def on input line 149.
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2022/09/22 v1.2b Graphics/color driver for pdftex
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/mathcolor.ltx))
+\@draftversionrule=\dimen140
+\@IEEEtrantmpdimenA=\dimen141
+\@IEEEtrantmpdimenB=\dimen142
+\@IEEEtrantmpcountA=\count187
+\@IEEEtrantmpcountB=\count188
+\@IEEEtrantmptoksA=\toks17
+LaTeX Font Info:    Trying to load font information for OT1+ptm on input line 834.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
+File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
+)
+\@IEEEnormalsizefontbaselineskip=\skip48
+
+-- This is a 10 point document.
+\normalsizebaselineskip=\skip49
+\normaljot=\skip50
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <5> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <7> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <9> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <10> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <11> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <12> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <17> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <20> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 1180.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/it' in size <24> not available
+(Font)              Font shape `OT1/ptm/b/it' tried instead on input line 1180.
+\IEEEilabelindentA=\dimen143
+\IEEEilabelindentB=\dimen144
+\IEEEilabelindent=\dimen145
+\IEEEelabelindent=\dimen146
+\IEEEdlabelindent=\dimen147
+\labelindent=\dimen148
+\IEEEiednormlabelsep=\dimen149
+\IEEEiedmathlabelsep=\dimen150
+\IEEEiedtopsep=\skip51
+\c@section=\count189
+\c@subsection=\count190
+\c@subsubsection=\count191
+\c@paragraph=\count192
+\c@IEEEsubequation=\count193
+\abovecaptionskip=\skip52
+\belowcaptionskip=\skip53
+\figbox=\box51
+\c@figure=\count194
+\c@query=\count195
+\c@qry=\count196
+\c@nquery=\count197
+\c@tquery=\count198
+\c@equery=\count199
+\c@eqry=\count266
+\c@edquery=\count267
+\c@etquery=\count268
+\c@table=\count269
+\@IEEEeqnnumcols=\count270
+\@IEEEeqncolcnt=\count271
+\firstpagerule=\skip54
+\logowidth=\skip55
+\@IEEEtmpitemindent=\dimen151
+\c@biography=\count272
+\c@edbiography=\count273
+LaTeX Info: Redefining \sf on input line 4878.
+\@IEEEtranrubishbin=\box52
+) (./jsen.sty) (/usr/share/texlive/texmf-dist/tex/latex/cite/cite.sty
+LaTeX Info: Redefining \cite on input line 302.
+LaTeX Info: Redefining \nocite on input line 332.
+Package: cite 2015/02/27  v 5.5
+) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2023/05/13 v2.17o AMS math features
+\@mathmargin=\skip56
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+Package: amstext 2021/08/26 v2.01 AMS text
+ (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks18
+\ex@=\dimen152
+)) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen153
+) (/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2022/04/08 v2.04 operator names
+)
+\inf@bad=\count274
+LaTeX Info: Redefining \frac on input line 234.
+\uproot@=\count275
+\leftroot@=\count276
+LaTeX Info: Redefining \overline on input line 399.
+LaTeX Info: Redefining \colon on input line 410.
+\classnum@=\count277
+\DOTSCASE@=\count278
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box53
+\strutbox@=\box54
+LaTeX Info: Redefining \big on input line 722.
+LaTeX Info: Redefining \Big on input line 723.
+LaTeX Info: Redefining \bigg on input line 724.
+LaTeX Info: Redefining \Bigg on input line 725.
+\big@size=\dimen154
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count279
+LaTeX Info: Redefining \bmod on input line 905.
+LaTeX Info: Redefining \pmod on input line 910.
+LaTeX Info: Redefining \smash on input line 940.
+LaTeX Info: Redefining \relbar on input line 970.
+LaTeX Info: Redefining \Relbar on input line 971.
+\c@MaxMatrixCols=\count280
+\dotsspace@=\muskip16
+\c@parentequation=\count281
+\dspbrk@lvl=\count282
+\tag@help=\toks19
+\row@=\count283
+\column@=\count284
+\maxfields@=\count285
+\andhelp@=\toks20
+\eqnshift@=\dimen155
+\alignsep@=\dimen156
+\tagshift@=\dimen157
+\tagwidth@=\dimen158
+\totwidth@=\dimen159
+\lineht@=\dimen160
+\@envbody=\toks21
+\multlinegap=\skip57
+\multlinetaggap=\skip58
+\mathdisplay@stack=\toks22
+LaTeX Info: Redefining \[ on input line 2953.
+LaTeX Info: Redefining \] on input line 2954.
+) (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+)) (/usr/share/texlive/texmf-dist/tex/latex/algorithms/algorithmic.sty
+Package: algorithmic 2009/08/24 v0.1 Document Style `algorithmic'
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ifthen.sty
+Package: ifthen 2022/04/13 v1.1d Standard LaTeX ifthen package (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2022/05/29 v1.15 key=value parser (DPC)
+\KV@toks@=\toks23
+)
+\c@ALC@unique=\count286
+\c@ALC@line=\count287
+\c@ALC@rem=\count288
+\c@ALC@depth=\count289
+\ALC@tlm=\skip59
+\algorithmicindent=\skip60
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2021/09/16 v1.2d Enhanced LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2022/03/10 v1.4e Standard LaTeX Graphics (DPC,SPQR)
+ (/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2021/08/11 v1.11 sin cos tan (DPC)
+) (/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 107.
+)
+\Gin@req@height=\dimen161
+\Gin@req@width=\dimen162
+) (/usr/share/texlive/texmf-dist/tex/latex/base/textcomp.sty
+Package: textcomp 2020/02/02 v2.0n Standard LaTeX package
+) (/usr/share/texlive/texmf-dist/tex/latex/wrapfig/wrapfig.sty
+\wrapoverhang=\dimen163
+\WF@size=\dimen164
+\c@WF@wrappedlines=\count290
+\WF@box=\box55
+\WF@everypar=\toks24
+Package: wrapfig 2003/01/31  v 3.6
+) (/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2023/08/05 v3.6o Customizing captions (AR)
+ (/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2023/07/31 v2.4d caption3 kernel (AR)
+\caption@tempdima=\dimen165
+\captionmargin=\dimen166
+\caption@leftmargin=\dimen167
+\caption@rightmargin=\dimen168
+\caption@width=\dimen169
+\caption@indent=\dimen170
+\caption@parindent=\dimen171
+\caption@hangindent=\dimen172
+Package caption Info: Unknown document class (or package),
+(caption)             standard defaults will be used.
+Package caption Info: \@makecaption = \long macro:#1#2->\fontencoding {T1} \fontfamily {phv} \fontseries {m} \fontshape {n} \fontsize {8}{10} \selectfont \scshape \ifx \@captype \@IEEEtablestring \@IEEEtablecaptionsabspace \begin {center} \if@myimage \ifdim \width > 255pt {\strut #1\color {black}}\\ {\footnotesize \scshape \if #2\color {black}\null \else \strut \stupiddouble { #2\color {black}\normalcolor }\fi } \else {\strut #1\color {black}}\\ {\footnotesize \scshape \if #2\color {black}\null \else \strut \stupidsingle { #2\color {black}\normalcolor }\fi } \fi \else \ifdim \width > 255pt {\strut #1}\\ {\footnotesize \scshape \if #2\null \else \strut \stupiddouble { #2\color {black}}\fi } \else {\strut #1}\\ {\if #2\null \else \strut \stupidsingle { #2\color {black}}\fi } \fi \fi \end {center}\@IEEEtablecaptionsbespace \else \@IEEEfigurecaptionsepspace \setbox \@tempboxa \hbox {\footnotesize #1.\color {black}\normalcolor ~~\sf #2}\ifdim \wd \@tempboxa >\hsize \setbox \@tempboxa \hbox {\footnotesize #1.\color {black}\normalcolor ~~ }\parbox [t]{\hsize }{\footnotesize \noindent \unhbox \@tempboxa \sf #2}\else \ifcenterfigcaptions \hbox to\hsize {\footnotesize \hfil \box \@tempboxa \hfil }\else \hbox to\hsize {\footnotesize \box \@tempboxa \hfil }\fi \fi \fi \color {black} on input line 1175.
+)
+
+Package caption Warning: Unknown document class (or package),
+(caption)                standard defaults will be used.
+See the caption package documentation for explanation.
+
+\c@caption@flags=\count291
+\c@continuedfloat=\count292
+Package caption Info: wrapfig package is loaded.
+)
+Package caption Info: New subtype `subfigure' on input line 238.
+\c@subfigure=\count293
+Package caption Info: New subtype `subtable' on input line 238.
+\c@subtable=\count294
+) (/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count295
+\float@exts=\toks25
+\float@box=\box56
+\@float@everytoks=\toks26
+\@floatcapt=\box57
+) (/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2020/01/12 v1.61803398 Publication quality tables
+\heavyrulewidth=\dimen173
+\lightrulewidth=\dimen174
+\cmidrulewidth=\dimen175
+\belowrulesep=\dimen176
+\belowbottomsep=\dimen177
+\aboverulesep=\dimen178
+\abovetopsep=\dimen179
+\cmidrulesep=\dimen180
+\cmidrulekern=\dimen181
+\defaultaddspace=\dimen182
+\@cmidla=\count296
+\@cmidlb=\count297
+\@aboverulesep=\dimen183
+\@belowrulesep=\dimen184
+\@thisruleclass=\count298
+\@lastruleclass=\count299
+\@thisrulewidth=\dimen185
+) (/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2021/03/15 v2.8 Span multiple rows of a table
+\multirow@colwidth=\skip61
+\multirow@cntb=\count300
+\multirow@dima=\skip62
+\bigstrutjot=\dimen186
+) (/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
+File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
+\l__color_backend_stack_int=\count301
+\l__pdf_internal_box=\box58
+) (./jsen.aux)
+\openout1 = `jsen.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
+LaTeX Font Info:    ... okay on input line 25.
+ (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count302
+\scratchdimen=\dimen187
+\scratchbox=\box59
+\nofMPsegments=\count303
+\nofMParguments=\count304
+\everyMPshowfont=\toks27
+\MPscratchCnt=\count305
+\MPscratchDim=\dimen188
+\MPnumerator=\count306
+\makeMPintoPDFobject=\count307
+\everyMPtoPDFconversion=\toks28
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 485.
+ (/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: float package is loaded.
+Package caption Info: End \AtBeginDocument code.
+Package color Info: Redefining color nblue on input line 83.
+Package color Info: Redefining color mblue on input line 83.
+LaTeX Font Info:    Trying to load font information for OT1+phv on input line 83.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
+File: ot1phv.fd 2020/03/25 scalable font definitions for OT1/phv.
+)
+Package color Info: Redefining color nblue on input line 83.
+Package color Info: Redefining color mblue on input line 83.
+LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <9> not available
+(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 83.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 83.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 83.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Package color Info: Redefining color nblue on input line 83.
+Package color Info: Redefining color mblue on input line 83.
+Package color Info: Redefining color nblue on input line 83.
+Package color Info: Redefining color mblue on input line 83.
+Package color Info: Redefining color nblue on input line 83.
+Package color Info: Redefining color mblue on input line 83.
+Package color Info: Redefining color nblue on input line 83.
+Package color Info: Redefining color mblue on input line 83.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 85.
+ (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
+)
+<img/fog.png, id=1, 819.06pt x 576.1525pt>
+File: img/fog.png Graphic file (type png)
+<use img/fog.png>
+Package pdftex.def Info: img/fog.png  used on input line 116.
+(pdftex.def)             Requested size: 204.76575pt x 144.03777pt.
+Package epstopdf Info: Source file: <LOGO-jsen-web.eps>
+(epstopdf)                    date: 2024-05-07 15:40:46
+(epstopdf)                    size: 49307 bytes
+(epstopdf)             Output file: <LOGO-jsen-web-eps-converted-to.pdf>
+(epstopdf)                    date: 2026-06-09 15:36:50
+(epstopdf)                    size: 7936 bytes
+(epstopdf)             Command: <repstopdf --outfile=LOGO-jsen-web-eps-converted-to.pdf LOGO-jsen-web.eps>
+(epstopdf)             \includegraphics on input line 129.
+Package epstopdf Info: Output file is already uptodate.
+<LOGO-jsen-web-eps-converted-to.pdf, id=3, 138.5175pt x 33.12375pt>
+File: LOGO-jsen-web-eps-converted-to.pdf Graphic file (type pdf)
+<use LOGO-jsen-web-eps-converted-to.pdf>
+Package pdftex.def Info: LOGO-jsen-web-eps-converted-to.pdf  used on input line 129.
+(pdftex.def)             Requested size: 85.79993pt x 20.51729pt.
+
+Overfull \hbox (221.20007pt too wide) has occurred while \output is active
+[][] 
+ []
+
+
+Overfull \hbox (49.79993pt too wide) has occurred while \output is active
+[] [] [] 
+ []
+
+
+Underfull \hbox (badness 10000) has occurred while \output is active
+[]
+ []
+
+
+Overfull \vbox (14.8968pt too high) has occurred while \output is active []
+
+ [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}
+
+
+ <./LOGO-jsen-web-eps-converted-to.pdf>]
+<img/response.png, id=20, 574.5465pt x 240.4182pt>
+File: img/response.png Graphic file (type png)
+<use img/response.png>
+Package pdftex.def Info: img/response.png  used on input line 133.
+(pdftex.def)             Requested size: 189.0pt x 79.08511pt.
+<img/bias.png, id=21, 574.5465pt x 240.4182pt>
+File: img/bias.png Graphic file (type png)
+<use img/bias.png>
+Package pdftex.def Info: img/bias.png  used on input line 150.
+(pdftex.def)             Requested size: 189.0pt x 79.08511pt.
+<img/bias_factor_high.png, id=22, 574.5465pt x 240.4182pt>
+File: img/bias_factor_high.png Graphic file (type png)
+<use img/bias_factor_high.png>
+Package pdftex.def Info: img/bias_factor_high.png  used on input line 167.
+(pdftex.def)             Requested size: 252.84283pt x 105.80267pt.
+<img/bias_factor_low.png, id=23, 574.5465pt x 240.4182pt>
+File: img/bias_factor_low.png Graphic file (type png)
+<use img/bias_factor_low.png>
+Package pdftex.def Info: img/bias_factor_low.png  used on input line 173.
+(pdftex.def)             Requested size: 252.84283pt x 105.80267pt.
+<img/bias_shift_pos.png, id=24, 574.5465pt x 240.4182pt>
+File: img/bias_shift_pos.png Graphic file (type png)
+<use img/bias_shift_pos.png>
+Package pdftex.def Info: img/bias_shift_pos.png  used on input line 179.
+(pdftex.def)             Requested size: 252.84283pt x 105.80267pt.
+<img/bias_shift_neg.png, id=25, 574.5465pt x 240.4182pt>
+File: img/bias_shift_neg.png Graphic file (type png)
+<use img/bias_shift_neg.png>
+Package pdftex.def Info: img/bias_shift_neg.png  used on input line 185.
+(pdftex.def)             Requested size: 252.84283pt x 105.80267pt.
+
+Overfull \hbox (0.84283pt too wide) in paragraph at lines 165--189
+ [][] 
+ []
+
+
+Overfull \hbox (0.84283pt too wide) in paragraph at lines 165--189
+ [] 
+ []
+
+
+Overfull \hbox (0.84283pt too wide) in paragraph at lines 165--189
+ [] 
+ []
+
+
+Overfull \hbox (0.84283pt too wide) in paragraph at lines 165--189
+ [] 
+ []
+
+
+Overfull \vbox (5.0pt too high) has occurred while \output is active []
+
+ [2 <./img/fog.png> <./img/response.png> <./img/bias.png>]
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 229.
+<img/dedicated_gain_stage.png, id=35, 1001.7425pt x 262.9825pt>
+File: img/dedicated_gain_stage.png Graphic file (type png)
+<use img/dedicated_gain_stage.png>
+Package pdftex.def Info: img/dedicated_gain_stage.png  used on input line 236.
+(pdftex.def)             Requested size: 344.10358pt x 90.33783pt.
+
+Overfull \hbox (92.10358pt too wide) in paragraph at lines 236--237
+ [][] 
+ []
+
+<img/all_digital.png, id=36, 780.9175pt x 218.8175pt>
+File: img/all_digital.png Graphic file (type png)
+<use img/all_digital.png>
+Package pdftex.def Info: img/all_digital.png  used on input line 252.
+(pdftex.def)             Requested size: 268.66612pt x 75.28152pt.
+
+Overfull \hbox (16.66612pt too wide) in paragraph at lines 252--253
+ [][] 
+ []
+
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 260.
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <7> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 295.
+
+Overfull \vbox (5.0pt too high) has occurred while \output is active []
+
+ [3]
+Overfull \hbox (63.38348pt too wide) detected at line 316
+[]
+ []
+
+
+Overfull \hbox (42.73859pt too wide) detected at line 366
+[]
+ []
+
+
+Overfull \hbox (143.27359pt too wide) detected at line 371
+[]\OML/cmm/m/it/10 cos\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^[] \OT1/cmr/m/n/10 + ^^A\OML/cmm/m/it/10 ^^^\OT1/cmr/m/n/10 ) = [] +\OML/cmm/m/it/10 cos[]\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^A \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 ^^^ \OT1/cmr/m/n/10 = \OMS/cmsy/m/n/10 ^^@\OML/cmm/m/it/10 sin\OT1/cmr/m/n/10 (\OML/cmm/m/it/10 ^^^[]\OT1/cmr/m/n/10 ) \OMS/cmsy/m/n/10 ^^A \OT1/cmr/m/n/10 ^^A\OML/cmm/m/it/10 ^^^ []^^^[] \OMS/cmsy/m/n/10 2 f\OT1/cmr/m/n/10 +[]\OML/cmm/m/it/10 ^^Y; \OT1/cmr/m/n/10 +[]\OML/cmm/m/it/10 ^^Y; \OMS/cmsy/m/n/10 ^^@[]\OML/cmm/m/it/10 ^^Y; \OMS/cmsy/m/n/10 ^^@[]\OML/cmm/m/it/10 ^^Y\OMS/cmsy/m/n/10 g
+ []
+
+
+Overfull \hbox (32.01701pt too wide) detected at line 382
+[]
+ []
+
+
+Overfull \vbox (5.0pt too high) has occurred while \output is active []
+
+ [4]
+Overfull \vbox (5.0pt too high) has occurred while \output is active []
+
+ [5 <./img/bias_factor_high.png> <./img/bias_factor_low.png> <./img/bias_shift_pos.png> <./img/bias_shift_neg.png> <./img/dedicated_gain_stage.png> <./img/all_digital.png>] (./jsen.aux)
+ ***********
+LaTeX2e <2023-11-01> patch level 1
+L3 programming layer <2024-01-22>
+ ***********
+ ) 
+Here is how much of TeX's memory you used:
+ 5615 strings out of 474222
+ 92206 string characters out of 5748734
+ 1960975 words of memory out of 5000000
+ 27792 multiletter control sequences out of 15000+600000
+ 615803 words of font info for 129 fonts, out of 8000000 for 9000
+ 1141 hyphenation exceptions out of 8191
+ 67i,23n,77p,1303b,497s stack positions out of 10000i,1000n,20000p,200000b,200000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on jsen.pdf (5 pages, 765159 bytes).
+PDF statistics:
+ 138 PDF objects out of 1000 (max. 8388607)
+ 72 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 51 words of extra memory for PDF output out of 10000 (max. 10000000)
+
