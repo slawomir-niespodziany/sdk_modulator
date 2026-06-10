@@ -51,13 +51,11 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.1}Voltage reference}{4}{}\protected@file@percent }
 \newlabel{eq:minimum_reference_voltage}{{5}{4}{}{}{}}
 \newlabel{eq:reference_voltage_ceil}{{6}{4}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.2}Control accuracy and quantization error}{4}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.2}Drive accuracy and quantization error}{4}{}\protected@file@percent }
 \newlabel{eq:dac_voltage_resolution}{{7}{4}{}{}{}}
 \newlabel{eq:relative_scale_factor_error}{{8}{4}{}{}{}}
 \newlabel{eq:error}{{9}{4}{}{}{}}
 \citation{lefevre1993fiber}
-\bibcite{post1967sagnac}{1}
-\bibcite{sagnac1913ether}{2}
 \newlabel{eq:error_example}{{10}{5}{}{}{}}
 \newlabel{eq:22213}{{11}{5}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Precision estimation and impact}{5}{}\protected@file@percent }
@@ -67,6 +65,15 @@
 \newlabel{eq:difference}{{15}{5}{}{}{}}
 \newlabel{eq:difference_generic}{{16}{5}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Algorithm design}{5}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {VI-A}Naive implementation}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.1}Number of samples considered}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.2}Drive symmetry}{6}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.3}Rounding factor}{6}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Example of the possible difference between the intended and actual drive values in the context of applying mathematical rounding method.}}{6}{}\protected@file@percent }
+\newlabel{fig:snippet_rounding}{{7}{6}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VI-B}Optimal implementation}{6}{}\protected@file@percent }
+\bibcite{post1967sagnac}{1}
+\bibcite{sagnac1913ether}{2}
 \bibcite{pavlath1996closed}{3}
 \bibcite{babu2016digital}{4}
 \bibcite{lefevre1993fiber}{5}
@@ -74,5 +81,8 @@
 \bibcite{salvestrini2011analysis}{7}
 \bibcite{ulversoy2010software}{8}
 \bibcite{liu2022impact}{9}
-\@writefile{toc}{\contentsline {section}{References}{6}{}\protected@file@percent }
-\gdef \@abspage@last{6}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Pseudocode for controlling the scale factor for the current two bias points while accounting for the values driven previously. The arithmetics is implemented using Q6.2 fixed--point format. Rounding towards $-\inf $ is natively handled for this format.}}{7}{}\protected@file@percent }
+\newlabel{fig:snippet_implementation}{{8}{7}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusions and further work}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{7}{}\protected@file@percent }
+\gdef \@abspage@last{7}

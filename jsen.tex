@@ -236,7 +236,7 @@ The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the 
 \end{figure}
 
 \noindent
-Additional advantage of leaning towards the proposed architecture is, that the whole design becomes a software--defined solution. As in other fields, it brings flexibility from the R\&D process perspective. This is mainly because, while iterating hardware design is a time--consuming process, updating software is relatively quick and cost effective. Moving the problem completely to the software side obviously makes the implementation more complex, but at the same time it limits the amount of interaction at the boundary of software and hardware development, significantly reducing overhead. From this perspective the net workload remains relatively stable, offering slightly different - more modern - approach.
+Additional advantage of leaning towards the proposed architecture is that the whole design becomes a software--defined solution. As in other fields, such approach brings flexibility from the R\&D process perspective. This is mainly because, while iterating hardware is a time--consuming process, updating software is relatively quick and cost effective. Moving the problem completely to the software side obviously makes the implementation more complex, but at the same time it limits the amount of interaction at the boundary of software and hardware development, significantly reducing overhead. From this perspective the net workload remains relatively stable, offering slightly different - more modern - approach.
 
 \subsubsection{Voltage reference}
 For the all--digital modulator an adequate reference voltage has to be set up to account for the maximum possible scale factor in the devices lifetime. From Equation~\ref{eq:bias_order} it results, that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields a required span of $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall account for it with some margin $M \in [1.0; 1.1]$:
@@ -254,7 +254,7 @@ The $V_{\pi}^{\text{max}}$ denotes the highest expected half--wave voltage. When
     \label{eq:reference_voltage_ceil}
 \end{equation}
 
-\subsubsection{Control accuracy and quantization error}
+\subsubsection{Drive accuracy and quantization error}
 Usage of a DAC results in quantization error. Converter resolution $N$ and its reference voltage determine the minimal controllable voltage change as
 
 \begin{equation}
@@ -375,105 +375,113 @@ It can be generalized for every odd bias sample, where it shall be calculated - 
 \end{equation}
 
 \noindent
-The feedback signal, used for loop closure, is dependent on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with a fixed delta $\Delta\phi_{v}$ corresponding to $\Delta{}v$. In particulat the presented error sum for the last four samples can be controlles with $\Delta\phi_{v}$ accuracy, but this may only happen when the current sample accounts for the three previous ones.
+The feedback signal, used for loop closure, is dependent on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with a fixed delta of $\Delta\phi_{v}$ corresponding to $\Delta{}v$. In particular the presented error $e_{2n+1}$ for the last four samples can be controlled with $\Delta\phi_{v}$ accuracy, but this may only happen when the current sample accounts for the three previous ones.
 
 \section{Algorithm design}
-From the derived error equation a few important results can be determined. Firstly, the most likely mistakes are emphasized in the following subsection. Secondly, a correct modulator implementation is presented in pseudocode.
+From the derived error equation a few important results can be determined. In this section - firstly - the most likely mistakes in algorithm design are emphasized. Then - secondly - a correct modulator implementation is presented in pseudocode.
 
-% \subsection{Naive implementation}
+\subsection{Naive implementation}
+\subsubsection{Number of samples considered}
+Modulation algorithm is a subsystem for the contol loop implemented in the device. Given the fact that the scale factor feedback signal is obtained by comparing two consecutive intensity levels (Equation~\ref{eq:difference}), an intuitive conclusion follows, that the control loop shall operate at the rate corresponding to the period of two samples. While being correct, this assumption requires additional constraints, otherwise it leads to a naive and incorrect solution. From Equation~\ref{eq:difference_generic} it is clear, that the feedback signal depends on four adjacent samples, not two. Without the conducted derivation this would not be immediately obvious. A naive algorithm, only considering one sample pair could easily lead to control loop oscillations and performance degradation. A correct solution is to always account for the recent two drive values, when calculating the next two. 
 
+\subsubsection{Drive symmetry}
+The intended drive values between samples $n$ and $n+2$ are symmetrical, i.e. they differ in sign, but have identical amplitude. However, for an actual signal driven with a DAC, this assumption falls short. This is due to the discrete nature of a DAC. In ideal scenario a symmetric drive would be desired, but this assumes perfectly controlled amplitude. When the amplitude is discreticized, the most reasonable solution is to utilize as much of the resolution, while keeping the drive signals relatively symmetrical - as a second priority. This allows for having a $1 [lsb]$ amplitude difference, which results in phase shift control accuracy of a single lsb. Otherwise, the effective resolution would be lowered by one bit - the difference betweeen two effective drive values would correspond to $(k_{n} \cdot \Delta\phi_{v}) - (-k_{n} \cdot \Delta\phi_{v}) = 2\Delta\phi_{v}$ for adjacent $k_{n}$, while the DAC offers control resolution of a single $\Delta\phi_{v}$.
 
-% \subsubsection{Number of samples considered}
-% Modulation algorithm serves role of a subsystem for the contol loop implemented in the device. By the fact thet the feedback signal for the scale factor control is obtained for every two bias points, as a natural consequence the feedback loop operates with such rate. This requirements falls down to the modulator. In such scenario it is tempting to implement the modulator to drive the two next bias points to obtain next feedback value. This solution is however not full (niepełny), as the feedback signal depends on the four last samples. The previous samples may act as digital noise source, disrupting the feedback signal and affecting scale factor control loop stability. A corrected solution is to account for the recent two samples drive, while calculating the next two. The total shift applied across these samples controls the feedback signal.
+\subsubsection{Rounding factor}
+Another designing corner cut is the rounding method selection for driving discrete DAC values while performing calculations with fractional resolution. Especially prone designs are the ones using floating point arithmetics (e.g. IEEE-754 float/double, typically used in C/C++ of programmable logic). The problem lays in the rounding direction when working with both positive and negative values (which is the case for driving bias points both ways from zero). Mathematicall symmetry of this operation leads to resolution loss. This is regardless of whether the selected rounding algorithm is:
+\begin{itemize}
+    \item truncation, or rounding towards zero ($-2.2 \rightarrow -2$, $2.7 \rightarrow 2$),
+    \item mathematical rounding ($2.4 \rightarrow 2$, $2.5 \rightarrow 3$),
+    \item rounding away from zero ($-2.4 \rightarrow -3$, $2.4 \rightarrow 3$),
+\end{itemize}
 
-% \subsubsection{Drive symmetry}
-% The intended drive values between samples $n$ and $n+2$ are symmetrical, i.e. they differ in sign, but have identical amplitude. However, for an actual signal driven with a DAC, this assumption falls short. This is due to the discrete nature of a DAC. In ideal scenario a symmetric drive would be desired, but this assumes an ideally controlled amplitude. When the amplitude is discreticized, the most bneficial solution is to utilize as much of the resolution, while keeping the drive signals relatively symmetrical as a second priority. This allows for having a $1 [lsb]$ difference in their amplitudes and thus controlling the relative difference up to a single lsb. Otherwise, the effective resolution would be lowered by one bit - the difference betweeen two effective drive values would correspond to $(k_{n} \cdot \Delta\phi_{v}) - (-k_{n} \cdot \Delta\phi_{v}) = 2\Delta\phi_{v}$ for adjacent $k_{n}$, while the DAC offers control with $\Delta\phi_{v}$ resolution.
+\noindent
+\textbf{TODO check example for all three!!! TODO}
 
-% \subsubsection{Rounding factor}
-% Another designing corner cut is the rounding method selection for driving discrete DAC values, while performing calculations with fractional resolution. Especially prone designs are the ones using floating point arithmetics (e.g. IEEE-754 float/double, typically used in C/C++ of programmable logic). The problem lays in the rounding direction when working with both positive and negative values (which is the case for drifing bias points both ways from zero). Mathematically this operation shall be symmetrical, however this leads to resolution loss. This is regardless whether the rounding algorithm selected is:
-% \begin{itemize}
-%     \item truncation, or rounding towards zero ($-2.4 \rightarrow -2$, $2.5 \rightarrow 2$),
-%     \item mathematical rounding ($2.4 \rightarrow 2$, $2.5 \rightarrow 3$),
-%     \item rounding away from zero ($-2.4 \rightarrow -3$, $2.4 \rightarrow 3$),
-% \end{itemize}
+\noindent
+If the algorithm rounds fractional values symmetrically, it will lead to the same resolution degradation as described in the previous section. While the effect is the same, the reason is different as the algorithm may not necessarily be implemented to use fractional arithmetics - even though it would rather be recommended. This case is worth of emphasizing, as multiple implementations are expected to be using floating point arithmetics in particular. This important nummerical issue arises when performing calculations in floating point and simply mapping the result to binary or U2 format required by a DAC. The following snippet shows an example.
 
-% TODO check example for all three!!! TODO
+\begin{figure}[ht]
+    \centering
+    {\scriptsize\begin{verbatim}
+// intended half-wave voltage in DAC units [lsb]
+uint8_t scaleFactor = 14u; 
 
-% \noindent
-% If the algorithm rounds fractional values symmetrically, it will lead to a simillar effect as in the previous section. While the effect is the same, the reason may be different, because the symmetry may also result from other factors. This case is simply worth of emphasizing, as it is expected for multiple implementations to use floating point arithmetics. This is an important nummerical issue, wspecially when performing calculations in floating point and only mapping the result to the integer, or fixed--point type required by a DAC. The below snippet shows an example.
+// calculated DAC drive values
+int8_t dac[4n+0] = scaleFactor *  0.75 =  10.5 =>  11;
+int8_t dac[4n+1] = scaleFactor * -0.25 = -3.5  =>  -4;
+int8_t dac[4n+2] = scaleFactor * -0.75 = -10.5 => -11;
+int8_t dac[4n+3] = scaleFactor *  0.75 =  3.5  =>   4;
+    \end{verbatim}}
+    \caption{Example of the possible difference between the intended and actual drive values in the context of applying mathematical rounding method.}
+    \label{fig:snippet_rounding}
+\end{figure}
 
-% \begin{figure}[ht]
-%     \centering
-%     \begin{verbatim}
-% // corresponds to half-wave voltage (PI shift), in DAC units (lsb)
-% uint8_t scaleFactorIntended = 14u; 
+\textbf{TODO LABELS CORRECT}
 
-% int8_t dacDrive[4n+0] = round(scaleFactorDriven * 0.75) = round(10.5) = 11;
-% int8_t dacDrive[4n+1] = round(scaleFactorDriven * -0.25) = round(-3.5) = -4;
-% int8_t dacDrive[4n+2] = round(scaleFactorDriven * -0.75) = round(-10.5) = -11;
-% int8_t dacDrive[4n+3] = round(scaleFactorDriven * 0.75) = round(3.5) = 4;
-%     \end{verbatim}
-%     \caption{. }
-%     \label{fig:asdasd}
-% \end{figure}
+\noindent
+In effect the resulting drive does not always correspond to the intended difference, even though it is calculated in $\Delta\phi_{v}$ domain. In the presented example the result is $30$ while the intended scale factor indicates it shall be $28$ (effective difference for Equation~\ref{eq:difference_generic}):
 
-% \noindent
-% The effective drive results in an error corresponding to $((4) - (-4)) - ((-11) - (11)) = 30 \quad [\Delta\phi_{v}]$ (according to Equation~\ref{eq:difference}), while the driven scale factor indicates it shall be $28$. The
+\begin{equation}
+    \begin{split}
+        ((4) - (-4)) - ((-11) - (11))         & = 30 \quad [\Delta\phi_{v}] \\
+        ((3.5) - (-3.5)) - ((-10.5) - (10.5)) & = 28 \quad [\Delta\phi_{v}]
+    \end{split}
+\end{equation}
 
-% Additional problem is that this only happens at the level of least significant bits, so the only reasonable way to track this error is through nummerical analysis or simulation of the actual algorithm. It will not be visible in operation, due to the magnitude relative to the rest of the waveform.
+Additional problem is that this only happens at the level of the least significant bit, so the only reasonable way to track this error is through nummerical analysis or simulation of the actual algorithm. It will not be visible in operation, due to the error magnitude relative to the rest of the waveform.
 
-% TODO screen z SDK? TODO
+\textbf{TODO TODO screen z SDK? TODO}
 
-% \subsection{Optimal implementation}
-% Correct implementation accomodates for the mentioned mistakes. It controls four recent samples at all times and it selects a rounding method, which has two advantages. Firstly, it is correct in terms of modulating with the accuracy of a single lsb. Secondly, it is implementation efficient. It utilizes the property of U2 number representation, which always rounds values towards $-\inf$, resembling mathematical $floor$ operation.
+\subsection{Optimal implementation}
+Correct implementation, presented in the snippet in Figure~\ref{fig:snippet_implementation}, accomodates for the mentioned traps. It controls four recent samples at all times and it selects a rounding method, which has two advantages. Firstly, it is correct in terms of modulating with the accuracy of a single lsb. Secondly, it is implementation efficient. It utilizes the property of U2 representation, which always rounds values towards $-\inf$, resembling mathematical $floor$ operation.
+It also uses fixed--point arithmetics to perform calculations with fractional precision. The format used is Q6.2, where the values $\pm\frac{1}{4}$ and $\pm\frac{3}{4}$ are simply expressed as integers $\pm1$ and $\pm3$. For the final result the fractional bits are simply dropped - using right--shift operation in this case. It has to be noted, that fixed--point arithmetics is an optimal choice for implementing an algorithm which does not deal with values high dynamic range and where determinismregarding accuracy is of paramount importance. Moreover, a floating--point format will also utilize more resources - both in the context of performing operations (addition, multiplication, etc.) and also for value storage (they require additional bits for storing both mantissa and exponent). 
 
-% TODO fixed point arithmetics TODO easily implemented in C/C++ or programmable l;ogic (ie FPGAs)
+\begin{figure}[ht]
+    \centering
+    {\scriptsize\begin{verbatim}
+{ // two previous (already driven) bias points [4n-2, 4n-1]
+uint8_t scaleFactor[4n-2] = 13;
 
-% \begin{figure}[ht]
-%     \centering
-%     \begin{verbatim}
-% // previous two bias points (4n-2, 4n-1)
-% // uint8_t scaleFactor[4n-2] = 13;
+int8_t dac[4n-2] = (scaleFactor[4n-2] *  0x3) >> 2 = 9;
+int8_t dac[4n-1] = (scaleFactor[4n-2] * -0x1) >> 2 = -4;
+}
 
-% // int8_t dacDrive[4n-2] = (scaleFactor[4n-2] *  0x3) >> 2 = 9;
-% // int8_t dacDrive[4n-1] = (scaleFactor[4n-2] * -0x1) >> 2 = -4;
+{ // two current (to be driven) bias points [4n+0, 4n+1]
+uint8_t scaleFactorIntended[4n+0] = 14u;
+uint8_t scaleFactor[4n+0] = 
+    (2 * scaleFactorIntended[4n+0]) - scaleFactor[4n-2];
 
-% // current two bias points (4n+0, 4n+1)
-% uint8_t scaleFactorIntended[4n+0] = 14u;
-% uint8_t scaleFactor[4n+0] = (2 * scaleFactorIntended[4n+0]) - scaleFactor[4n-2];
+int8_t dac[4n+0] = (scaleFactor[4n+0] * -0x3) >> 2 = -12;
+int8_t dac[4n+1] = (scaleFactor[4n+0] *  0x1) >> 2 = 3;
+}
+    \end{verbatim}}
+    \caption{Pseudocode for controlling the scale factor for the current two bias points while accounting for the values driven previously. The arithmetics is implemented using Q6.2 fixed--point format. Rounding towards $-\inf$ is natively handled for this format.}
+    \label{fig:snippet_implementation}
+\end{figure}
 
-% int8_t dacDrive[4n+0] = (scaleFactor[4n+0] * -0x3) >> 2 = -12;
-% int8_t dacDrive[4n+1] = (scaleFactor[4n+0] *  0x1) >> 2 = 3;
-%     \end{verbatim}
-%     \caption{example for two of four bias points, the other two are drive in analogous way. }
-%     \label{fig:asdasd}
-% \end{figure}
+In this case the effective drive corresponds to the scale factor, which was intended for the latter two bias points, but it had to account for the previous pair:
 
-% In this case the effective drive corresponds to what was intended - $((3) - (-4)) - ((-12) - (9)) = 28 \quad [\Delta\phi_{v}]$
+\begin{equation}
+    ((3) - (-4)) - ((-12) - (9)) = 28 \quad [\Delta\phi_{v}]
+\end{equation}
 
-% - oscilations due to wiggling regulator output, equalization required, not aviodable, as the dependence on previous points is at the physical phenomenon level
-% - can be controlled for each 4 steps separately, but then every second feedback signal sample is not usable
+Another possible implementation is to simply execute the control loop once every four samples. This results in very straightforward implementation, which apriori determines all four drive levels and applies them. however, an important drawback of such solution is that only two of four bias points from Equation~\ref{eq:bias_order} are usable for both scale factor and rotation calculation. This results from the dependence of the rotation measurement accuracy on scale factor in each of the bias points. A detailed analysis in that matter is a subject for further work. 
 
-% \section{Conclusions and further work}
-% This proposal points out some easy to make mistakes in implementing a modulator algorithm and gives a solution for solving them to reach maximum accuracy in controlling scale factor for an iFOG. Several other aspects remain undiscussed in the given analysis. In particulat, the effect of generating a ramp signal with Serrodyne modulation is a material for another paper. Further work will focus on analyzing the impact of ramp generation, the Serrodyne $2\pi$ resets and their impact on the feddback signals with non--ideal scale factor, which as discussed already, can not be determined with absolute accuracy.
+\section{Conclusions and further work}
+This work discusses certain aspects of implementing a modulator for closed--loop iFOGs, which are of crucial importance when thinking of a modern design. An all--digital hardware architecture was presented and advocated for, as it has the greatest potential for performance improvements. What follows are some software development challenges, some of which were presented. Solutions have been provided for those and an algorithm base was established, however this work requires continuation. This is especially valid for the mathematical analysis conducted in this paper, which also has to be done for rotation calculation - in particular, the effect of generating a ramp signal with Serrodyne modulation - intentionally omitted at this time. Furthermore, a complete analysis including demodulation process and control loops closure needs to be provided to ensure the whole design is well optimized - because the system is as performant, as its least performing element.
 
+This paper provides background for further optimizations in software devlopment for the closed--loop iFOG. 
 
-% % verify interpunction
+\textbf{TODO TODO TODO}
+% what can you add?
+% what would you change?
+% rewrite the conclusions section
+% write an abstract 200-230 words
+% what respected scientiic paper could be cited here?
 
-
-% % TODO \\
-% % Scale factor error has two sources. Primarily the algorithm needs to adjust the nummerical value precisely to control the scale factor. Error in calculating this value will directly impact the accuracy. However, even with a perfect algorithm teh quantization noise resulting from the usage of a DAC leaves some error preset at all times. While the first factor is a subject for algorithmic optimization, the second one resuts from the physical circuit impleemntation and depends on several followign parameters.
-
-% % Firstly, the relative scale factor error can be denoted as in Equation~\ref{eq:relative_scale_factor_error}.
-
-% % Voltage resolution of the used DAC results directly from the number of bits of the converter (Equation~\ref{eq:dac_voltage_resolution}).
-
-% % Substituting TODO yields the formula for relative scale factor error in a worst case scenario, when the real sclae factor remains exactly in between the two controllable, discrete phase shift values, but with the assumption, that the software has perfectly calculated the scale (no error introduced by the algorithm).
-
-% % An exemplary calculation assuming some real--world values:
-
-
-% % !! The closed feedback loop may regulate the controlled values - in this case the scale factor - down to a resolution which it can apply.  value that is controllable 
+% review against general rules of writitng a scientific paper
+% review against the rules in original.tex
 
 
 \begin{thebibliography}{00}
@@ -488,5 +496,4 @@ From the derived error equation a few important results can be determined. First
     \bibitem{liu2022impact} Liu, Zongwei, Wang Zhang, and Fuquan Zhao. "Impact, challenges and prospect of software-defined vehicles." Automotive Innovation 5.2 (2022): 180-194.
     
 \end{thebibliography}
-
 \end{document}
