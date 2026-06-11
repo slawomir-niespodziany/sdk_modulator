@@ -61,10 +61,14 @@
 
 \section{Introduction}
 \label{sec:introduction}
-iFOG (Interferometric Fibre Optic Gyroscope) concept is based on the Sagnac effect \cite{post1967sagnac}, discovered in 1913 \cite{sagnac1913ether}. Over the years, the design has has been excercised multiple times. However, the limits which hold the development back are constantly pushed forward as technology evolves. This allows for better precision, miniaturized size, lower power consumption, etc. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such a context makes the already existing designs being tested and optimized in every possible aspect. This applies equally to all the optical and electro--optic componenents, the electronics and the driving software. A crucial part of the control system of an iFOG is the modulator. In a closed--loop design \cite{pavlath1996closed} it is a vital element of the feedback loop. It directly affects the overall performance. It drives the optical circuit into a predefined state, in which the circuit's response can be demodulated and error signals determined. Modulator accuracy has critical impact on the resulting performance. This paper takes a closer look at the all--digital implementation of the modulator subsystem - in particular on its electronic architecture and the algorithm controlling it. Mathematical analysis is conducted to allow for pure--software optimization of algorithm's accuracy.
+iFOG (Interferometric Fibre Optic Gyroscope) concept is based on the Sagnac effect \cite{post1967sagnac}, discovered in 1913 \cite{sagnac1913ether}. Over the years, the design has been exercised multiple times. However, the limits which hold the development back are constantly pushed forward as technology evolves. This allows for better precision, miniaturized size, lower power consumption, etc. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such a context drives the already existing designs to be tested and optimized in every possible aspect.
+
+This applies equally to all the optical and electro--optic components, the electronics and the driving software. A crucial part of the control system of an iFOG is the modulator. In a closed--loop design \cite{pavlath1996closed} it is a vital element of the feedback loop, directly affecting overall performance. It drives the optical circuit into a predefined state, in which the circuit's response can be demodulated and error signals determined. Modulator accuracy has a critical impact on the resulting performance.
+
+This paper takes a closer look at the all--digital implementation of the modulator subsystem — in particular its electronic architecture and the algorithm controlling it. Mathematical analysis is conducted to allow for pure--software optimization of algorithm accuracy, including a non--obvious result regarding the number of drive samples the scale factor feedback depends on, derived in Section~\ref{sec:precision}.
 
 \section{Principle of operation - open--loop configuration}
-Light source of an iFOG generates a light beam, which is ideally split in 50/50 ratio. Each half enters a loop of relatively long fiber through each of its ends. The fiber length $L$ determines light transit time $\tau$ through it - Equation~\ref{eq:transit_time}, where $n$ is the refraction coefficient, affecting light speed in the medium.
+The light source of an iFOG generates a light beam, which is ideally split in a 50/50 ratio. Each half enters a loop of relatively long fiber through each of its ends. The fiber length $L$ determines the light transit time $\tau$ through it - Equation~\ref{eq:transit_time}, where $n$ is the refraction coefficient, affecting light speed in the medium.
 
 \begin{equation}
     \tau = \frac{L}{n \cdot c}
@@ -72,7 +76,7 @@ Light source of an iFOG generates a light beam, which is ideally split in 50/50 
 \end{equation}
 
 \noindent
-The halves go past each other and exit on the opposite ends of the fiber. The optical circuit is arranged, so that the two exitting beams interfere with each other and the resulting light intensity is measured by a detector. When the circuit stays at rest, the beams interfere with zero phase shift ($\Delta\phi = 0$), resulting in maximum intensity $P_0$ measured at the detector. However, when the loop rotates, the two halves travel paths of a slightly different length, resulting in non--zero phase shift. The relative phase shift at the interference point is rotation dependent and in this paper it is reffered to as the Sagnac--induced phase shift
+The halves go past each other and exit on the opposite ends of the fiber. The optical circuit is arranged, so that the two exiting beams interfere with each other and the resulting light intensity is measured by a detector. When the circuit stays at rest, the beams interfere with zero phase shift ($\Delta\phi = 0$), resulting in maximum intensity $P_0$ measured at the detector. However, when the loop rotates, the two halves travel paths of a slightly different length, resulting in non--zero phase shift. The relative phase shift at the interference point is rotation dependent and in this paper it is referred to as the Sagnac--induced phase shift
 
 \begin{equation}
     \Delta\phi_s = \frac{2\pi \cdot L  \cdot D \cdot n}{\lambda \cdot c} \cdot \omega
@@ -83,7 +87,7 @@ The halves go past each other and exit on the opposite ends of the fiber. The op
 where $D$ - fiber loop diameter, $\omega$ - angular velocity, $\lambda$ - wavelength.
 
 \noindent
-This has been depicted in Figure~\ref{fig:fog}. Both halves enter the loop at the \textit{entry point}. After the transit time they exit through the same point - now an \textit{exit point}. Because of the non--zero rotation, this point moves along the loop, effectively shrinking one path and extending the other. Path difference is relatively small, thus it is expressed as a phase difference in wavelength domain.
+This has been depicted in Figure~\ref{fig:fog}. Both halves enter the loop at the \textit{entry point}. After the transit time, they exit through the same point - now an \textit{exit point}. Because of the non--zero rotation, this point moves along the loop, effectively shrinking one path and extending the other. Path difference is relatively small, thus it is expressed as a phase difference in wavelength domain.
 
 \begin{figure}[ht]
     \centering
@@ -108,10 +112,10 @@ The formula in Equation~\ref{eq:response}, also presented in Figure~\ref{fig:res
 \end{figure}
 
 \noindent
-When the circuit is at rest ($\omega = 0 \rightarrow \Delta\phi = 0$), the operating point resides at peak intensity $P_0$. A non--zero rotation results in phase shift moving the operating point according to rotation rate and its direction, decreasing the measured intensity. Two problems are linked with this \textit{open--loop} operation \cite{lefevre1993fiber}. Firstly, intensity drop alone does not allow for determining rotation direction - response function is symmetrical. Secondly, in the resting region, the slope is flat, thus the sensitivity is zero. With greater rotation rate, the slope becomes more steep, reaching its maximum sensitivity in $\Delta\phi = \pm\frac{\pi}{2}$, but then decreases again. For these reasons a \textit{closed--loop} configuration is superior in performance.
+When the circuit is at rest ($\omega = 0 \rightarrow \Delta\phi = 0$), the operating point resides at peak intensity $P_0$. A non--zero rotation results in a phase shift that moves the operating point according to rotation rate and its direction, decreasing the measured intensity. Two problems are linked with this \textit{open--loop} operation \cite{lefevre1993fiber}. Firstly, intensity drop alone does not allow for determining rotation direction — the response function is symmetrical. Secondly, in the resting region, the slope is flat, thus the sensitivity is zero. With greater rotation rate, the slope becomes more steep, reaching its maximum sensitivity at $\Delta\phi = \pm\frac{\pi}{2}$, but then decreases again. Both issues are resolved by the closed--loop configuration described in the following section.
 
 \section{Modulation scheme - closed--loop configuration}
-In a closed--loop configuration \cite{lefevre1993fiber} the control system biases optical circuit sequentially in four predefined points $\Delta\phi \in \{+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi\}$, utilizing the \textit{four--step} modulation \cite{wang2012method} (Figure~\ref{fig:bias}). This allows for linearizing the response, keeping the circuit at maximum sensitivity and detecting rotation direction.
+In a closed--loop configuration \cite{lefevre1993fiber} the control system biases the optical circuit sequentially in four predefined points $\Delta\phi \in \{+\frac{3}{2}\pi, -\frac{1}{2}\pi, -\frac{3}{2}\pi, +\frac{1}{2}\pi\}$, utilizing the \textit{four--step} modulation \cite{wang2012method} (Figure~\ref{fig:bias}). This allows for linearizing the response, keeping the circuit at maximum sensitivity and detecting rotation direction.
 
 \begin{figure}[ht]
     \centering
@@ -120,9 +124,9 @@ In a closed--loop configuration \cite{lefevre1993fiber} the control system biase
     \label{fig:bias}
 \end{figure}
 
-Compared to \textit{two--step} modulation \cite{wang2012method} this scheme is supreme, as it allows for controlling the \textit{scale factor} - an essential parameter for maintaining device performance. Modulator injects the mentiobned phase shifts by using an electro--optic actuator placed on the fiber path. The amount of applied shift is controlled by an electronic circuit. It performs digital calculations and generates corresponding voltages via a digital--to--ananlog converter and an electronic front--end. The voltage is translated to a phase shift according to the half--wave voltage $V_\pi$ - a parameter of the actuator. Each element in this pipeline is a subject to temperature drift and aging \cite{salvestrini2011analysis} effects, which influence the total combined gain. For this reason, continous calibration is required for maintaining measurement accuracy and it is realized by tracking the scale factor. This allows the control algorithm to know where the desired bias points are in the digital domain, while they constantly drift.
+Compared to \textit{two--step} modulation \cite{wang2012method}, this scheme is superior, as it allows for controlling the \textit{scale factor} - an essential parameter for maintaining device performance. The modulator injects the mentioned phase shifts by using an electro--optic actuator placed on the fiber path. The amount of applied shift is controlled by an electronic circuit. It performs digital calculations and generates corresponding voltages via a digital--to--analog converter and an electronic front--end. The voltage is translated to a phase shift according to the half--wave voltage $V_\pi$ - a parameter of the actuator. Each element in this pipeline is subject to temperature drift and aging \cite{salvestrini2011analysis} effects, which influence the total combined gain. For this reason, continuous calibration is required for maintaining measurement accuracy and it is realized by tracking the scale factor. This allows the control algorithm to know where the desired bias points are in the digital domain, while they constantly drift.
 
-Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds to various conditions - i.e. misaligned scale factor and uncompensated rotation present. While this paper does not discuss in details how the rotation is measured, it is crucial to emphasize, that different feedback signals can be derived for scale factor adjustment and rotation measurement. These feedback signals allow the digital control loop for adjusting runtime parameters and placing the operating points exactly where they are intended to be.
+Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds to various conditions - i.e. misaligned scale factor and uncompensated rotation present. While this paper does not discuss in detail how the rotation is measured, it is crucial to emphasize that different feedback signals can be derived for scale factor adjustment and rotation measurement. These feedback signals allow the digital control loop to adjust runtime parameters and placing the operating points exactly where they are intended to be.
 
 \begin{figure}[H]
     \centering
@@ -157,7 +161,7 @@ Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds 
 
 \textbf{TODO FIX IN THE FIGURE n+1 => 4n+1 etc.}
 
-From control point of view and for simplicity, the combined scale factor can be reffered to as the half--wave voltage $V_{\pi}$. Even though the actuator gain drift is only one of the scale factor components, the assumed linearity of others, makes it convenient to aggregate all into a single parameter. Other, non--linear errors, such as DAC INL are out of scope of this analysis. The control system uses the combined scale factor to bias the optical circuit continously with the following bias point order:
+From a control point of view and for simplicity, the combined scale factor can be referred to as the half--wave voltage $V_{\pi}$. Even though the actuator gain drift is only one of the scale factor components, the assumed linearity of others makes it convenient to aggregate all into a single parameter. Other non--linear errors, such as DAC INL, are out of scope of this analysis. The control system uses the combined scale factor to bias the optical circuit continuously with the following bias point order:
 
 \begin{equation}
     \begin{split}
@@ -172,10 +176,10 @@ From control point of view and for simplicity, the combined scale factor can be 
 \noindent
 where the superscripted phase is the intended effective phase shift for the given sample.
 
-Modulator runs with the period of half the transit time $\frac{\tau}{2}$. This allows for the effective phase shift to be a result of a relative difference between every $k$'th and $(k-2)$'th samples. In such case the phase shift applied by the modulator for each sample can be half of the desired amplitude, reducing the overall required voltage range \cite{lefevre1993fiber}. Additionally, to null the effect of Sagnac--induced phase shift, modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation \cite{pavlath1996closed} with the increment value of $\Delta\phi_r = -\Delta\phi_s$ - a phase shift of equal amplitude, but opposite sign. This way the algorithm nulls out the Sagnac--induced shift, while knowing how much of it it has cancelled, thus knowing the exact rotation rate. In every cycle, the software monitors both feedback signals and adjusts control accordingly.
+The modulator runs with a period of half the transit time $\frac{\tau}{2}$. This allows for the effective phase shift to be a result of a relative difference between every $k$'th and $(k-2)$'th samples. In such case the phase shift applied by the modulator for each sample can be half of the desired amplitude, reducing the overall required voltage range \cite{lefevre1993fiber}. Additionally, to null the effect of Sagnac--induced phase shift, modulator adds an ever--updating ramp signal, utilizing Serrodyne modulation \cite{pavlath1996closed} with the increment value of $\Delta\phi_r = -\Delta\phi_s$ - a phase shift of equal amplitude, but opposite sign. This way the algorithm nulls out the Sagnac--induced shift, while knowing how much it has cancelled, thus knowing the exact rotation rate. In every cycle, the software monitors both feedback signals and adjusts control accordingly.
 
 \section{Modulator hardware architecture}
-This paper opts in for an all--digital modulator architecture. Three distinct approaches can be distinguished:
+This paper advocates an all--digital modulator architecture. Three distinct approaches can be distinguished:
 \begin{enumerate}
     \item fully-analog, \label{arch:analog}
     \item mixed - digital with analog front end, \label{arch:mixed}
@@ -183,9 +187,10 @@ This paper opts in for an all--digital modulator architecture. Three distinct ap
 \end{enumerate}
 
 \noindent
-Firstly - a fully analog variant (\ref{arch:analog}), while feasible, does not comply with todays standards, where information is processed in a digital form. For integration with external systems, an analog--to--digital interface needs to be present anyway. In such case, incorporating an MCU or DSP in the processing loop brings the advantage of performing certain operations on pure data, rather than on signals carrying these data. A modern solution shall consist of a digital part for performing mathematical operations and electronic part for interfacing with the optical circuit - this resembles a classical - mixed - implementation (\ref{arch:mixed}). It consists of a DAC converter and a dedicated gain stage. Lastly, in a world of \textit{software--defined} solutions \cite{ulversoy2010software}, \cite{liu2022impact}, an architecture with the minimum possible amount of electronic components can be tempting. The two latter concepts are described in this section. The all--analog architecture will not be discussed.
+Firstly - a fully analog variant (\ref{arch:analog}), while feasible, does not comply with today's standards, where information is processed in a digital form. For integration with external systems, an analog--to--digital interface needs to be present anyway. In such case, incorporating an MCU or DSP in the processing loop brings the advantage of performing certain operations on pure data, rather than on signals carrying these data. A modern solution shall consist of a digital part for performing mathematical operations and an electronic part for interfacing with the optical circuit - this resembles a classical mixed implementation (\ref{arch:mixed}). It consists of a DAC converter and a dedicated gain stage. Lastly, in a world of \textit{software--defined} solutions \cite{ulversoy2010software}, \cite{liu2022impact}, an architecture with the minimum possible amount of electronic components can be tempting. The two latter concepts are described in this section. The all--analog architecture will not be discussed.
 
 \subsection{Dedicated gain stage}
+\label{sec:dedicated_gain}
 A reasonable tradeoff between analog and digital approaches is the architecture proposed in \cite{lefevre1993fiber}. It is composed of a digital part - a DAC - and a dedicated analog gain stage. It has been depicted in Figure~\ref{fig:dedicated_gain_stage}.
 
 \begin{figure}[ht]
@@ -196,14 +201,12 @@ A reasonable tradeoff between analog and digital approaches is the architecture 
 \end{figure}
 
 \noindent
-In this configuration DAC and PGA are driven with $n-$ and $m$--bit words. The digital nature of controlling gain stage introduces unavoidable quantization noise into the control loop. However, one of the important advantages of this setup is the intrinsic separation of the modulation problem into two smaller parts - generating the waveform in fixed--scale and applying the scale factor afterwards. The two can be implemented by software without dependence on each other, resulting in two distinct control loops. On the contrary, the dedicated gain stage is a subject to interferences. It may have its own nonlinearities and introduce delay in the signal path. Most importantly, its bandwidth may be gain dependent, distorting the waveform.
+In this configuration, the DAC and PGA are driven with $n-$ and $m$--bit words. The digital nature of controlling the gain stage introduces unavoidable quantization noise into the control loop. However, one of the important advantages of this setup is the intrinsic separation of the modulation problem into two smaller parts - generating the waveform in fixed--scale and applying the scale factor afterwards. The two can be implemented by software without dependence on each other, resulting in two distinct control loops. On the contrary, the dedicated gain stage is subject to interference. It may have its own nonlinearities and introduce delay in the signal path. Most importantly, its bandwidth may be gain-dependent, distorting the waveform.
 
-% FIX FIX FIX
-% Utilizing the observation, that the scale factor shall not vary by more than a few per cent during the device's lifetime, it can be assumed that if the PGA was driven by $n+1$ bits, the performance would not be affected.
-% Voltage range would have to be set for the worst--case scenario plus some margin, to always be sufficient. Full scale wouldn't be used most of the time. Even if the scale factor was to drop to 50\% of the available range, which is beyond any pessimistic scenario, the overall performance would remain no worse than when using a $n$--bit control. From this an all--digital architecture can be defined.
+Since the scale factor is not expected to vary by more than a few per cent over the device's lifetime, the PGA gain range is set for the worst--case scenario and rarely uses its full span. This means that even if the effective operating point were to drop to 50\% of the available range — well beyond any realistic scenario — the performance would remain no worse than with $n-1$--bit control. This observation motivates removing the PGA entirely and applying the scale factor digitally instead, leading to the all--digital architecture described next. Selecting a DAC with one additional bit ($n+1$) directly compensates for this loss.
 
 \subsection{All-digital approach - software--defined solution}
-The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the availability and wide range of high precision digital--to--analog converters. It allows for disposing the physical gain stage, by applying scale factor digitally, prior to driving the DAC. This requires DAC reference voltage to be high enough to cover all possible ranges. This approach also introduces quantization noise. These two disadvantages, are similarily the problems of the previous solution. The main advantage this idea brings is the minimization of the amount of electronic components used. This yields less sources of potential nonlinearities and electromagnetic interference. Since the electro--optic modulator has high input impedance, the output of a voltage--DAC can be directly connected to it, omitting any buffers on the signal path. The profit resulting from less noisy electronics copensate the unavoidable DAC resolution loss - its full range may never be utilized because of the required margins. Moreover, the following sections discusses an algorithmic approach, which regains one bit of accuracy, when using the all--digital architecture.
+The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the availability and wide range of high precision digital--to--analog converters. It enables eliminating the physical gain stage, by applying the scale factor digitally, prior to driving the DAC. This requires DAC reference voltage to be high enough to cover all possible ranges. This approach also introduces quantization noise. These two disadvantages are similarly present in the previous solution. The main advantage this idea brings is the minimization of the amount of electronic components used. This yields fewer sources of potential nonlinearities and electromagnetic interference. Since the electro--optic modulator has high input impedance, the output of a voltage--DAC can be directly connected to it, omitting any buffers on the signal path. The benefit of less noisy electronics compensates the unavoidable DAC resolution loss — its full range may never be utilized because of the required margins. Using a DAC with $n+1$ bits relative to what the dedicated gain stage would require recovers the one bit lost to range margins, as noted in Section~\ref{sec:dedicated_gain}. Moreover, the following sections discuss an algorithmic approach which regains one further bit of accuracy when using the all--digital architecture.
 
 \begin{figure}[ht]
     \centering
@@ -213,10 +216,10 @@ The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the 
 \end{figure}
 
 \noindent
-Additional advantage of leaning towards the proposed architecture is that the whole design becomes a software--defined solution. As in other fields, such approach brings flexibility from the R\&D process perspective. This is mainly because, while iterating hardware is a time--consuming process, updating software is relatively quick and cost effective. Moving the problem completely to the software side obviously makes the implementation more complex, but at the same time it limits the amount of interaction at the boundary of software and hardware development, significantly reducing overhead. From this perspective the net workload remains relatively stable, offering slightly different - more modern - approach.
+An additional advantage of the proposed architecture is that the whole design becomes a software--defined solution. As in other fields, such an approach brings flexibility from the R\&D process perspective. This is mainly because, while iterating hardware is a time--consuming process, updating software is relatively quick and cost-effective. Moving the problem completely to the software side obviously makes the implementation more complex, but at the same time it limits the amount of interaction at the boundary of software and hardware development, significantly reducing overhead. From this perspective the net workload remains relatively stable, offering a slightly different — more modern — approach.
 
 \subsubsection{Voltage reference}
-For the all--digital modulator an adequate reference voltage has to be set up to account for the maximum possible scale factor in the devices lifetime. From Equation~\ref{eq:bias_order} it results, that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields a required span of $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall account for it with some margin $M \in [1.0; 1.1]$:
+For the all--digital modulator an adequate reference voltage must be set to account for the maximum possible scale factor in the device's lifetime. From Equation~\ref{eq:bias_order} it follows that a span of $1.5\pi$ is required for biasing and additionally, the Serrodyne modulator requires a span of $2\pi$. This yields a required span of $S = 3.5\pi$. Minimum DAC reference $V_{ref}^{min}$ shall account for it with some margin $M \in [1.0; 1.1]$:
 
 \begin{equation}
     V_{\text{ref}}^{\text{min}} = V_{\pi}^{\text{max}} \cdot S \cdot M
@@ -224,7 +227,7 @@ For the all--digital modulator an adequate reference voltage has to be set up to
 \end{equation}
 
 \noindent
-The $V_{\pi}^{\text{max}}$ denotes the highest expected half--wave voltage. When determining final reference voltage it is advantageous to round it up to a multiple of one of typically available chip references (Equation~\ref{eq:reference_voltage_ceil}), e.g. $K \times 5V$ or $K \times 4.096V$. It makes implementing the elctronic circuit more straightfroward. In practice, a fair compromise is to utilize the resulting voltage excess for the margin $M$, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
+The $V_{\pi}^{\text{max}}$ denotes the highest expected half--wave voltage. When determining the final reference voltage it is advantageous to round it up to a multiple of one of typically available chip references (Equation~\ref{eq:reference_voltage_ceil}), e.g. $K \times 5V$ or $K \times 4.096V$. It makes implementing the electronic circuit more straightforward. In practice, a fair compromise is to utilize the resulting voltage excess for the margin $M$, so that after adding it, the $V_{ref} \approx V_{ref}^{min}$.
 
 \begin{equation}
     V_{\text{ref}} = \lceil V_{\text{ref}}^{\text{min}} \rceil
@@ -232,7 +235,7 @@ The $V_{\pi}^{\text{max}}$ denotes the highest expected half--wave voltage. When
 \end{equation}
 
 \subsubsection{Drive accuracy and quantization error}
-Usage of a DAC results in quantization error. Converter resolution $N$ and its reference voltage determine the minimal controllable voltage change as
+The use of a DAC introduces quantization error. Converter resolution $N$ and its reference voltage determine the minimal controllable voltage change as
 
 \begin{equation}
     \Delta{}v = V_{\text{ref}} \cdot 2^{-N}
@@ -240,7 +243,7 @@ Usage of a DAC results in quantization error. Converter resolution $N$ and its r
 \end{equation}
 
 \noindent
-In phase domain the scale factor can be thus controlled with the accuracy corresponding to $\Delta{}v$ relative to the actual scale factor:
+In the phase domain, the scale factor can thus be controlled with the accuracy corresponding to $\Delta{}v$ relative to the actual scale factor:
 % FIX FIX FIX
 % Scale factor error results from the distance between its controlled and actual values. It corresponds to half of $\Delta{}v$. It can vary in time, as the actual $V_{\pi}$ may continously change over time, but rather slowly (compared to the possible modulation frequencies).
 
@@ -250,7 +253,7 @@ In phase domain the scale factor can be thus controlled with the accuracy corres
 \end{equation}
 
 \noindent
-Due to the linear scale--factor dependence it will slowly vary over time, but its magnitude shall remain stable, as the drift is expected to only be at the level of percents. By substituting previous formulas, the final control accuracy and quantization error are:
+Due to the linear scale--factor dependence, it will slowly vary over time, but its magnitude shall remain stable, as the drift is expected to only be at the level of percents. By substituting the previous formulas, the final control accuracy and quantization error are:
 
 \begin{equation}
     \begin{split}
@@ -261,7 +264,7 @@ Due to the linear scale--factor dependence it will slowly vary over time, but it
 \end{equation}
 
 \noindent
-Exemplary calculation, based on real--world values yields:
+An exemplary calculation based on real--world values yields:
 
 \begin{equation}
     \begin{split}
@@ -274,8 +277,8 @@ Exemplary calculation, based on real--world values yields:
 \end{equation}
 
 \noindent
-From this it is clear, that the quantization error, bound to controllable resolution can be improved by selecting a converter with greater number of bits.
-However, any selected resolution will always be a subject to losing just over two bits. It must be noted, that most of this loss is due to the span $S$, required for proper operation of the algorithm. It is not a consequence of using the proposed all--digital architecture. The quantization error follows the achieved accuracy. In each of the bias points, the following drive levels are possible:
+From this it is clear, that the quantization error, bound to the controllable resolution, can be improved by selecting a converter with greater number of bits.
+However, any selected resolution will always be subject to losing just over two bits. It must be noted that most of this loss is due to the span $S$, required for proper operation of the algorithm. It is not a consequence of using the proposed all--digital architecture. The quantization error follows the achieved accuracy. In each of the bias points, the following drive levels are possible:
 
 \begin{equation}
     \begin{split}
@@ -295,7 +298,8 @@ Value $k \in [-2^{N-1}, 2^{N-1}-1)$ is an integer, in range of the used DAC (of 
 % TODO this paper does not focus on serrodyne precision, only on scale factor accuracy
 
 \section{Precision estimation and impact}
-To close the scale factor control loop, a feedback is required. It is calculated from the difference of incident light intensity between two consecutive bias points. The total phase difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current drive $\phi_k$ and the drive two points prior:
+\label{sec:precision}
+To close the scale factor control loop, a feedback signal is required. It is calculated from the difference of incident light intensity between two consecutive bias points. The total phase difference $\Delta\phi_{k}$, affecting intensity for the sample $k$, results from the current drive $\phi_k$ and the drive two points prior:
 
 \begin{equation}
     \Delta\phi_{n} = (\phi_{n} - \phi_{n-2}) + \underbrace{\Delta\phi_{s, n} + \Delta\phi_{r, n}}_{=0}
@@ -303,7 +307,7 @@ To close the scale factor control loop, a feedback is required. It is calculated
 \end{equation}
 
 \noindent
-The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote Sagnac--induced and nulling ramp shifts - assumed to be zero for this analysis. By using equations \ref{eq:response} and \ref{eq:bias_order} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), intensity values at each point are:
+The values of $\Delta\phi_{s, n}$ and $\Delta\phi_{r, n}$ denote Sagnac--induced and nulling ramp shifts, assumed to be zero for this analysis. Using Equations~\ref{eq:response} and \ref{eq:bias_order} and assuming the $cos$ function linear near the bias points (Equation~\ref{eq:cosine_linearization}), intensity values at each point are:
 
 % TODO emphasize at the beginning thast this focuses of scale factor control, not rotation calculation, thus it is assumed that rotation is zero for the analysis
 
@@ -344,28 +348,30 @@ Feedback signal calculated at samples $4n+1$ and $4n+3$ is:
 \end{equation}
 
 \noindent
-It can be generalized for every odd bias sample, where it shall be calculated - this results from the demodulation algorithm assumptions \cite{lefevre1993fiber}:
+It can be generalized for every odd bias sample, where it shall be calculated — this results from the demodulation algorithm assumptions \cite{lefevre1993fiber}:
 
 \begin{equation}
-    e_{2n+1} = -\frac{P_0}{2} \cdot (\underbrace{\delta_{2n+1}}_{\text{current}} + \underbrace{\delta_{2n+0} + \delta_{2n-1} + \delta_{2n-2}}_{\text{three prevoius errors}})
+    e_{2n+1} = -\frac{P_0}{2} \cdot (\underbrace{\delta_{2n+1}}_{\text{current}} + \underbrace{\delta_{2n+0} + \delta_{2n-1} + \delta_{2n-2}}_{\text{three previous errors}})
     \label{eq:difference_generic}
 \end{equation}
 
 \noindent
-The feedback signal, used for loop closure, is dependent on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resulotion, the scale factor error, and thus the occuring errors $\delta_n$ are all controllable with a fixed delta of $\Delta\phi_{v}$ corresponding to $\Delta{}v$. In particular the presented error $e_{2n+1}$ for the last four samples can be controlled with $\Delta\phi_{v}$ accuracy, but this may only happen when the current sample accounts for the three previous ones.
+The feedback signal, used for loop closure, depends on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resolution, the scale factor error, and thus the occurring errors $\delta_n$ are all controllable with a fixed delta of $\Delta\phi_{v}$ corresponding to $\Delta{}v$. In particular the presented error $e_{2n+1}$ for the last four samples can be controlled with $\Delta\phi_{v}$ accuracy, but this may only happen when the current sample accounts for the three previous ones. These dependencies directly constrain the algorithm design, as discussed in the following section.
 
 \section{Algorithm design}
-From the derived error equation a few important results can be determined. In this section - firstly - the most likely mistakes in algorithm design are emphasized. Then - secondly - a correct modulator implementation is presented in pseudocode.
+From the derived error equation, a few important results can be determined. In this section, the most likely mistakes in algorithm design are first emphasized, followed by a correct modulator implementation presented in pseudocode.
 
 \subsection{Naive implementation}
+Three pitfalls arise from overlooking details of the derivation in Section~\ref{sec:precision}. Each is subtle enough to go unnoticed in operation, yet each degrades performance.
+
 \subsubsection{Number of samples considered}
-Modulation algorithm is a subsystem for the contol loop implemented in the device. Given the fact that the scale factor feedback signal is obtained by comparing two consecutive intensity levels (Equation~\ref{eq:difference}), an intuitive conclusion follows, that the control loop shall operate at the rate corresponding to the period of two samples. While being correct, this assumption requires additional constraints, otherwise it leads to a naive and incorrect solution. From Equation~\ref{eq:difference_generic} it is clear, that the feedback signal depends on four adjacent samples, not two. Without the conducted derivation this would not be immediately obvious. A naive algorithm, only considering one sample pair could easily lead to control loop oscillations and performance degradation. A correct solution is to always account for the recent two drive values, when calculating the next two. 
+The modulation algorithm is a subsystem of the control loop implemented in the device. Since the scale factor feedback signal is obtained by comparing two consecutive intensity levels (Equation~\ref{eq:difference}), an intuitive conclusion follows that the control loop shall operate at the rate corresponding to the period of two samples. While being correct, this assumption requires additional constraints, otherwise it leads to a naive and incorrect solution. From Equation~\ref{eq:difference_generic} it is clear, that the feedback signal depends on four adjacent samples, not two. Without the conducted derivation this would not be immediately obvious. A naive algorithm only considering one sample pair could easily lead to control loop oscillations and performance degradation. A correct solution is to always account for the recent two drive values, when calculating the next two. 
 
 \subsubsection{Drive symmetry}
-The intended drive values between samples $n$ and $n+2$ are symmetrical, i.e. they differ in sign, but have identical amplitude. However, for an actual signal driven with a DAC, this assumption falls short. This is due to the discrete nature of a DAC. In ideal scenario a symmetric drive would be desired, but this assumes perfectly controlled amplitude. When the amplitude is discreticized, the most reasonable solution is to utilize as much of the resolution, while keeping the drive signals relatively symmetrical - as a second priority. This allows for having a $1 [lsb]$ amplitude difference, which results in phase shift control accuracy of a single lsb. Otherwise, the effective resolution would be lowered by one bit - the difference betweeen two effective drive values would correspond to $(k_{n} \cdot \Delta\phi_{v}) - (-k_{n} \cdot \Delta\phi_{v}) = 2\Delta\phi_{v}$ for adjacent $k_{n}$, while the DAC offers control resolution of a single $\Delta\phi_{v}$.
+The intended drive values between samples $n$ and $n+2$ are symmetrical, i.e. they differ in sign, but have identical amplitude. However, for an actual signal driven with a DAC, this assumption falls short. This is due to the discrete nature of a DAC. In an ideal scenario, a symmetric drive would be desired, but this assumes perfectly controlled amplitude. When the amplitude is discretized, the most reasonable solution is to utilize as much of the resolution, while keeping the drive signals relatively symmetrical - as a second priority. This allows for having a $1 [lsb]$ amplitude difference, which results in phase shift control accuracy of a single lsb. Otherwise, the effective resolution would be lowered by one bit - the difference between two effective drive values would correspond to $(k_{n} \cdot \Delta\phi_{v}) - (-k_{n} \cdot \Delta\phi_{v}) = 2\Delta\phi_{v}$ for adjacent $k_{n}$, while the DAC offers control resolution of a single $\Delta\phi_{v}$.
 
 \subsubsection{Rounding factor}
-Another designing corner cut is the rounding method selection for driving discrete DAC values while performing calculations with fractional resolution. Especially prone designs are the ones using floating point arithmetics (e.g. IEEE-754 float/double, typically used in C/C++ of programmable logic). The problem lays in the rounding direction when working with both positive and negative values (which is the case for driving bias points both ways from zero). Mathematicall symmetry of this operation leads to resolution loss. This is regardless of whether the selected rounding algorithm is:
+Another design corner cut is the rounding method selection for driving discrete DAC values while performing calculations with fractional resolution. Especially prone designs are the ones using floating-point arithmetic (e.g. IEEE-754 float/double, typically used in C/C++ of programmable logic). The problem lies in the rounding direction when working with both positive and negative values (which is the case for driving bias points both ways from zero). Mathematical symmetry of this operation leads to resolution loss. This is regardless of whether the selected rounding algorithm is:
 \begin{itemize}
     \item truncation, or rounding towards zero ($-2.2 \rightarrow -2$, $2.7 \rightarrow 2$),
     \item mathematical rounding ($2.4 \rightarrow 2$, $2.5 \rightarrow 3$),
@@ -376,7 +382,7 @@ Another designing corner cut is the rounding method selection for driving discre
 \textbf{TODO check example for all three!!! TODO}
 
 \noindent
-If the algorithm rounds fractional values symmetrically, it will lead to the same resolution degradation as described in the previous section. While the effect is the same, the reason is different as the algorithm may not necessarily be implemented to use fractional arithmetics - even though it would rather be recommended. This case is worth of emphasizing, as multiple implementations are expected to be using floating point arithmetics in particular. This important nummerical issue arises when performing calculations in floating point and simply mapping the result to binary or U2 format required by a DAC. The following snippet shows an example.
+If the algorithm rounds fractional values symmetrically, it will lead to the same resolution degradation as described in the previous section. While the effect is the same, the reason is different as the algorithm may not necessarily be implemented to use fractional arithmetics - even though it is the recommended approach. This case is worth emphasizing, as multiple implementations are expected to use floating-point arithmetic in particular. This important numerical issue arises when performing calculations in floating point and simply mapping the result to binary or U2 format required by a DAC. The following snippet shows an example.
 
 \begin{figure}[ht]
     \centering
@@ -406,13 +412,15 @@ In effect the resulting drive does not always correspond to the intended differe
     \end{split}
 \end{equation}
 
-Additional problem is that this only happens at the level of the least significant bit, so the only reasonable way to track this error is through nummerical analysis or simulation of the actual algorithm. It will not be visible in operation, due to the error magnitude relative to the rest of the waveform.
+Additional problem is that this only happens at the level of the least significant bit, so the only reasonable way to track this error is through numerical analysis or simulation of the actual algorithm. It will not be visible in operation, due to the error magnitude relative to the rest of the waveform.
 
 \textbf{TODO TODO screen z SDK? TODO}
 
+A correct implementation must address all three pitfalls simultaneously, as described next.
+
 \subsection{Optimal implementation}
-Correct implementation, presented in the snippet in Figure~\ref{fig:snippet_implementation}, accomodates for the mentioned traps. It controls four recent samples at all times and it selects a rounding method, which has two advantages. Firstly, it is correct in terms of modulating with the accuracy of a single lsb. Secondly, it is implementation efficient. It utilizes the property of U2 representation, which always rounds values towards $-\inf$, resembling mathematical $floor$ operation.
-It also uses fixed--point arithmetics to perform calculations with fractional precision. The format used is Q6.2, where the values $\pm\frac{1}{4}$ and $\pm\frac{3}{4}$ are simply expressed as integers $\pm1$ and $\pm3$. For the final result the fractional bits are simply dropped - using right--shift operation in this case. It has to be noted, that fixed--point arithmetics is an optimal choice for implementing an algorithm which does not deal with values high dynamic range and where determinismregarding accuracy is of paramount importance. Moreover, a floating--point format will also utilize more resources - both in the context of performing operations (addition, multiplication, etc.) and also for value storage (they require additional bits for storing both mantissa and exponent). 
+Correct implementation, presented in the snippet in Figure~\ref{fig:snippet_implementation}, accommodates the mentioned pitfalls. It controls four recent samples at all times and it selects a rounding method, which has two advantages. Firstly, it is correct in terms of modulating with the accuracy of a single lsb. Secondly, it is implementation--efficient. It utilizes the property of U2 representation, which always rounds values towards $-\inf$, resembling mathematical $floor$ operation.
+It also uses fixed--point arithmetics to perform calculations with fractional precision. The format used is Q6.2, where the values $\pm\frac{1}{4}$ and $\pm\frac{3}{4}$ are simply expressed as integers $\pm1$ and $\pm3$. For the final result the fractional bits are simply dropped - using right--shift operation in this case. It has to be noted, that fixed--point arithmetics is an optimal choice for implementing an algorithm which does not deal with values of high dynamic range and where determinism regarding accuracy is of paramount importance. Moreover, a floating--point format will also utilize more resources - both in the context of performing operations (addition, multiplication, etc.) and also for value storage (they require additional bits for storing both mantissa and exponent). 
 
 \begin{figure}[ht]
     \centering
@@ -443,18 +451,15 @@ In this case the effective drive corresponds to the scale factor, which was inte
     ((3) - (-4)) - ((-12) - (9)) = 28 \quad [\Delta\phi_{v}]
 \end{equation}
 
-Another possible implementation is to simply execute the control loop once every four samples. This results in very straightforward implementation, which apriori determines all four drive levels and applies them. however, an important drawback of such solution is that only two of four bias points from Equation~\ref{eq:bias_order} are usable for both scale factor and rotation calculation. This results from the dependence of the rotation measurement accuracy on scale factor in each of the bias points. A detailed analysis in that matter is a subject for further work. 
+Another possible implementation is to simply execute the control loop once every four samples. This results in very straightforward implementation, which apriori determines all four drive levels and applies them. However, an important drawback of such a solution is that only two of four bias points from Equation~\ref{eq:bias_order} are usable for both scale factor and rotation calculation. This results from the dependence of the rotation measurement accuracy on scale factor in each of the bias points. A detailed analysis of this matter remains a subject for further work. 
 
 \section{Conclusions and further work}
-This work discusses certain aspects of implementing a modulator for closed--loop iFOGs, which are of crucial importance when thinking of a modern design. An all--digital hardware architecture was presented and advocated for, as it has the greatest potential for performance improvements. What follows are some software development challenges, some of which were presented. Solutions have been provided for those and an algorithm base was established, however this work requires continuation. This is especially valid for the mathematical analysis conducted in this paper, which also has to be done for rotation calculation - in particular, the effect of generating a ramp signal with Serrodyne modulation - intentionally omitted at this time. Furthermore, a complete analysis including demodulation process and control loops closure needs to be provided to ensure the whole design is well optimized - because the system is as performant, as its least performing element.
+An all--digital hardware architecture was presented and advocated for, as it offers the greatest potential for performance improvements through reduced analog complexity and software--defined flexibility. The key finding of the conducted analysis is that the scale factor feedback signal depends on four consecutive drive samples rather than two — a non--obvious result with direct consequences for algorithm correctness. Three implementation pitfalls were identified, and an optimal fixed--point algorithm was derived that recovers one bit of effective resolution through correct sample accounting and rounding. This work requires continuation: the mathematical analysis must also be applied to rotation calculation — in particular, the effect of generating a ramp signal with Serrodyne modulation — intentionally omitted at this time. Furthermore, a complete analysis including the demodulation process and control loop closure needs to be provided to ensure the whole design is well optimized — because the system is as performant as its least performing element.
 
-\noindent
-This paper provides background for further optimizations in software devlopment for the closed--loop iFOG. 
 
 \textbf{TODO TODO TODO}
 % what can you add?
 % what would you change?
-% rewrite the conclusions section
 % what respected scientiic paper could be cited here?
 % check indentation
 % check grammatically
