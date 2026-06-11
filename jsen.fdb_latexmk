@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1781197635.7243 "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" "jsen.pdf" "jsen" 1781197638.03841 0
+["pdflatex"] 1781212843.7035 "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" "jsen.pdf" "jsen" 1781212845.84184 0
   "/etc/texmf/web2c/texmf.cnf" 1778624115.71215 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" 1781197637.45866 43625 9f114620fa155185d2ccc46da00e2099 ""
+  "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" 1781212843.76695 42796 14edea06b40ce68c7f2de9425c3cea76 ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -119,7 +119,7 @@
   "img/dedicated_gain_stage.png" 1779382982.13948 45818 82749b8b807ea477fb35af7aec84d40e ""
   "img/fog.png" 1779200554.52897 107842 d87c989a0638d0f05324ccc0b8774738 ""
   "img/response.png" 1779200554.54572 106265 77a085b2026ebee97994947a4dcd4f3f ""
-  "jsen.aux" 1781197637.83147 6945 035adaca8a96dbb7f241650f33ce2d53 "pdflatex"
+  "jsen.aux" 1781212846.14867 7061 b1538bb82c8b694ba937d249abe43765 "pdflatex"
   "jsen.sty" 1781015978.35653 194 f631e3cbadef91d3bbac8bb0024e0448 ""
   (generated)
   "jsen.aux"

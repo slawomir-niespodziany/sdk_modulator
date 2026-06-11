@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.13)  11 JUN 2026 19:07
+This is pdfTeX, Version 3.141592653-2.6-1.40.25 (TeX Live 2023/Debian) (preloaded format=pdflatex 2026.5.13)  11 JUN 2026 23:20
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -298,20 +298,20 @@ File: l3backend-pdftex.def 2024-01-04 L3 backend support: PDF output (pdfTeX)
 ) (./jsen.aux)
 \openout1 = `jsen.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 25.
-LaTeX Font Info:    ... okay on input line 25.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 22.
+LaTeX Font Info:    ... okay on input line 22.
  (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
 \scratchcounter=\count302
@@ -334,41 +334,36 @@ File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Live
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: float package is loaded.
 Package caption Info: End \AtBeginDocument code.
-Package color Info: Redefining color nblue on input line 60.
-Package color Info: Redefining color mblue on input line 60.
-LaTeX Font Info:    Trying to load font information for OT1+phv on input line 60.
+Package color Info: Redefining color nblue on input line 40.
+Package color Info: Redefining color mblue on input line 40.
+LaTeX Font Info:    Trying to load font information for OT1+phv on input line 40.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2020/03/25 scalable font definitions for OT1/phv.
 )
-Package color Info: Redefining color nblue on input line 60.
-Package color Info: Redefining color mblue on input line 60.
+Package color Info: Redefining color nblue on input line 40.
+Package color Info: Redefining color mblue on input line 40.
 LaTeX Font Info:    Font shape `OT1/phv/b/it' in size <9> not available
-(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 60.
-Package color Info: Redefining color nblue on input line 60.
-Package color Info: Redefining color mblue on input line 60.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 60.
+(Font)              Font shape `OT1/phv/b/sl' tried instead on input line 40.
+Package color Info: Redefining color nblue on input line 40.
+Package color Info: Redefining color mblue on input line 40.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 40.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 60.
+LaTeX Font Info:    Trying to load font information for U+msb on input line 40.
  (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
-Package color Info: Redefining color nblue on input line 60.
-Package color Info: Redefining color mblue on input line 60.
-Package color Info: Redefining color nblue on input line 60.
-Package color Info: Redefining color mblue on input line 60.
-Package color Info: Redefining color nblue on input line 60.
-Package color Info: Redefining color mblue on input line 60.
-LaTeX Font Info:    Trying to load font information for T1+phv on input line 62.
+Package color Info: Redefining color nblue on input line 40.
+Package color Info: Redefining color mblue on input line 40.
+Package color Info: Redefining color nblue on input line 40.
+Package color Info: Redefining color mblue on input line 40.
+Package color Info: Redefining color nblue on input line 40.
+Package color Info: Redefining color mblue on input line 40.
+LaTeX Font Info:    Trying to load font information for T1+phv on input line 42.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
 )
-<img/fog.png, id=1, 819.06pt x 576.1525pt>
-File: img/fog.png Graphic file (type png)
-<use img/fog.png>
-Package pdftex.def Info: img/fog.png  used on input line 90.
-(pdftex.def)             Requested size: 204.76575pt x 144.03777pt.
 Package epstopdf Info: Source file: <LOGO-jsen-web.eps>
 (epstopdf)                    date: 2026-06-09 16:39:38
 (epstopdf)                    size: 49307 bytes
@@ -376,12 +371,12 @@ Package epstopdf Info: Source file: <LOGO-jsen-web.eps>
 (epstopdf)                    date: 2026-06-09 16:39:38
 (epstopdf)                    size: 7936 bytes
 (epstopdf)             Command: <repstopdf --outfile=LOGO-jsen-web-eps-converted-to.pdf LOGO-jsen-web.eps>
-(epstopdf)             \includegraphics on input line 97.
+(epstopdf)             \includegraphics on input line 68.
 Package epstopdf Info: Output file is already uptodate.
-<LOGO-jsen-web-eps-converted-to.pdf, id=3, 138.5175pt x 33.12375pt>
+<LOGO-jsen-web-eps-converted-to.pdf, id=1, 138.5175pt x 33.12375pt>
 File: LOGO-jsen-web-eps-converted-to.pdf Graphic file (type pdf)
 <use LOGO-jsen-web-eps-converted-to.pdf>
-Package pdftex.def Info: LOGO-jsen-web-eps-converted-to.pdf  used on input line 97.
+Package pdftex.def Info: LOGO-jsen-web-eps-converted-to.pdf  used on input line 68.
 (pdftex.def)             Requested size: 85.79993pt x 20.51729pt.
 
 Overfull \hbox (221.20007pt too wide) has occurred while \output is active
@@ -405,35 +400,40 @@ Overfull \vbox (14.8968pt too high) has occurred while \output is active []
 
 
  <./LOGO-jsen-web-eps-converted-to.pdf>]
+<img/fog.png, id=19, 819.06pt x 576.1525pt>
+File: img/fog.png Graphic file (type png)
+<use img/fog.png>
+Package pdftex.def Info: img/fog.png  used on input line 71.
+(pdftex.def)             Requested size: 204.76575pt x 144.03777pt.
 <img/response.png, id=21, 574.5465pt x 240.4182pt>
 File: img/response.png Graphic file (type png)
 <use img/response.png>
-Package pdftex.def Info: img/response.png  used on input line 105.
+Package pdftex.def Info: img/response.png  used on input line 86.
 (pdftex.def)             Requested size: 252.0pt x 105.45049pt.
 <img/bias.png, id=22, 574.5465pt x 240.4182pt>
 File: img/bias.png Graphic file (type png)
 <use img/bias.png>
-Package pdftex.def Info: img/bias.png  used on input line 118.
+Package pdftex.def Info: img/bias.png  used on input line 99.
 (pdftex.def)             Requested size: 252.0pt x 105.45049pt.
 <img/bias_factor_high.png, id=23, 574.5465pt x 240.4182pt>
 File: img/bias_factor_high.png Graphic file (type png)
 <use img/bias_factor_high.png>
-Package pdftex.def Info: img/bias_factor_high.png  used on input line 131.
+Package pdftex.def Info: img/bias_factor_high.png  used on input line 112.
 (pdftex.def)             Requested size: 247.6778pt x 103.64194pt.
 <img/bias_factor_low.png, id=24, 574.5465pt x 240.4182pt>
 File: img/bias_factor_low.png Graphic file (type png)
 <use img/bias_factor_low.png>
-Package pdftex.def Info: img/bias_factor_low.png  used on input line 137.
+Package pdftex.def Info: img/bias_factor_low.png  used on input line 118.
 (pdftex.def)             Requested size: 247.6778pt x 103.64194pt.
 <img/bias_shift_pos.png, id=25, 574.5465pt x 240.4182pt>
 File: img/bias_shift_pos.png Graphic file (type png)
 <use img/bias_shift_pos.png>
-Package pdftex.def Info: img/bias_shift_pos.png  used on input line 143.
+Package pdftex.def Info: img/bias_shift_pos.png  used on input line 124.
 (pdftex.def)             Requested size: 247.6778pt x 103.64194pt.
 <img/bias_shift_neg.png, id=26, 574.5465pt x 240.4182pt>
 File: img/bias_shift_neg.png Graphic file (type png)
 <use img/bias_shift_neg.png>
-Package pdftex.def Info: img/bias_shift_neg.png  used on input line 149.
+Package pdftex.def Info: img/bias_shift_neg.png  used on input line 130.
 (pdftex.def)             Requested size: 247.6778pt x 103.64194pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -443,30 +443,30 @@ Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
  [2 <./img/fog.png> <./img/response.png> <./img/bias.png>]
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <10> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 188.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 175.
 <img/dedicated_gain_stage.png, id=33, 1001.7425pt x 262.9825pt>
 File: img/dedicated_gain_stage.png Graphic file (type png)
 <use img/dedicated_gain_stage.png>
-Package pdftex.def Info: img/dedicated_gain_stage.png  used on input line 193.
+Package pdftex.def Info: img/dedicated_gain_stage.png  used on input line 180.
 (pdftex.def)             Requested size: 247.6778pt x 65.01913pt.
 
-Underfull \hbox (badness 1509) in paragraph at lines 194--194
+Underfull \hbox (badness 1509) in paragraph at lines 181--181
 [][]\OT1/phv/m/n/10 Fig. 5[]\OT1/ptm/m/n/10 : |Mod-u-la-tor with a ded-i-cated ana-log gain stage.
  []
 
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <7> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 200.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 189.
 
 Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
  [3 <./img/bias_factor_high.png> <./img/bias_factor_low.png> <./img/bias_shift_pos.png> <./img/bias_shift_neg.png>]
-<img/all_digital.png, id=48, 780.9175pt x 218.8175pt>
+<img/all_digital.png, id=47, 780.9175pt x 218.8175pt>
 File: img/all_digital.png Graphic file (type png)
 <use img/all_digital.png>
-Package pdftex.def Info: img/all_digital.png  used on input line 210.
+Package pdftex.def Info: img/all_digital.png  used on input line 197.
 (pdftex.def)             Requested size: 247.6778pt x 69.39865pt.
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 219.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 208.
 
 Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
@@ -474,7 +474,7 @@ Overfull \vbox (5.0pt too high) has occurred while \output is active []
 Overfull \vbox (5.0pt too high) has occurred while \output is active []
 
  [5]
-LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 383.
+LaTeX Font Info:    Trying to load font information for OT1+pcr on input line 365.
  (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
 File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
 )
@@ -491,14 +491,14 @@ L3 programming layer <2024-01-22>
  ) 
 Here is how much of TeX's memory you used:
  5675 strings out of 476106
- 93184 string characters out of 5793933
- 1959975 words of memory out of 5000000
+ 93215 string characters out of 5793933
+ 1960975 words of memory out of 5000000
  27602 multiletter control sequences out of 15000+600000
  616870 words of font info for 131 fonts, out of 8000000 for 9000
  59 hyphenation exceptions out of 8191
  67i,23n,77p,1824b,544s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvbo8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on jsen.pdf (7 pages, 807463 bytes).
+Output written on jsen.pdf (7 pages, 809020 bytes).
 PDF statistics:
  156 PDF objects out of 1000 (max. 8388607)
  84 compressed objects within 1 object stream
