@@ -404,8 +404,8 @@ Additional problem is that this only happens at the level of the least significa
 A correct implementation must address all three pitfalls simultaneously, as described next.
 
 \subsection{Optimal implementation}
-Correct implementation, presented in the snippet in Figure~\ref{fig:snippet_implementation}, accommodates the mentioned pitfalls. It controls four recent samples at all times and it selects a rounding method, which has two advantages. Firstly, it is correct in terms of modulating with the accuracy of a single lsb. Secondly, it is implementation--efficient. It utilizes the property of U2 representation, which always rounds values towards $-\inf$, resembling mathematical $floor$ operation.
-It also uses fixed--point arithmetics to perform calculations with fractional precision. The format used is Q6.2, where the values $\pm\frac{1}{4}$ and $\pm\frac{3}{4}$ are simply expressed as integers $\pm1$ and $\pm3$. For the final result the fractional bits are simply dropped - using right--shift operation in this case. It has to be noted, that fixed--point arithmetics is an optimal choice for implementing an algorithm which does not deal with values of high dynamic range and where determinism regarding accuracy is of paramount importance. Moreover, a floating--point format will also utilize more resources - both in the context of performing operations (addition, multiplication, etc.) and also for value storage (they require additional bits for storing both mantissa and exponent). 
+Correct implementation, presented in the snippet in Figure~\ref{fig:snippet_implementation}, accommodates the mentioned pitfalls. It controls four recent samples at all times and it selects a rounding method, which has two advantages. Firstly, it is correct in terms of modulating with the accuracy of a single lsb. Secondly, it is implementation--efficient. It utilizes the property of U2 representation, which always rounds values towards $-\inf$ (negative infinity), resembling mathematical $floor$ operation.
+The implementation also uses fixed--point arithmetic to perform calculations with fractional precision. The format used is Q6.2, where the values $\pm\frac{1}{4}$ and $\pm\frac{3}{4}$ are simply expressed as integers $\pm1$ and $\pm3$. For the final result the fractional bits are dropped using right--shift operation. It has to be noted, that fixed--point arithmetics is an optimal choice for implementing this algorithm, as it does not deal with values of high dynamic range and for which numerical determinism is of paramount importance. Moreover, a floating--point format would utilize more resources - both in the context of performing operations (addition, multiplication, etc.) and also for value storage (it requires additional bits for storing both mantissa and exponent). 
 
 \begin{figure}[ht]
     \centering
@@ -426,17 +426,17 @@ int8_t dac[4n+0] = (scaleFactor[4n+0] * -0x3) >> 2 = -12;
 int8_t dac[4n+1] = (scaleFactor[4n+0] *  0x1) >> 2 = 3;
 }
     \end{verbatim}}
-    \caption{Pseudocode for controlling the scale factor for the current two bias points while accounting for the values driven previously. The arithmetics is implemented using Q6.2 fixed--point format. Rounding towards $-\inf$ is natively handled for this format.}
+    \caption{Pseudocode for controlling the scale factor for the current two bias points while accounting for the values driven previously. The arithmetics is implemented using Q6.2 fixed--point format, for which rounding towards $-\inf$ is natively handled.}
     \label{fig:snippet_implementation}
 \end{figure}
 
-In this case the effective drive corresponds to the scale factor, which was intended for the latter two bias points, but it had to account for the previous pair:
+In this example the effective drive corresponds to the scale factor, which was intended for the latter two bias points, but has also accounted for the previous pair
 
 \begin{equation}
-    ((3) - (-4)) - ((-12) - (9)) = 28 \quad [\Delta\phi_{v}]
+    ((3) - (-4)) - ((-12) - (9)) = 28 \quad [\Delta\phi_{v}] \text{.}
 \end{equation}
 
-Another possible implementation is to simply execute the control loop once every four samples. This results in very straightforward implementation, which apriori determines all four drive levels and applies them. However, an important drawback of such a solution is that only two of four bias points from Equation~\ref{eq:bias_order} are usable for both scale factor and rotation calculation. This results from the dependence of the rotation measurement accuracy on scale factor in each of the bias points. A detailed analysis of this matter remains a subject for further work. 
+Another possible approach would be to simply execute the control loop once every four samples. This results in very straightforward implementation, which apriori determines all four drive levels and applies them. However, main drawback of this solution is that only two of four bias points from (\ref{eq:bias_order}) are usable for both scale factor and rotation calculation. This results from the dependence of the rotation measurement accuracy on the scale factor being controlled between each of the bias points pair. A detailed analysis of this matter remains a subject for further work. 
 
 \section{Conclusions and further work}
 An all--digital hardware architecture was presented and advocated for, as it offers the greatest potential for performance improvements through reduced analog complexity and software--defined flexibility. The key finding of the conducted analysis is that the scale factor feedback signal depends on four consecutive drive samples rather than two — a non--obvious result with direct consequences for algorithm correctness. Three implementation pitfalls were identified, and an optimal fixed--point algorithm was derived that recovers one bit of effective resolution through correct sample accounting and rounding. This work requires continuation: the mathematical analysis must also be applied to rotation calculation — in particular, the effect of generating a ramp signal with Serrodyne modulation — intentionally omitted at this time. Furthermore, a complete analysis including the demodulation process and control loop closure needs to be provided to ensure the whole design is well optimized — because the system is as performant as its least performing element.
