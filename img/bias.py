@@ -23,7 +23,7 @@ n = int(n_nom * factor) + shift
 # point 0 - draw
 ax.scatter(x[(N // 2) + n], y[(N // 2) + n], color="#4094c2", edgecolor='black', marker="o", s=40, zorder=4)
 # point 0 - point annotation
-ax.annotate(r"$\Delta\phi_{n}^{+\frac{3}{2}\pi}$", xy=(x[(N // 2) + n], y[(N // 2) + n]), xytext=(-32, 6), textcoords="offset points", fontsize=12, zorder=4)
+ax.annotate(r"$\Delta\phi_{4n}^{+\frac{3}{2}\pi}$", xy=(x[(N // 2) + n], y[(N // 2) + n]), xytext=(-32, 6), textcoords="offset points", fontsize=12, zorder=4)
 # point 0 - horizontal gray line
 ax.plot([0, x[(N // 2) + n]], [y[(N // 2) + n], y[(N // 2) + n]], color="gray", linestyle="--", zorder=2)
 # point 0 - vertical gray line
@@ -40,7 +40,7 @@ n = int(n_nom * factor) + shift
 # point 1 - draw
 ax.scatter(x[(N // 2) + n], y[(N // 2) + n], color="#4094c2", edgecolor='black', marker="o", s=40, zorder=4)
 # point 1 - point annotation
-ax.annotate(r"$\Delta\phi_{n+1}^{-\frac{1}{2}\pi}$", xy=(x[(N // 2) + n], y[(N // 2) + n]), xytext=(-39, 6), textcoords="offset points", fontsize=12, zorder=4)
+ax.annotate(r"$\Delta\phi_{4n+1}^{-\frac{1}{2}\pi}$", xy=(x[(N // 2) + n], y[(N // 2) + n]), xytext=(-45, 6), textcoords="offset points", fontsize=12, zorder=4)
 # point 1 - horizontal gray line
 ax.plot([0, x[(N // 2) + n]], [y[(N // 2) + n], y[(N // 2) + n]], color="gray", linestyle="--", zorder=2)
 # point 1 - vertical gray line
@@ -57,7 +57,7 @@ n = int(n_nom * factor) + shift
 # point 2 - draw
 ax.scatter(x[(N // 2) + n], y[(N // 2) + n], color="#4094c2", edgecolor='black', marker="o", s=40, zorder=4)
 # point 2 - point annotation
-ax.annotate(r"$\Delta\phi_{n+2}^{-\frac{3}{2}\pi}$", xy=(x[(N // 2) + n], y[(N // 2) + n]), xytext=(0, 6), textcoords="offset points", fontsize=12, zorder=4)
+ax.annotate(r"$\Delta\phi_{4n+2}^{-\frac{3}{2}\pi}$", xy=(x[(N // 2) + n], y[(N // 2) + n]), xytext=(0, 6), textcoords="offset points", fontsize=12, zorder=4)
 # point 2 - horizontal gray line
 ax.plot([0, x[(N // 2) + n]], [y[(N // 2) + n], y[(N // 2) + n]], color="gray", linestyle="--", zorder=2)
 # point 2 - vertical gray line
@@ -74,7 +74,7 @@ n = int(n_nom * factor) + shift
 # point 3 - draw
 ax.scatter(x[(N // 2) + n], y[(N // 2) + n], color="#4094c2", edgecolor='black', marker="o", s=40, zorder=4)
 # point 3 - point annotation
-ax.annotate(r"$\Delta\phi_{n+3}^{+\frac{1}{2}\pi}$", xy=(x[(N // 2) + n], y[(N // 2) + n]), xytext=(0, 6), textcoords="offset points", fontsize=12, zorder=4)
+ax.annotate(r"$\Delta\phi_{4n+3}^{+\frac{1}{2}\pi}$", xy=(x[(N // 2) + n], y[(N // 2) + n]), xytext=(0, 6), textcoords="offset points", fontsize=12, zorder=4)
 # point 3 - horizontal gray line
 ax.plot([0, x[(N // 2) + n]], [y[(N // 2) + n], y[(N // 2) + n]], color="gray", linestyle="--", zorder=2)
 # point 3 - vertical gray line
