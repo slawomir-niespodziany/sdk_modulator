@@ -14,13 +14,13 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \markboth{\journalname, VOL. XX, NO. XX, XXXX 2024}
-{Niespodziany \MakeLowercase{\textit{et al.}}: iFOG modulator design and algorithmic optimization for maximizing scale factor control precision}
+{Niespodziany \MakeLowercase{\textit{et al.}}: Algorithmic optimization for maximizing scale factor control precision with an all--digital modulator architecture for an iFOG}
 \definecolor{abstractbg}{rgb}{0.89804,0.94510,0.83137}
 \setlength{\fboxrule}{0pt}
 \setlength{\fboxsep}{0pt}
 
 \begin{document}
-\title{iFOG modulator design and algorithmic optimization for maximizing scale factor control precision}
+\title{Algorithmic optimization for maximizing scale factor control precision with an all--digital modulator architecture for an iFOG}
 \author{Sławomir Niespodziany }
 
 \IEEEtitleabstractindextext{%
@@ -136,8 +136,6 @@ Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds 
     \label{fig:bias_errors}
 \end{figure}
 
-% \textbf{TODO FIX IN THE FIGURE n+1 => 4n+1 etc.}
-
 From a control point of view and for simplicity, the total combined scale factor of the processing pipeline can be referred to as the half--wave voltage $V_{\pi}$. Even though the actuator gain drift itself is only one of the scale factor components, the assumed linearity of others makes it convenient to aggregate all into a single parameter. This paper assumes them to be included in $V_{\pi}$. Other non--linear errors, such as DAC INL, are out of scope of this analysis. 
 
 \noindent
@@ -182,8 +180,6 @@ A reasonable tradeoff between analog and digital approaches is the architecture 
     \label{fig:dedicated_gain_stage}
 \end{figure}
 
-\textbf{TODO IN FIGURE ELECTRO-OPTIC}
-
 \noindent
 In this configuration, the DAC and PGA are driven with $n-$ and $m$--bit words. The digital nature of controlling the gain stage introduces unavoidable quantization noise into the control loop. One of the important advantages of this setup is the intrinsic separation of the modulation problem into two smaller parts - generating the waveform in fixed--scale and applying the scale factor afterwards. The two can be implemented by software without dependence on each other, resulting in two distinct control loops. On the downside, the dedicated gain stage is subject to interference. It may have its own nonlinearities and introduce delay in the signal path. Most importantly, its bandwidth may be gain-dependent, distorting the outgoing waveform.
 
@@ -198,8 +194,6 @@ The all--digital approach depicted in Figure~\ref{fig:all_digital} utilizes the 
     \caption{All--digital modulator consists of minimal number of electronic components. In some applications this can simply be a DAC alone.}
     \label{fig:all_digital}
 \end{figure}
-
-\textbf{TODO IN FIGURE ELECTRO-OPTIC}
 
 \noindent
 An additional advantage of the proposed architecture is that the whole design becomes a software--defined solution. As in other fields, such an approach brings flexibility from the R\&D process perspective. This is mainly because, while iterating hardware is a time--consuming process, updating software is relatively quick and cost-effective. Moving the problem completely to the software side obviously makes the implementation more complex, but at the same time it limits the amount of interaction at the boundary between software and hardware development, significantly reducing overhead. From this perspective the net workload remains relatively stable, offering a slightly different — more modern — approach.
@@ -365,7 +359,7 @@ Another design corner cut is the rounding method selection for driving discrete 
 \end{itemize}
 
 \noindent
-\textbf{TODO check example for all three!!! TODO}
+\textbf{TODO check example for all three!!!}
 
 \noindent
 If the algorithm rounds fractional values symmetrically, it will lead to the same resolution degradation as described in the previous section. While the effect is the same, the reason is different as the algorithm may not necessarily be implemented to use fractional arithmetics - even though it is the recommended approach. This case is worth emphasizing, as multiple implementations are expected to use floating-point arithmetic in particular. This important numerical issue arises when performing calculations in floating point and simply mapping the result to binary or U2 format required by a DAC. The following snippet shows an example.
@@ -398,9 +392,14 @@ In effect the resulting drive does not always correspond to the intended differe
     \end{split}
 \end{equation}
 
-Additional problem is that this only happens at the level of the least significant bit, so the only reasonable way to track this error is through numerical analysis or simulation of the actual algorithm. It will not be visible in operation, due to the error magnitude relative to the rest of the waveform.
+Additional problem is that this only happens at the level of the least significant bit, so the only reasonable way to track this error is through numerical analysis or simulation of the actual algorithm. It will not be visible in operation, due to the error magnitude relative to the rest of the waveform (Figure~\ref{fig:sdk}).
 
-\textbf{TODO TODO screen z SDK? TODO}
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=1.0\linewidth]{img/sdk.png}
+    \caption{Modulation pattern acquired using \textit{Sagnac Development Kit} presents an 18b--DAC operating at f=1MHz. Yellow waveform is the biasing sequence, symmetical around zero. Even with a low resolution DAC determining errors at the lsb level would not be possible visually. The cyan waveform in the nulling ramp with Serrodyne reset at $2\pi$.}
+    \label{fig:sdk}
+\end{figure}
 
 A correct implementation must address all three pitfalls simultaneously, as described next.
 
