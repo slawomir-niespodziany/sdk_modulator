@@ -332,26 +332,36 @@ and can be generalized for every odd bias sample, where it shall be calculated (
 \end{equation}
 
 \noindent
-The feedback signal $e$, used for loop closure, depends on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resolution, the scale factor error, and thus the occurring errors $\delta_n$ are all controllable with a fixed delta of $\Delta\phi_{v}$ corresponding to $\Delta{}v$. In particular the presented error $e_{2n+1}$ for the last four samples can be controlled with $\Delta\phi_{v}$ accuracy, but this may only happen when the current sample accounts for the three previous ones. These dependencies directly constrain the algorithm design, as discussed in the following section.
+The feedback signal, used for loop closure, depends on four recent drive values. Because the DAC can be controlled with $\Delta{}v$ resolution, the scale factor error, and thus the occurring errors $\delta_n$ are all controllable with a fixed delta of $\Delta\phi_{v}$ corresponding to $\Delta{}v$. In particular, the presented error $e_{2n+1}$ for the last four samples can be controlled with $\Delta\phi_{v}$ accuracy, but this may only happen when value calculation of the current sample accounts for the three previous ones. These dependencies directly constrain the algorithm design, as discussed in the following section.
 
 \section{Algorithm design}
-From the derived error equation, a few important results can be determined. In this section, the most likely mistakes in algorithm design are first emphasized, followed by a correct modulator implementation presented in pseudocode.
+From the derived error (\ref{eq:difference_generic}), a few important findings can be determined. In this section, the few likely mistakes in algorithm design are first emphasized, followed by a correct modulator implementation presented in pseudocode.
 
 \subsection{Naive implementation}
 Three pitfalls arise from overlooking details of the derivation in Section~\ref{sec:precision_estimation_and_impact}. Each is subtle enough to go unnoticed in operation, yet each degrades performance.
 
 \subsubsection{Number of samples considered}
-The modulation algorithm is a subsystem of the control loop implemented in the device. Since the scale factor feedback signal is obtained by comparing two consecutive intensity levels (Equation~\ref{eq:difference}), an intuitive conclusion follows that the control loop shall operate at the rate corresponding to the period of two samples. While being correct, this assumption requires additional constraints, otherwise it leads to a naive and incorrect solution. From Equation~\ref{eq:difference_generic} it is clear, that the feedback signal depends on four adjacent samples, not two. Without the conducted derivation this would not be immediately obvious. A naive algorithm only considering one sample pair could easily lead to control loop oscillations and performance degradation. A correct solution is to always account for the recent two drive values, when calculating the next two. 
+The modulation algorithm is one of the building blocks of the control loop implemented in the device. Since the scale factor feedback signal is obtained by comparing two consecutive intensity levels (\ref{eq:difference}), an intuitive conclusion follows, that the control loop shall operate at the rate corresponding to the period of two samples. While being correct, this assumption requires additional constraints, otherwise it leads to a naive and incorrect solution. From (\ref{eq:difference_generic}) it is clear, that the feedback signal depends on four adjacent samples, not two. Without the conducted derivation this would not be immediately obvious. A naive algorithm only considering one sample pair could easily lead to control loop oscillations and performance degradation. A correct solution is to always account for the recent two drive values, when calculating the following two. 
 
 \subsubsection{Drive symmetry}
-The intended drive values between samples $n$ and $n+2$ are symmetrical, i.e. they differ in sign, but have identical amplitude. However, for an actual signal driven with a DAC, this assumption falls short. This is due to the discrete nature of a DAC. In an ideal scenario, a symmetric drive would be desired, but this assumes perfectly controlled amplitude. When the amplitude is discretized, the most reasonable solution is to utilize as much of the resolution, while keeping the drive signals relatively symmetrical - as a second priority. This allows for having a $1 [lsb]$ amplitude difference, which results in phase shift control accuracy of a single lsb. Otherwise, the effective resolution would be lowered by one bit - the difference between two effective drive values would correspond to $(k_{n} \cdot \Delta\phi_{v}) - (-k_{n} \cdot \Delta\phi_{v}) = 2\Delta\phi_{v}$ for adjacent $k_{n}$, while the DAC offers control resolution of a single $\Delta\phi_{v}$.
+The intended drive values between samples $n$ and $n+2$ are symmetrical, i.e. they differ in sign, but have identical amplitude. However, for an actual signal driven with a DAC, this assumption falls short. This is due to the discrete nature of a DAC. In an ideal scenario, a symmetric drive would be desired, but this assumes perfectly controlled amplitude. When the amplitude is discretized, the most reasonable solution is to utilize as much of the resolution, while keeping the drive signals symmetrical as a second priority. This allows for having a $1 [lsb]$ amplitude difference, which results in phase shift control accuracy of a single lsb. Otherwise, the effective resolution would be lowered by one bit - amplitude of the effective phase shift would correspond to 
+
+\begin{equation}
+    (k_{n} \cdot \Delta\phi_{v}) - (-k_{n} \cdot \Delta\phi_{v}) = 2k_{n}\Delta\phi_{v}
+\end{equation}
+
+\noindent
+which for adjacent $k_{n}$ values yields the available accuracy of $2\Delta\phi_{v}$, while the DAC offers control resolution of a single $\Delta\phi_{v}$.
 
 \subsubsection{Rounding factor}
-Another design corner cut is the rounding method selection for driving discrete DAC values while performing calculations with fractional resolution. Especially prone designs are the ones using floating-point arithmetic (e.g. IEEE-754 float/double, typically used in C/C++ of programmable logic). The problem lies in the rounding direction when working with both positive and negative values (which is the case for driving bias points both ways from zero). Mathematical symmetry of this operation leads to resolution loss. This is regardless of whether the selected rounding algorithm is:
+Another design corner cut is the rounding method selection for driving discrete DAC values while performing calculations with fractional resolution. Especially prone designs are the ones using floating-point arithmetic (e.g. IEEE-754 float/double, typically used in C/C++ or programmable logic). The problem lies in the rounding direction when working with both positive and negative values (which is the case for driving bias points both ways from zero). Mathematical symmetry of this operation leads to resolution loss. This is regardless of whether the selected rounding algorithm is:
 \begin{itemize}
-    \item truncation, or rounding towards zero ($-2.2 \rightarrow -2$, $2.7 \rightarrow 2$),
-    \item mathematical rounding ($2.4 \rightarrow 2$, $2.5 \rightarrow 3$),
-    \item rounding away from zero ($-2.4 \rightarrow -3$, $2.4 \rightarrow 3$),
+    \item truncation, or rounding towards zero, e.g. \\
+          ($-2.2 \rightarrow -2$, $1 \leftarrow 1.7$),
+    \item mathematical rounding, e.g. \\
+          ($-3 \leftarrow 2.9$, $2.1 \rightarrow 2$, $1 \leftarrow 1.1, 1.5 \rightarrow 2$),
+    \item rounding away from zero, e.g. \\
+          ($-2.4 \rightarrow -3$, $2.4 \rightarrow 3$),
 \end{itemize}
 
 \noindent
