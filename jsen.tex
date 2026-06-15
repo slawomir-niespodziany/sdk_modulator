@@ -14,13 +14,13 @@
 \def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
     T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
 \markboth{\journalname, VOL. XX, NO. XX, XXXX 2024}
-{Niespodziany \MakeLowercase{\textit{et al.}}: Algorithmic optimization for maximizing scale factor control precision with all--digital modulator architecture for an iFOG}
+{Niespodziany \MakeLowercase{\textit{et al.}}: Algorithmic scale factor control optimization for interferometric fiber optic gyroscope}
 \definecolor{abstractbg}{rgb}{0.89804,0.94510,0.83137}
 \setlength{\fboxrule}{0pt}
 \setlength{\fboxsep}{0pt}
 
 \begin{document}
-\title{Algorithmic optimization for maximizing scale factor control precision with all--digital modulator architecture for an iFOG}
+\title{Algorithmic optimization of scale factor control precision with an all--digital modulator for interferometric fiber optic gyroscope}
 \author{Sławomir Niespodziany, Przemysław Rokita, \IEEEmembership{Member, IEEE}
     \thanks{The authors are with the Digital Multimedia Division, Institute of Computer Science, Warsaw University of Technology (e-mails: slawomir.niespodziany@pw.edu.pl, przemyslaw.rokita@pw.edu.pl).}
 }
@@ -42,7 +42,7 @@
 \maketitle
 
 \section{Introduction}
-iFOG (Interferometric Fibre Optic Gyroscope \cite{culshaw2006optical, bergh1984overview}) concept is based on the Sagnac effect, discovered in 1913 \cite{sagnac1913ether, post1967sagnac}. Over the years, its design has been implemented and iterated multiple times, making it well refined. However, the limits which hold the development back are constantly pushed forward as technology evolves \cite{ma2020configuration}. This allows for better precision, miniaturized size, lower power consumption, etc. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such a context drives the already existing designs to be tested and optimized in every possible aspect \cite{liadvances, smailov2026fiber, tashtay2025fiber}. This applies equally to all the optical and electro--optic components, to the electronics, and to the driving software. A crucial part of iFOG control system is the modulator. In a closed--loop design \cite{pavlath1996closed} it is a vital element of the feedback loop, directly affecting overall performance. It drives the optical circuit into a predefined state, in which the circuit's response can be demodulated and error signals determined. 
+iFOG (Interferometric Fibre Optic Gyroscope \cite{culshaw2006optical, bergh1984overview}) concept is based on the Sagnac effect, discovered in 1913 \cite{sagnac1913ether, post1967sagnac}. Over the years, its design has been implemented and iterated multiple times, making it well refined. However, the limits which hold the development back are constantly pushed forward as technology evolves \cite{ma2020configuration}. This allows for better precision, miniaturized size, lower power consumption, etc. At the same time, the ever progressing industry finds new and more strict applications for the gyroscopes, setting the requirements bar even higher. Such a context drives the already existing designs to be tested and optimized in every possible aspect \cite{liadvances, smailov2026fiber, tashtay2025fiber, niespodziany2021detector}. This applies equally to all the optical and electro--optic components, to the electronics, and to the driving software. A crucial part of iFOG control system is the modulator. In a closed--loop design \cite{pavlath1996closed} it is a vital element of the feedback loop, directly affecting overall performance. It drives the optical circuit into a predefined state, in which the circuit's response can be demodulated and error signals determined. 
 
 This paper takes a closer look at the all--digital implementation of the modulator subsystem — in particular its electronic architecture and the algorithm controlling it. Mathematical analysis is conducted to allow for pure--software optimizations and an exemplary implementation is proposed to fully utilize the offered capabilities.
 
@@ -438,29 +438,8 @@ Another possible approach would be to simply execute the control loop once every
 \section{Conclusions and further work}
 An all--digital hardware architecture was presented and advocated for, as it offers the greatest potential for performance improvements. It is achieved through reduced analog complexity and software--defined flexibility. The key finding of the conducted analysis is that the scale factor feedback signal depends on four consecutive drive samples rather than two — a non--obvious result with direct consequences for algorithm correctness. Three implementation pitfalls were identified, and an optimal fixed--point algorithm was derived that recovers one bit of effective resolution through correct sample accounting and rounding. This work requires continuation: the mathematical analysis must also be applied to rotation calculation — in particular, the effect of generating a ramp signal with Serrodyne modulation — intentionally omitted at this time. Furthermore, a complete analysis including the demodulation process and control loop closure needs to be provided to ensure the whole design is well optimized — because the system is as performant as its least performing element.
 
-\begin{thebibliography}{00}
-    \bibitem{culshaw2006optical} Culshaw, Brian. "The optical fibre Sagnac interferometer: an overview of its principles and applications." Measurement Science and Technology 17.1 (2006): R1-R16.
-    \bibitem{bergh1984overview} Bergh, R., H. Lefevre, and H. Shaw. "An overview of fiber-optic gyroscopes." Journal of Lightwave Technology 2.2 (1984): 91-107.
-    \bibitem{sagnac1913ether} Sagnac, Georges. "L'éther lumineux démontré par l'effet du vent relatif d'éther dans un interféromètre en rotation uniforme." CR Acad. Sci. 157 (1913): 708-710.
-    \bibitem{post1967sagnac} Post, Evert Jan. "Sagnac effect." Reviews of Modern Physics 39.2 (1967): 475.
-    \bibitem{ma2020configuration} Ma, Kun, et al. "Configuration optimization in miniature interferometric fiber-optic gyroscopes for space application." IEEE Sensors Journal 20.13 (2020): 7107-7117.
-    \bibitem{liadvances} Li, Ruifeng, et al. "Advances in High-Precision Interferometric Fiber Optic Gyroscope." Advanced Devices \& Instrumentation.
-    \bibitem{smailov2026fiber} Smailov, Nurzhigit, et al. "Fiber-Optic Gyroscopes in Modern Navigation Systems: A Comprehensive Review." Network 6.2 (2026): 28.
-    \bibitem{tashtay2025fiber} Tashtay, Yerlan, et al. "Fiber-Optic Gyroscopes: Architectures, Signal Processing, Error Compensation, and Emerging Trends." Journal of Sensor and Actuator Networks 15.1 (2025): 3.
-    \bibitem{pavlath1996closed} Pavlath, George A. Closed-loop fiber optic gyros. Fiber Optic Gyros 20th Anniversary Conference. Vol. 2837. SPIE, 1996.
-    \bibitem{babu2016digital} Babu, G. Harish, A. Venkata Anuhya, and N. Venkatram. "Digital signal processing scheme for open loop and closed loop IFOG using MATLAB/SIMULINK." Indian Journal of Science and Technology 9.11 (2016): 1-10.
-    \bibitem{lefevre1993fiber} Lefevre, Herve C. "Fiber optic gyroscopes." Optical Fiber Sensors. Dordrecht: Springer Netherlands, 1993.
-    \bibitem{khoshki2014investigation} Khoshki, Rohollah Mazrae, and Submarian Ganesan. "Investigation on Closed-loop Fiber Optic Gyroscope Structure and Operation." International Journal of Hybrid Information Technology 7.5 (2014): 23-32.
-    \bibitem{ccelikel2009design} Çelikel, Oǧuz, and Sait Eren San. "Design details and characterization of all digital closed-loop interferometric fiber optic gyroscope with superluminescent light emitting diode." Optical review 16.1 (2009): 35-43.
-    \bibitem{yan2021research} Yan, Jingtao, et al. "Research on the feedback control characteristics and parameter optimization of closed-loop fiber optic gyroscope." Optik 229 (2021): 166298.
-    \bibitem{zhang2024six} Zhang, Tong, et al. "Six-state modulation method for improving the accuracy of fiber optic gyroscopes by reducing electrical crosstalk." Applied Optics 63.21 (2024): 5653-5660.
-    \bibitem{zhang2018six} Zhang, Chunxi, et al. "Six-state phase modulation for reduced crosstalk in a fiber optic gyroscope." Optics express 26.8 (2018): 10535-10549.
-    \bibitem{li2026analysis} Li, Tiezhi, et al. "Analysis and Compensation for the Impact of IOC Half-Wave Voltage Thermal Dependence Errors on Scale Factor of IFOGs." Journal of Lightwave Technology 44.7 (2026): 2714-2721.
-    \bibitem{wang2012method} Wang, Wei, Junlong Wang, and Zhengxin Zhao. "Method to control the gain in modulation chain of closed-loop fiber optic gyroscope with periodical biasing modulation." Optical Engineering 51.6 (2012): 064401-064401.
-    \bibitem{salvestrini2011analysis} Salvestrini, Jean Paul, et al. "Analysis and control of the dc drift in linbo3-based mach–zehnder modulators." Journal of lightwave technology 29.10 (2011): 1522-1534.
-    \bibitem{ulversoy2010software} Ulversoy, Tore. "Software defined radio: Challenges and opportunities." IEEE Communications Surveys \& Tutorials 12.4 (2010): 531-550.
-    \bibitem{liu2022impact} Liu, Zongwei, Wang Zhang, and Fuquan Zhao. "Impact, challenges and prospect of software-defined vehicles." Automotive Innovation 5.2 (2022): 180-194.
-\end{thebibliography}
+\bibliographystyle{IEEEtran}
+\bibliography{references}
 
 \begin{IEEEbiographynophoto}{Sławomir Niespodziany}
     Academic researcher and engineer specializing in electronics and software development, with a distinct expertise in embedded systems. Affiliated with the Warsaw University of Technology, his work heavily intersects modern C++ practices with hardware design, focusing on creating modular, testable, and reusable architectures tailored specifically for resource-constrained electronic environments. Operating within the Digital Multimedia Division, his current research and engineering efforts focus primarily on FPGA-based designs, algorithm optimization, and computer vision research.

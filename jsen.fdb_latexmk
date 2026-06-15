@@ -1,7 +1,15 @@
 # Fdb version 4
-["pdflatex"] 1781521135.87539 "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" "jsen.pdf" "jsen" 1781521141.21954 0
+["bibtex jsen"] 1781523260.42742 "jsen.aux" "jsen.bbl" "jsen" 1781523424.84741 0
+  "./IEEEtran.bst" 1781015978.2601 57748 7c8250ecf02814ce6ddc0cdbb63df1dd ""
+  "./references.bib" 1781523032.64487 7934 a0f6cd88f272c3a10f8506e176e86084 ""
+  "jsen.aux" 1781523424.48477 8485 10a1c6b672376d10bb100d5567145616 "pdflatex"
+  (generated)
+  "jsen.bbl"
+  "jsen.blg"
+  (rewritten before read)
+["pdflatex"] 1781523422.00869 "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" "jsen.pdf" "jsen" 1781523424.85297 0
   "/etc/texmf/web2c/texmf.cnf" 1778624115.71215 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" 1781521135.29865 48133 039d073f8643110db63d5be88a4a503e ""
+  "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" 1781523421.75493 44125 31f79b191dc4e7eb54635645b59746ee ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -122,7 +130,8 @@
   "img/fog.png" 1779200554.52897 107842 d87c989a0638d0f05324ccc0b8774738 ""
   "img/response.png" 1779200554.54572 106265 77a085b2026ebee97994947a4dcd4f3f ""
   "img/sdk.png" 1781339197.52154 41741 c89981876c327244da92045b1a91380c ""
-  "jsen.aux" 1781521140.87955 8380 65b97be0a41e83781cb99db0680c5413 "pdflatex"
+  "jsen.aux" 1781523424.48477 8485 10a1c6b672376d10bb100d5567145616 "pdflatex"
+  "jsen.bbl" 1781523260.48296 5978 9259e39dec32a318db03c1dd6dcd650e "bibtex jsen"
   "jsen.sty" 1781213711.75821 194 f631e3cbadef91d3bbac8bb0024e0448 ""
   (generated)
   "jsen.aux"
