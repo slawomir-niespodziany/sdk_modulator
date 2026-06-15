@@ -28,8 +28,8 @@
 \IEEEtitleabstractindextext{%
     \fcolorbox{abstractbg}{abstractbg}{%
         \begin{minipage}{\textwidth}%
-            \begin{wrapfigure}[15]{r}{4in}%
-                \includegraphics[width=4in]{img/bias_abstract.png}%
+            \begin{wrapfigure}[15]{r}{4.2in}%
+                \includegraphics[width=4in]{img/bias_abstract.png}\hspace{0.2in}%
             \end{wrapfigure}%
             \begin{abstract}
                 This paper presents the design and optimization of a modulator subsystem for closed-loop interferometric fibre optic gyroscopes, with a focus on maximizing scale factor control precision through an all-digital hardware architecture. The operating principle of the gyroscope is reviewed, followed by a description of the four-step modulation scheme used to linearize the optical response, maintain maximum sensitivity, and enable rotation direction detection. Two modulator architectures are analyzed and compared: a mixed analog-digital design employing a dedicated programmable gain stage, and a fully software-defined all-digital implementation. The all-digital approach is advocated for its reduced component count, fewer nonlinearity sources, and greater flexibility during development. A mathematical analysis of quantization error is derived to characterize the achievable scale factor control accuracy as a function of digital-to-analog converter resolution and reference voltage selection. The derivation reveals that the scale factor feedback signal depends on four consecutive drive samples rather than two, a non-obvious result with direct consequences for algorithm correctness. Based on this analysis, common implementation pitfalls are identified and discussed, including insufficient sample history, drive asymmetry due to discrete amplitude representation, and resolution loss caused by symmetric rounding of signed values. An optimal algorithm is presented, utilizing fixed-point arithmetic with concrete rounding method to recover one bit of effective resolution relative to naive implementations. The results establish a software foundation for high-precision closed-loop interferometric fibre optic gyroscope modulator design.
@@ -105,8 +105,6 @@ In \textit{closed--loop} operation \cite{lefevre1993fiber, khoshki2014investigat
 
 Compared to \textit{two--step} modulation, this scheme is superior, as it allows for controlling the \textit{scale factor} - an essential parameter for maintaining device performance \cite{wang2012method, li2026analysis}. The modulator injects the mentioned phase shifts by using an electro--optic actuator placed on the fiber path. The amount of applied shift is controlled by an electronic circuit. It performs digital calculations and generates corresponding voltages via a digital--to--analog converter and an electronic front--end. The voltage is linearly translated to phase shift according to the half--wave voltage $V_\pi$ - a parameter of the actuator. Each element in this pipeline is subject to temperature drift and aging effects \cite{salvestrini2011analysis}, which influence the total combined gain. For this reason, continuous calibration is required for maintaining measurement accuracy. It is realized by tracking the scale factor during operation. This allows the control algorithm to know where the desired bias points are in the digital domain, while they are allowed to constantly drift away.
 
-Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds to various conditions - i.e. misaligned scale factor and uncompensated rotation present. While this paper does not discuss in detail how the rotation is measured, it is crucial to emphasize that different feedback signals can be derived for scale factor adjustment and rotation compensation. These feedback signals allow the digital control loop to adjust runtime parameters and place the operating points exactly where they are intended to be.
-
 \begin{figure}[H]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
@@ -137,6 +135,8 @@ Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds 
         Four--step modulation allows for detection of scale factor error and uncompensated Sagnac--induced phase shift.}
     \label{fig:bias_errors}
 \end{figure}
+
+Diagrams in Figure~\ref{fig:bias_errors} depict how the biased circuit responds to various conditions - i.e. misaligned scale factor and uncompensated rotation present. While this paper does not discuss in detail how the rotation is measured, it is crucial to emphasize that different feedback signals can be derived for scale factor adjustment and rotation compensation. These feedback signals allow the digital control loop to adjust runtime parameters and place the operating points exactly where they are intended to be.
 
 From a control point of view and for simplicity, the total combined scale factor of the processing pipeline can be referred to as the half--wave voltage $V_{\pi}$. Even though the actuator gain drift itself is only one of the scale factor components, the assumed linearity of others makes it convenient to aggregate all into a single parameter. This paper assumes them to be included in $V_{\pi}$. Other non--linear errors, such as DAC INL, are out of scope of this analysis. 
 

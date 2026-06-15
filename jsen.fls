@@ -269,14 +269,14 @@ INPUT ./img/dedicated_gain_stage.png
 INPUT ./img/dedicated_gain_stage.png
 INPUT ./img/dedicated_gain_stage.png
 INPUT ./img/dedicated_gain_stage.png
-INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvro7t.vf
-INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvro8r.tfm
 INPUT ./img/all_digital.png
 INPUT ./img/all_digital.png
 INPUT ./img/all_digital.png
 INPUT ./img/all_digital.png
 INPUT ./img/all_digital.png
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvro7t.tfm
+INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvro7t.vf
+INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvro8r.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/helvetic/phvro7t.vf
 INPUT /usr/share/texlive/texmf-dist/fonts/tfm/adobe/helvetic/phvro8r.tfm
 INPUT /usr/share/texlive/texmf-dist/fonts/vf/adobe/times/ptmr7t.vf

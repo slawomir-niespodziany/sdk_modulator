@@ -1,7 +1,7 @@
 # Fdb version 4
-["pdflatex"] 1781520199.74979 "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" "jsen.pdf" "jsen" 1781520202.01353 0
+["pdflatex"] 1781521135.87539 "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" "jsen.pdf" "jsen" 1781521141.21954 0
   "/etc/texmf/web2c/texmf.cnf" 1778624115.71215 475 c0e671620eb5563b2130f56340a5fde8 ""
-  "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" 1781520195.87046 48117 634b47b10a4645916d07d1b26d959579 ""
+  "/home/slawomir-niespodziany/projects/sdk_modulator/jsen.tex" 1781521135.29865 48133 039d073f8643110db63d5be88a4a503e ""
   "/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc" 1165713224 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/share/texlive/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/share/texlive/texmf-dist/fonts/tfm/adobe/courier/pcrr7t.tfm" 1136768653 960 379cc0019370a9e0208a0a3f949f847a ""
@@ -107,7 +107,7 @@
   "/usr/share/texlive/texmf-dist/tex/latex/wrapfig/wrapfig.sty" 1137111090 26220 3701aebf80ccdef248c0c20dd062fea9 ""
   "/usr/share/texlive/texmf-dist/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
   "/usr/share/texmf/web2c/texmf.cnf" 1707919699 40399 f2c302f7d2af602abb742093540a5834 ""
-  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1778624123.96473 165012 f177baa1c39a3ebd62c3096a43521a0d ""
+  "/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map" 1781520650.54885 5349216 bf3a80e68d946c7acd95ff030fd9bb63 ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1778624701 6831007 f8c4d8b68bc19d056e054155767e7b60 ""
   "LOGO-jsen-web.eps" 1781015978.2681 49307 e7082f545ab1d0a8057917736220841d ""
   "ieeecolor.cls" 1781015978.27357 225507 a08917c6a409f0693d9ac3f1833054b8 ""
@@ -122,7 +122,7 @@
   "img/fog.png" 1779200554.52897 107842 d87c989a0638d0f05324ccc0b8774738 ""
   "img/response.png" 1779200554.54572 106265 77a085b2026ebee97994947a4dcd4f3f ""
   "img/sdk.png" 1781339197.52154 41741 c89981876c327244da92045b1a91380c ""
-  "jsen.aux" 1781520198.36662 8380 54d6874607cffb6638e0596aab24f620 "pdflatex"
+  "jsen.aux" 1781521140.87955 8380 65b97be0a41e83781cb99db0680c5413 "pdflatex"
   "jsen.sty" 1781213711.75821 194 f631e3cbadef91d3bbac8bb0024e0448 ""
   (generated)
   "jsen.aux"

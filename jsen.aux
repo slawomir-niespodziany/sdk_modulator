@@ -23,6 +23,10 @@
 \@writefile{toc}{\contentsline {section}{\numberline {III}Modulation scheme - closed--loop operation}{2}{}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Circuit biased in four points of highest sensitivity.}}{2}{}\protected@file@percent }
 \newlabel{fig:bias}{{3}{2}{}{}{}}
+\citation{lefevre1993fiber}
+\citation{pavlath1996closed}
+\citation{ulversoy2010software}
+\citation{liu2022impact}
 \newlabel{fig:bias_factor_high}{{4a}{3}{}{}{}}
 \newlabel{sub@fig:bias_factor_high}{{a}{3}{}{}{}}
 \newlabel{fig:bias_factor_low}{{4b}{3}{}{}{}}
@@ -33,24 +37,20 @@
 \newlabel{sub@fig:bias_shift_neg}{{d}{3}{}{}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces  Four--step modulation allows for detection of scale factor error and uncompensated Sagnac--induced phase shift.}}{3}{}\protected@file@percent }
 \newlabel{fig:bias_errors}{{4}{3}{}{}{}}
+\newlabel{eq:bias_order}{{4}{3}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {IV}Modulator hardware architecture}{3}{}\protected@file@percent }
+\newlabel{arch:analog}{{i}{3}{}{}{}}
+\newlabel{arch:mixed}{{ii}{3}{}{}{}}
+\newlabel{arch:digital}{{iii}{3}{}{}{}}
 \citation{lefevre1993fiber}
-\citation{pavlath1996closed}
-\citation{ulversoy2010software}
-\citation{liu2022impact}
-\citation{lefevre1993fiber}
-\newlabel{eq:bias_order}{{4}{4}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {IV}Modulator hardware architecture}{4}{}\protected@file@percent }
-\newlabel{arch:analog}{{i}{4}{}{}{}}
-\newlabel{arch:mixed}{{ii}{4}{}{}{}}
-\newlabel{arch:digital}{{iii}{4}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-A}Dedicated gain stage - mixed variant}{4}{}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Modulator with a dedicated analog gain stage. MCU/DSP outputs a fixed--scale digital waveform, which directly drives a DAC with $n$--bit resolution. Then, before reaching the electro--optic actuator, the scale factor is applied by a programmable gain amplifier (PGA), or a custom analog gain stage, driven with $m$--bit word. The resulting waveform is scale--adjusted. }}{4}{}\protected@file@percent }
 \newlabel{fig:dedicated_gain_stage}{{5}{4}{}{}{}}
 \@writefile{toc}{\contentsline {subsection}{\numberline {IV-B}Software--defined solution - all--digital variant}{4}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces All--digital modulator consists of minimal number of electronic components. In some applications this can simply be a DAC alone.}}{5}{}\protected@file@percent }
-\newlabel{fig:all_digital}{{6}{5}{}{}{}}
-\@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.1}Voltage reference}{5}{}\protected@file@percent }
-\newlabel{eq:minimum_reference_voltage}{{5}{5}{}{}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces All--digital modulator consists of minimal number of electronic components. In some applications this can simply be a DAC alone.}}{4}{}\protected@file@percent }
+\newlabel{fig:all_digital}{{6}{4}{}{}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.1}Voltage reference}{4}{}\protected@file@percent }
+\newlabel{eq:minimum_reference_voltage}{{5}{4}{}{}{}}
 \newlabel{eq:reference_voltage_ceil}{{6}{5}{}{}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.2}Drive accuracy and quantization error}{5}{}\protected@file@percent }
 \newlabel{eq:dac_voltage_resolution}{{7}{5}{}{}{}}
@@ -60,10 +60,10 @@
 \newlabel{eq:drive_shift_error}{{11}{5}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {V}Precision estimation and impact}{5}{}\protected@file@percent }
 \newlabel{sec:precision_estimation_and_impact}{{V}{5}{}{}{}}
+\newlabel{eq:phase_shift_difference}{{12}{5}{}{}{}}
+\newlabel{eq:incident_power}{{13}{5}{}{}{}}
+\newlabel{eq:cosine_linearization}{{14}{5}{}{}{}}
 \citation{lefevre1993fiber}
-\newlabel{eq:phase_shift_difference}{{12}{6}{}{}{}}
-\newlabel{eq:incident_power}{{13}{6}{}{}{}}
-\newlabel{eq:cosine_linearization}{{14}{6}{}{}{}}
 \newlabel{eq:difference}{{15}{6}{}{}{}}
 \newlabel{eq:difference_generic}{{16}{6}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Algorithm design}{6}{}\protected@file@percent }
@@ -71,14 +71,15 @@
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.1}Number of samples considered}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.2}Drive symmetry}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.3}Rounding factor}{6}{}\protected@file@percent }
+\bibcite{culshaw2006optical}{1}
 \@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Example of the possible difference between the intended and actual drive values in the context of applying mathematical rounding method.}}{7}{}\protected@file@percent }
 \newlabel{fig:snippet_rounding}{{7}{7}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {VI-B}Optimal implementation}{7}{}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Modulation pattern acquired using \textit  {Sagnac Development Kit} presents an 18b--DAC operating at f=1MHz. Yellow waveform is the biasing sequence, symmetical around zero. Even with a low resolution DAC determining errors at the lsb level would not be possible visually. The cyan waveform in the nulling ramp with Serrodyne reset at $2\pi $.}}{7}{}\protected@file@percent }
 \newlabel{fig:sdk}{{8}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VI-B}Optimal implementation}{7}{}\protected@file@percent }
 \@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Pseudocode for controlling the scale factor for the current two bias points while accounting for the values driven previously. It is implemented using Q6.2 fixed--point format, for which rounding towards $-\inf $ is a native behavior.}}{7}{}\protected@file@percent }
 \newlabel{fig:snippet_implementation}{{9}{7}{}{}{}}
-\bibcite{culshaw2006optical}{1}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusions and further work}{7}{}\protected@file@percent }
 \bibcite{bergh1984overview}{2}
 \bibcite{sagnac1913ether}{3}
 \bibcite{post1967sagnac}{4}
@@ -99,7 +100,6 @@
 \bibcite{salvestrini2011analysis}{19}
 \bibcite{ulversoy2010software}{20}
 \bibcite{liu2022impact}{21}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusions and further work}{8}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{References}{8}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{Biographies}{8}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{Sławomir Niespodziany}{8}{}\protected@file@percent }
