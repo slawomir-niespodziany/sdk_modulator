@@ -84,6 +84,12 @@
             <mxPoint x="496" y="434.38" as="targetPoint" />
           </mxGeometry>
         </mxCell>
+        <mxCell id="cjFM_VGiY1mw8bqGwJ8J-1" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Modulator" vertex="1">
+          <mxGeometry height="30" width="60" x="467" y="385" as="geometry" />
+        </mxCell>
+        <mxCell id="cjFM_VGiY1mw8bqGwJ8J-2" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Control circuit" vertex="1">
+          <mxGeometry height="30" width="80" x="470" y="484" as="geometry" />
+        </mxCell>
       </root>
     </mxGraphModel>
   </diagram>
