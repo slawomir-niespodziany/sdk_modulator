@@ -1,6 +1,6 @@
 <mxfile host="app.diagrams.net">
   <diagram name="Page-1" id="DSgxg7F0j3JGNGqkPgKY">
-    <mxGraphModel dx="836" dy="766" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1080" pageHeight="1080" math="0" shadow="0">
+    <mxGraphModel dx="693" dy="634" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1080" pageHeight="1080" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
@@ -125,12 +125,12 @@
         </mxCell>
         <mxCell id="Loic8xXQQM3fIEHACxqe-13" edge="1" parent="1" style="edgeStyle=segmentEdgeStyle;endArrow=open;html=1;curved=0;rounded=0;endSize=8;startSize=8;strokeWidth=2;endFill=0;" value="">
           <mxGeometry height="50" relative="1" width="50" as="geometry">
-            <mxPoint x="310" y="460" as="sourcePoint" />
+            <mxPoint x="300" y="460" as="sourcePoint" />
             <mxPoint x="170" y="440" as="targetPoint" />
           </mxGeometry>
         </mxCell>
         <mxCell id="Loic8xXQQM3fIEHACxqe-14" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=2" value="demodulated response" vertex="1">
-          <mxGeometry height="30" width="100" x="191" y="465" as="geometry" />
+          <mxGeometry height="30" width="100" x="187.26" y="465" as="geometry" />
         </mxCell>
         <mxCell id="Loic8xXQQM3fIEHACxqe-15" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;fontStyle=2" value="all-digital modulator" vertex="1">
           <mxGeometry height="30" width="60" x="187.26" y="217.69" as="geometry" />
