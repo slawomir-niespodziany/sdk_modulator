@@ -28,8 +28,8 @@
 \IEEEtitleabstractindextext{%
     \fcolorbox{abstractbg}{abstractbg}{%
         \begin{minipage}{\textwidth}%
-            \begin{wrapfigure}[15]{r}{4.2in}%
-                \includegraphics[width=4in]{img/bias_abstract.png}\hspace{0.2in}%
+            \begin{wrapfigure}[12]{r}{3.1in}%
+                \includegraphics[width=3in]{img/ext.png}%
             \end{wrapfigure}%
             \begin{abstract}
                 This paper presents the design and optimization of a modulator subsystem for closed-loop interferometric fibre optic gyroscopes, with a focus on maximizing scale factor control precision through an all-digital hardware architecture. The operating principle of the gyroscope is reviewed, followed by a description of the four-step modulation scheme used to linearize the optical response, maintain maximum sensitivity, and enable rotation direction detection. Two modulator architectures are analyzed and compared: a mixed analog-digital design employing a dedicated programmable gain stage, and a fully software-defined all-digital implementation. The all-digital approach is advocated for its reduced component count, fewer nonlinearity sources, and greater flexibility during development. A mathematical analysis of quantization error is derived to characterize the achievable scale factor control accuracy as a function of digital-to-analog converter resolution and reference voltage selection. The derivation reveals that the scale factor feedback signal depends on four consecutive drive samples rather than two, a non-obvious result with direct consequences for algorithm correctness. Based on this analysis, common implementation pitfalls are identified and discussed, including insufficient sample history, drive asymmetry due to discrete amplitude representation, and resolution loss caused by symmetric rounding of signed values. An optimal algorithm is presented, utilizing fixed-point arithmetic with concrete rounding method to recover one bit of effective resolution relative to naive implementations. The results establish a software foundation for high-precision closed-loop interferometric fibre optic gyroscope modulator design.
@@ -448,5 +448,5 @@ An all--digital hardware architecture was presented and advocated for, as it off
 \begin{IEEEbiographynophoto}{Przemysław Rokita}
     Internationally recognized expert in computer graphics, image processing, and artificial intelligence. He currently holds the position of Full Professor at the Warsaw University of Technology, where he also leads the Digital Multimedia Division at the Faculty of Electronics and Information Technology. Has an extensive international academic background, having previously held research and teaching positions at leading institutions including the Max Planck Institute for Informatics (Germany), Hiroshima Institute of Technology (Japan), and Imperial College London (UK). He is an active member of several international program committees, including IEEE Information Visualization, Computer Graphics, and WSCG. He serves as a reviewer for top-tier journals such as IEEE Computer Graphics \& Applications, The Visual Computer, and IEEE Transactions on Circuits and Systems for Video Technology. Since 2020, member of the Committee on Computer Science of the Polish Academy of Sciences. Founder and first chairman of the Digital Multimedia Section of the Committee on Computer Science of the Polish Academy of Sciences.
 \end{IEEEbiographynophoto}
-\vfill
+
 \end{document}
