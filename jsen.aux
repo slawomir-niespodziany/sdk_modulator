@@ -6,13 +6,13 @@
 \citation{pavlath1996closed}
 \@writefile{toc}{\contentsline {section}{\numberline {I}Introduction}{1}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{\numberline {II}Principle of operation - open--loop configuration}{1}{}\protected@file@percent }
+\newlabel{eq:transit_time}{{1}{1}{}{}{}}
 \citation{babu2016digital}
 \citation{lefevre1993fiber}
 \citation{lefevre1993fiber,khoshki2014investigation,ccelikel2009design,yan2021research}
 \citation{zhang2024six,zhang2018six}
 \citation{wang2012method,li2026analysis}
 \citation{salvestrini2011analysis}
-\newlabel{eq:transit_time}{{1}{2}{}{}{}}
 \newlabel{eq:phase_shift}{{2}{2}{}{}{}}
 \@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Two counterpropagating light beam halves enter the fiber loop at the \textit  {Entry point}. Their phase is initially in sync. After transit time $\tau $ they exit and interfere. During that time the \textit  {Entry/Exit point} moves by the angle $\alpha = \omega \cdot \tau $ according to the rotation rate $\omega $. As a result the CW and CCW propagating halves cover non--equal path lengths ($L\pm \Delta {}l$), which leads to a non--zero phase difference.}}{2}{}\protected@file@percent }
 \providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
@@ -51,7 +51,8 @@
 \newlabel{fig:all_digital}{{6}{4}{}{}{}}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.1}Voltage reference}{4}{}\protected@file@percent }
 \newlabel{eq:minimum_reference_voltage}{{5}{4}{}{}{}}
-\newlabel{eq:reference_voltage_ceil}{{6}{5}{}{}{}}
+\newlabel{eq:reference_voltage_ceil}{{6}{4}{}{}{}}
+\citation{lefevre1993fiber}
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {IV-B.2}Drive accuracy and quantization error}{5}{}\protected@file@percent }
 \newlabel{eq:dac_voltage_resolution}{{7}{5}{}{}{}}
 \newlabel{eq:relative_scale_factor_error}{{8}{5}{}{}{}}
@@ -63,25 +64,18 @@
 \newlabel{eq:phase_shift_difference}{{12}{5}{}{}{}}
 \newlabel{eq:incident_power}{{13}{5}{}{}{}}
 \newlabel{eq:cosine_linearization}{{14}{5}{}{}{}}
-\citation{lefevre1993fiber}
-\newlabel{eq:difference}{{15}{6}{}{}{}}
+\newlabel{eq:difference}{{15}{5}{}{}{}}
 \newlabel{eq:difference_generic}{{16}{6}{}{}{}}
 \@writefile{toc}{\contentsline {section}{\numberline {VI}Algorithm design}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{\numberline {VI-A}Naive implementation}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.1}Number of samples considered}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.2}Drive symmetry}{6}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsubsection}{\numberline {VI-A.3}Rounding factor}{6}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Example of the possible difference between the intended and actual drive values in the context of applying mathematical rounding method.}}{6}{}\protected@file@percent }
+\newlabel{fig:snippet_rounding}{{7}{6}{}{}{}}
 \bibstyle{IEEEtran}
 \bibdata{references}
 \bibcite{culshaw2006optical}{1}
-\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces Example of the possible difference between the intended and actual drive values in the context of applying mathematical rounding method.}}{7}{}\protected@file@percent }
-\newlabel{fig:snippet_rounding}{{7}{7}{}{}{}}
-\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Modulation pattern acquired using \textit  {Sagnac Development Kit} presents an 18b--DAC operating at f=1MHz. Yellow waveform is the biasing sequence, symmetical around zero. Even with a low resolution DAC determining errors at the lsb level would not be possible visually. The cyan waveform in the nulling ramp with Serrodyne reset at $2\pi $.}}{7}{}\protected@file@percent }
-\newlabel{fig:sdk}{{8}{7}{}{}{}}
-\@writefile{toc}{\contentsline {subsection}{\numberline {VI-B}Optimal implementation}{7}{}\protected@file@percent }
-\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Pseudocode for controlling the scale factor for the current two bias points while accounting for the values driven previously. It is implemented using Q6.2 fixed--point format, for which rounding towards $-\inf $ is a native behavior.}}{7}{}\protected@file@percent }
-\newlabel{fig:snippet_implementation}{{9}{7}{}{}{}}
-\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusions and further work}{7}{}\protected@file@percent }
 \bibcite{bergh1984overview}{2}
 \bibcite{sagnac1913ether}{3}
 \bibcite{post1967sagnac}{4}
@@ -89,6 +83,13 @@
 \bibcite{liadvances}{6}
 \bibcite{smailov2026fiber}{7}
 \bibcite{tashtay2025fiber}{8}
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Modulation pattern acquired using \textit  {Sagnac Development Kit} presents an 18b--DAC operating at f=1MHz. Yellow waveform is the biasing sequence, symmetical around zero. Even with a low resolution DAC determining errors at the lsb level would not be possible visually. The cyan waveform in the nulling ramp with Serrodyne reset at $2\pi $.}}{7}{}\protected@file@percent }
+\newlabel{fig:sdk}{{8}{7}{}{}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {VI-B}Optimal implementation}{7}{}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Pseudocode for controlling the scale factor for the current two bias points while accounting for the values driven previously. It is implemented using Q6.2 fixed--point format, for which rounding towards $-\inf $ is a native behavior.}}{7}{}\protected@file@percent }
+\newlabel{fig:snippet_implementation}{{9}{7}{}{}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {VII}Conclusions and further work}{7}{}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{References}{7}{}\protected@file@percent }
 \bibcite{niespodziany2021detector}{9}
 \bibcite{pavlath1996closed}{10}
 \bibcite{babu2016digital}{11}
@@ -103,7 +104,6 @@
 \bibcite{salvestrini2011analysis}{20}
 \bibcite{ulversoy2010software}{21}
 \bibcite{liu2022impact}{22}
-\@writefile{toc}{\contentsline {section}{References}{8}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {section}{Biographies}{8}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{Sławomir Niespodziany}{8}{}\protected@file@percent }
 \@writefile{toc}{\contentsline {subsection}{Przemysław Rokita}{8}{}\protected@file@percent }
